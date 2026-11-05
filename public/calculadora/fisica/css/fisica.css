@@ -1,0 +1,1137 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap');
+
+/* ========================================================
+   MathVerse II - Módulo de Física (Cinemática)
+   Estilos adaptados y optimizados para tema claro y oscuro
+   ======================================================== */
+
+#cin-app {
+  --paper: #fdfeff;
+  --grid: #dbe8f5;
+  --card: #ffffff;
+  --tx: #22304d;
+  --mut: #56668a;
+  --bd: #c6d4e8;
+  --ink: #2748c9;
+  --hl: #fff09a;
+  --hlt: #4a3f00;
+  --ok: #14795a;
+  --err: #c0392b;
+  --margin: #f0a0a0;
+  --on: #ffffff;
+  --desk: #f7f8fc;
+  --f-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-hand: 'Patrick Hand', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
+  position: relative;
+  max-width: 980px;
+  margin: 20px auto 48px;
+  padding: 26px 26px 32px 74px;
+  box-sizing: border-box;
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--tx);
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 26px 26px;
+  border: 2px solid var(--bd);
+  border-radius: 18px;
+  box-shadow: 0 16px 44px rgba(27, 36, 76, 0.08);
+  overflow: hidden;
+}
+
+/* Modo oscuro explícito en MathVerse */
+html[data-theme="dark"] #cin-app {
+  --paper: #121829;
+  --grid: #1c253d;
+  --card: #192136;
+  --tx: #eef2ff;
+  --mut: #9ba6c5;
+  --bd: #2d3958;
+  --ink: #818cf8;
+  --hl: #3d360f;
+  --hlt: #fde047;
+  --ok: #34d399;
+  --err: #f87171;
+  --margin: #ef4444;
+  --on: #090d1b;
+  --desk: #090d1b;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] #cin-app .cin-tabs button,
+html[data-theme="dark"] #cin-app .cin-sec {
+  --c: var(--cd);
+  --on2: #090d1b;
+}
+
+/* Respaldo para preferencia de sistema en caso de no definir data-theme */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) #cin-app {
+    --paper: #121829;
+    --grid: #1c253d;
+    --card: #192136;
+    --tx: #eef2ff;
+    --mut: #9ba6c5;
+    --bd: #2d3958;
+    --ink: #818cf8;
+    --hl: #3d360f;
+    --hlt: #fde047;
+    --ok: #34d399;
+    --err: #f87171;
+    --margin: #ef4444;
+    --on: #090d1b;
+    --desk: #090d1b;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+  html:not([data-theme="light"]) #cin-app .cin-tabs button,
+  html:not([data-theme="light"]) #cin-app .cin-sec {
+    --c: var(--cd);
+    --on2: #090d1b;
+  }
+}
+
+#cin-app * {
+  box-sizing: border-box;
+}
+
+#cin-app::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 52px;
+  width: 2px;
+  background: var(--margin);
+  pointer-events: none;
+}
+
+#cin-app::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 14px;
+  width: 16px;
+  pointer-events: none;
+  background: radial-gradient(circle, var(--desk) 6px, var(--bd) 6px, var(--bd) 7px, transparent 8px) 0 0/16px 90px repeat-y;
+}
+
+#cin-app > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Encabezado interno */
+#cin-app .cin-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+#cin-app h2 {
+  margin: 0;
+  font-family: var(--f-hand);
+  font-weight: 400;
+  font-size: 2.2rem;
+  line-height: 1.15;
+  color: var(--tx);
+}
+
+#cin-app .cin-sub {
+  margin: 6px 0 0;
+  color: var(--mut);
+  font-size: 0.95rem;
+  max-width: 48ch;
+}
+
+#cin-app .cin-gbar {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+#cin-app .cin-g {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--tx);
+}
+
+#cin-app .cin-g input {
+  width: 76px;
+  text-align: center;
+}
+
+/* Pestañas */
+#cin-app .cin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+#cin-app .cin-tabs button,
+#cin-app .cin-sec {
+  --c: var(--cl);
+  --on2: #ffffff;
+}
+
+#cin-app .cin-tabs button {
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 8px 15px 7px;
+  border: 2px solid var(--bd);
+  border-bottom: 5px solid var(--c);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+#cin-app .cin-tabs button:hover {
+  border-color: var(--c);
+}
+
+#cin-app .cin-tabs button.on {
+  background: var(--c);
+  border-color: var(--c);
+  color: var(--on2);
+}
+
+#cin-app .cin-sec {
+  display: none;
+}
+
+#cin-app .cin-sec.on {
+  display: block;
+}
+
+/* Tarjetas */
+#cin-app .cin-card {
+  background: var(--card);
+  border: 2px solid var(--bd);
+  border-left: 8px solid var(--c);
+  border-radius: 14px;
+  padding: 18px 20px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+#cin-app h3 {
+  margin: 0 0 6px;
+  font-family: var(--f-hand);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--tx);
+}
+
+#cin-app .cin-note {
+  margin: 0 0 14px;
+  color: var(--mut);
+  font-size: 0.9rem;
+}
+
+#cin-app .cin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+#cin-app label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--mut);
+}
+
+#cin-app input,
+#cin-app textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 2px solid var(--bd);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--tx);
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color 0.15s ease, outline-color 0.15s ease;
+}
+
+#cin-app input::placeholder,
+#cin-app textarea::placeholder {
+  color: var(--mut);
+  opacity: 0.75;
+}
+
+#cin-app textarea {
+  grid-column: 1 / -1;
+  min-height: 84px;
+}
+
+#cin-app input:focus-visible,
+#cin-app textarea:focus-visible {
+  outline: 3px solid var(--c);
+  outline-offset: 1px;
+  border-color: var(--c);
+}
+
+/* Área de escritura de problemas */
+#cin-app .cin-ta {
+  min-height: 140px;
+  padding: 8px 14px;
+  font-family: var(--f-hand);
+  font-size: 1.3rem;
+  line-height: 28px;
+  resize: vertical;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(transparent, transparent 27px, var(--grid) 27px, var(--grid) 28px);
+  background-attachment: local;
+}
+
+/* Botones de acción */
+#cin-app .cin-act {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+#cin-app .cin-go,
+#cin-app .cin-reset {
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 2px solid var(--c);
+}
+
+#cin-app .cin-go {
+  background: var(--c);
+  color: var(--on2);
+}
+
+#cin-app .cin-reset {
+  background: transparent;
+  color: var(--tx);
+  border-color: var(--bd);
+}
+
+#cin-app .cin-gbar .cin-reset {
+  --c: var(--ink);
+}
+
+#cin-app .cin-go:hover {
+  filter: brightness(1.08);
+}
+
+#cin-app .cin-reset:hover {
+  border-color: var(--c);
+  background: var(--paper);
+}
+
+#cin-app .cin-go:active,
+#cin-app .cin-reset:active {
+  transform: translateY(1px);
+}
+
+#cin-app button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #cin-app .cin-go,
+  #cin-app .cin-reset {
+    transition: filter 0.12s, background 0.12s, border-color 0.12s, transform 0.12s;
+  }
+}
+
+/* Chips de ejemplo */
+#cin-app .cin-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+  font-size: 0.88rem;
+  color: var(--mut);
+}
+
+#cin-app .cin-chips button {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 2px dashed var(--c);
+  background: transparent;
+  color: var(--tx);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+#cin-app .cin-chips button:hover {
+  background: var(--paper);
+}
+
+/* Resultados */
+#cin-app .cin-out {
+  margin-top: 16px;
+  font-size: 0.98rem;
+}
+
+#cin-app .cin-out:empty {
+  margin: 0;
+}
+
+#cin-app .cin-ttl {
+  margin-bottom: 6px;
+  font-family: var(--f-hand);
+  font-size: 1.3rem;
+  color: var(--tx);
+}
+
+#cin-app .cin-res {
+  margin-top: 6px;
+}
+
+#cin-app .cin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 2px dashed var(--bd);
+}
+
+#cin-app .cin-row b {
+  white-space: nowrap;
+  background: var(--hl);
+  color: var(--hlt);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-weight: 800;
+}
+
+#cin-app .cin-row b.given {
+  background: none;
+  color: inherit;
+  font-weight: 600;
+  padding: 0;
+}
+
+#cin-app .cin-row.ask {
+  border-bottom-color: var(--c);
+}
+
+#cin-app .cin-tag {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--c);
+  color: var(--on2);
+}
+
+#cin-app .cin-h {
+  margin-top: 10px;
+  font-weight: 800;
+  color: var(--tx);
+}
+
+#cin-app .cin-err {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-left: 6px solid var(--err);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--err);
+  font-weight: 700;
+}
+
+/* Bloque "Esto es lo que entendí" */
+#cin-app .cin-know {
+  padding: 14px 18px;
+  border: 2px dashed var(--c);
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+#cin-app .cin-know p {
+  margin: 4px 0;
+}
+
+#cin-app .cin-know ul {
+  margin: 6px 0;
+  padding-left: 1.2em;
+}
+
+#cin-app .cin-know li {
+  font-family: var(--f-hand);
+  font-size: 1.15rem;
+}
+
+#cin-app .cin-note2 {
+  color: var(--mut);
+  font-size: 0.9rem;
+}
+
+#cin-app .cin-know + .cin-res,
+#cin-app .cin-know + .cin-err {
+  margin-top: 16px;
+}
+
+/* Procedimiento paso a paso */
+#cin-app .cin-proc {
+  margin-top: 18px;
+  border: 2px solid var(--bd);
+  border-radius: 12px;
+  background: var(--paper);
+  padding: 6px 18px 10px;
+}
+
+#cin-app .cin-proc summary {
+  cursor: pointer;
+  padding: 8px 0;
+  font-family: var(--f-hand);
+  font-size: 1.35rem;
+  color: var(--tx);
+  user-select: none;
+}
+
+#cin-app .cin-steps {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  counter-reset: paso;
+}
+
+#cin-app .cin-steps li {
+  position: relative;
+  counter-increment: paso;
+  padding: 2px 0 16px 44px;
+}
+
+#cin-app .cin-steps li::before {
+  content: counter(paso);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c);
+  color: var(--on2);
+  font-weight: 800;
+  line-height: 32px;
+  text-align: center;
+}
+
+#cin-app .cin-steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 36px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--bd);
+}
+
+#cin-app .cin-st {
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: var(--tx);
+}
+
+#cin-app .cin-ln {
+  font-family: var(--f-hand);
+  font-size: 1.2rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  color: var(--tx);
+}
+
+#cin-app .cin-ln.fin {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 4px 0;
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: var(--hl);
+  color: var(--hlt);
+}
+
+/* Gráficas interactivas */
+#cin-app input[type=range] {
+  padding: 0;
+  border: 0;
+  background: none;
+  accent-color: var(--c);
+  flex: 1 1 200px;
+  width: auto;
+  min-width: 140px;
+}
+
+#cin-app .cin-panel,
+#cin-app .cin-graph,
+#cin-app .cin-sim {
+  margin-top: 16px;
+  padding: 14px;
+  border: 2px solid var(--bd);
+  border-radius: 14px;
+  background: var(--paper);
+}
+
+#cin-app .cin-panel[hidden],
+#cin-app .cin-graph[hidden],
+#cin-app .cin-sim[hidden],
+#cin-app .cin-gtabs[hidden] {
+  display: none;
+}
+
+#cin-app .cin-gtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+#cin-app .cin-gtabs button {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 5px 14px;
+  border: 2px solid var(--bd);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+#cin-app .cin-gtabs button.on {
+  background: var(--c);
+  border-color: var(--c);
+  color: var(--on2);
+}
+
+#cin-app .cin-gwrap {
+  position: relative;
+}
+
+#cin-app canvas.cin-gcv {
+  display: block;
+  width: 100%;
+  height: 400px;
+  border: 2px solid var(--bd);
+  border-radius: 12px;
+  background: var(--card);
+  touch-action: none;
+  cursor: grab;
+}
+
+#cin-app canvas.cin-gcv:active {
+  cursor: grabbing;
+}
+
+#cin-app .cin-gtools {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#cin-app .cin-gtools button {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 5px 11px;
+  border: 2px solid var(--bd);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+  opacity: 0.95;
+  transition: border-color 0.15s ease;
+}
+
+#cin-app .cin-gtools button:hover {
+  border-color: var(--c);
+}
+
+#cin-app .cin-glegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+#cin-app .cin-glegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#cin-app .cin-glegend i {
+  display: inline-block;
+  width: 20px;
+  height: 5px;
+  border-radius: 3px;
+}
+
+#cin-app .cin-gslider {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+
+#cin-app .cin-gslider .cin-reset {
+  padding: 6px 18px;
+}
+
+#cin-app .cin-ginfo {
+  flex-basis: 100%;
+  font-family: var(--f-hand);
+  font-size: 1.2rem;
+  overflow-wrap: anywhere;
+  color: var(--tx);
+}
+
+#cin-app .cin-panel .cin-note,
+#cin-app .cin-graph .cin-note {
+  margin: 10px 0 0;
+}
+
+#cin-app canvas.cin-scv {
+  height: 420px;
+  touch-action: auto;
+  cursor: default;
+}
+
+#cin-app canvas.cin-scv:active {
+  cursor: default;
+}
+
+#cin-app .cin-ssp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--mut);
+}
+
+#cin-app select {
+  font: inherit;
+  font-weight: 700;
+  padding: 5px 8px;
+  border: 2px solid var(--bd);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--tx);
+}
+
+#cin-app select:focus-visible {
+  outline: 3px solid var(--c);
+  outline-offset: 1px;
+}
+
+/* ========================================================
+   Responsividad Móvil y Adaptabilidad (≤ 680px, ≤ 480px, ≤ 360px)
+   ======================================================== */
+@media (max-width: 680px) {
+  #cin-app {
+    margin: 10px 0 24px;
+    border-radius: 12px;
+    padding: 16px 12px 22px 32px;
+  }
+
+  #cin-app::before {
+    left: 20px;
+  }
+
+  #cin-app::after {
+    display: none;
+  }
+
+  /* Encabezados y títulos */
+  #cin-app .cin-head {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  #cin-app h2 {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  #cin-app .cin-sub {
+    font-size: 0.88rem;
+    max-width: 100%;
+  }
+
+  #cin-app h3 {
+    font-size: clamp(1.15rem, 4.2vw, 1.35rem);
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: normal;
+    margin: 0 0 6px;
+  }
+
+  /* Barra de gravedad y reinicio */
+  #cin-app .cin-gbar {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #cin-app .cin-g {
+    font-size: 0.85rem;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  #cin-app .cin-g input {
+    width: 64px;
+    padding: 5px 6px;
+    font-size: 0.9rem;
+  }
+
+  #cin-app .cin-gbar .cin-reset {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    flex: 0 0 auto;
+  }
+
+  /* Pestañas */
+  #cin-app .cin-tabs {
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  #cin-app .cin-tabs button {
+    padding: 6px 12px 5px;
+    font-size: 0.88rem;
+    border-radius: 10px;
+    border-bottom-width: 4px;
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  /* Tarjetas de cálculo */
+  #cin-app .cin-card {
+    padding: 14px 12px;
+    border-left-width: 6px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+
+  /* Cuadrícula de inputs */
+  #cin-app .cin-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+    gap: 10px;
+  }
+
+  #cin-app input,
+  #cin-app textarea {
+    padding: 8px 10px;
+    font-size: 0.95rem;
+  }
+
+  /* Filas de botones de acción */
+  #cin-app .cin-act {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  #cin-app .cin-act .cin-go,
+  #cin-app .cin-act .cin-reset {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 110px;
+    max-width: 100%;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    text-align: center;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* Chips de ejemplos */
+  #cin-app .cin-chips {
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 0.82rem;
+  }
+
+  #cin-app .cin-chips button {
+    padding: 3px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Filas de resultados */
+  #cin-app .cin-row {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding: 6px 0;
+    font-size: 0.92rem;
+  }
+
+  #cin-app .cin-row b {
+    padding: 2px 8px;
+    font-size: 0.88rem;
+  }
+
+  /* Procedimiento paso a paso */
+  #cin-app .cin-proc {
+    padding: 6px 12px 10px;
+    border-radius: 10px;
+  }
+
+  #cin-app .cin-proc summary {
+    font-size: 1.2rem;
+    padding: 6px 0;
+  }
+
+  #cin-app .cin-steps li {
+    padding: 2px 0 14px 38px;
+  }
+
+  #cin-app .cin-steps li::before {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 0.88rem;
+  }
+
+  #cin-app .cin-steps li:not(:last-child)::after {
+    left: 13px;
+    top: 32px;
+  }
+
+  #cin-app .cin-ln {
+    font-size: 1.1rem;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  #cin-app .cin-ln.fin {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  /* Paneles de gráfica y simulación */
+  #cin-app .cin-panel,
+  #cin-app .cin-graph,
+  #cin-app .cin-sim {
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 12px;
+  }
+
+  #cin-app canvas.cin-gcv {
+    height: 280px;
+    border-radius: 10px;
+  }
+
+  #cin-app canvas.cin-scv {
+    height: 280px;
+  }
+
+  #cin-app .cin-gtabs button {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+
+  #cin-app .cin-gtools {
+    top: 8px;
+    right: 8px;
+    gap: 4px;
+  }
+
+  #cin-app .cin-gtools button {
+    padding: 3px 8px;
+    font-size: 0.78rem;
+  }
+
+  #cin-app .cin-glegend {
+    gap: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  /* Controles de la simulación animada */
+  #cin-app .cin-gslider {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  #cin-app .cin-gslider .cin-reset {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 80px;
+    padding: 7px 10px;
+    font-size: 0.84rem;
+    text-align: center;
+  }
+
+  #cin-app .cin-ssp {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.85rem;
+    margin-top: 2px;
+  }
+
+  #cin-app .cin-ssp select {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+  }
+
+  #cin-app .cin-gslider input[type=range] {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    margin: 4px 0;
+  }
+
+  #cin-app .cin-ginfo {
+    flex-basis: 100%;
+    width: 100%;
+    font-size: 1.1rem;
+    line-height: 1.35;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+}
+
+/* Pantallas móviles pequeñas y medianas (≤ 480px) */
+@media (max-width: 480px) {
+  #cin-app {
+    padding: 14px 10px 20px 24px;
+    border-radius: 10px;
+  }
+
+  #cin-app::before {
+    left: 14px;
+  }
+
+  #cin-app .cin-card {
+    padding: 12px 10px;
+    border-left-width: 5px;
+    border-radius: 10px;
+  }
+
+  #cin-app .cin-tabs button {
+    padding: 5px 9px 4px;
+    font-size: 0.82rem;
+  }
+
+  #cin-app .cin-act .cin-go,
+  #cin-app .cin-act .cin-reset {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  #cin-app canvas.cin-gcv {
+    height: 250px;
+  }
+
+  #cin-app canvas.cin-scv {
+    height: 250px;
+  }
+}
+
+/* Pantallas ultra-estrechas (≤ 360px, ej. 320px) */
+@media (max-width: 360px) {
+  #cin-app {
+    padding: 12px 8px 18px 18px;
+    border-radius: 8px;
+  }
+
+  #cin-app::before {
+    left: 10px;
+  }
+
+  #cin-app h2 {
+    font-size: 1.35rem;
+  }
+
+  #cin-app h3 {
+    font-size: 1.1rem;
+  }
+
+  #cin-app .cin-card {
+    padding: 10px 8px;
+    border-left-width: 4px;
+  }
+
+  #cin-app .cin-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  #cin-app .cin-tabs button {
+    padding: 4px 7px 3px;
+    font-size: 0.78rem;
+  }
+
+  #cin-app .cin-gslider .cin-reset {
+    flex: 1 1 calc(50% - 4px);
+    font-size: 0.8rem;
+    padding: 6px 6px;
+  }
+
+  #cin-app .cin-steps li {
+    padding: 2px 0 12px 32px;
+  }
+
+  #cin-app .cin-steps li::before {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 0.8rem;
+  }
+
+  #cin-app .cin-steps li:not(:last-child)::after {
+    left: 11px;
+    top: 28px;
+  }
+}

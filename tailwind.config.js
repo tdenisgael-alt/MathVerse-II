@@ -1,0 +1,97 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  content: [
+    './public/calculadora/matematica/index.html',
+    './public/js/**/*.js'
+  ],
+  safelist: [
+    'hidden',
+    'tab-btn',
+    'text-amber-400',
+    'text-amber-300',
+    'text-amber-300/90',
+    'text-emerald-400',
+    'text-emerald-300',
+    'text-cyan-400',
+    'text-cyan-300',
+    'text-purple-400',
+    'text-purple-300',
+    'text-purple-200',
+    'text-rose-400',
+    'text-rose-300',
+    'text-slate-400',
+    'text-slate-300',
+    'text-slate-200',
+    'bg-rose-500/20',
+    'bg-rose-500/10',
+    'bg-rose-500/5',
+    'border-rose-500/40',
+    'border-rose-500/30',
+    'border-rose-500/20',
+    'bg-amber-500/20',
+    'bg-amber-500/10',
+    'border-amber-500/40',
+    'border-amber-500/20',
+    'bg-purple-500/20',
+    'bg-purple-500/10',
+    'bg-purple-500/5',
+    'border-purple-500/40',
+    'border-purple-500/30',
+    'border-purple-500/20',
+    'bg-emerald-500/20',
+    'bg-emerald-500/10',
+    'border-emerald-500/40',
+    'border-emerald-500/30',
+    'border-emerald-500/20',
+    'bg-cyan-500/20',
+    'bg-cyan-500/10',
+    'border-cyan-500/40',
+    'border-cyan-500/20',
+    'bg-sky-500/20',
+    'border-sky-500/40',
+    'bg-brand-600',
+    'bg-brand-900/30',
+    'border-brand-500/50',
+    'border-brand-500/20',
+    'border-brand-400/40',
+    'shadow-brand-600/20',
+    'shadow-brand-600/30',
+    'shadow-brand-500/30',
+    'bg-dark-input',
+    'bg-dark-input/60',
+    'bg-dark-hover',
+    'bg-dark-bg/60',
+    'border-dark-border',
+    'border-dark-border/60'
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      colors: {
+        brand: {
+          50: '#EEF2FF',
+          100: '#E0E7FF',
+          400: '#818CF8',
+          500: '#6366F1',
+          600: '#4F46E5',
+          700: '#4338CA',
+          900: '#312E81',
+          accent: '#06B6D4',
+          neon: '#A855F7',
+        },
+        dark: {
+          bg: '#070B14',
+          card: '#0F172A',
+          border: '#1E293B',
+          hover: '#131F37',
+          input: '#090D1A'
+        }
+      }
+    }
+  },
+  plugins: []
+};

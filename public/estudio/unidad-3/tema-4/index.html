@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 4: Rotacional de un campo vectorial, vorticidad, circulación, campos irrotacionales y conservativos. Unidad 3 de Matemática II.">
+  <title>Tema 04 · Rotacional de un campo vectorial | Unidad 03 · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../#contenido-academico">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Unidad 03 · Análisis vectorial</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 04 · Rotacional de un campo vectorial</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 04 · Análisis Vectorial</span>
+        <p class="lesson-lead">El rotacional es un operador diferencial vectorial que cuantifica la tendencia microscópica de un campo a girar o circular en torno a un punto dado. Mientras que la divergencia evalúa la expansión o compresión volumétrica, el rotacional mide la vorticidad espacial y la orientación del eje instantáneo de rotación. Constituye la herramienta matemática fundamental para determinar si un campo de fuerzas es conservativo y para formular las ecuaciones del electromagnetismo de Maxwell.</p>
+
+        <h1 class="lesson-page-title">Rotacional de un campo vectorial</h1>
+
+        <p><em>Material complementario estructurado según los estándares de Cálculo Multivariable y Análisis Vectorial universitario (referencias: James Stewart, Marsden & Tromba, Thomas).</em></p>
+
+        <h2 class="lesson-section-title">Definición analítica formal</h2>
+        <p>Sea <span class="math-text"><b>F</b> = <i>P</i> <b>i</b> + <i>Q</i> <b>j</b> + <i>R</i> <b>k</b></span> un campo vectorial cuyas funciones componentes poseen derivadas parciales de primer orden continuas en un subconjunto abierto de <span class="math-text">ℝ³</span>:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Definición: Rotacional de un campo vectorial</strong></div>
+          <p>El <strong>rotacional</strong> de <span class="math-text"><b>F</b></span> (denotado por <span class="math-text">rot <b>F</b></span> o <span class="math-text">∇ × <b>F</b></span>) es el campo vectorial resultante del producto cruz formal del operador Nabla con el campo:<br>
+          <span class="math-text">rot <b>F</b> = ∇ × <b>F</b> = | <b>i</b> &nbsp; <b>j</b> &nbsp; <b>k</b> ; &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span> &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span> &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span> ; &nbsp; <i>P</i> &nbsp; <i>Q</i> &nbsp; <i>R</i> |</span></p>
+          <p>Desarrollando los cofactores 2×2 de derivadas cruzadas:<br>
+          <span class="math-text">∇ × <b>F</b> = ( <span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>y</i></span></span> − <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>z</i></span></span> ) <b>i</b> + ( <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>z</i></span></span> − <span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>x</i></span></span> ) <b>j</b> + ( <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> ) <b>k</b></span></p>
+          <p>• <strong>Caso bidimensional en ℝ²:</strong><br>
+          Para un campo plano <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ <i>P</i>(<i>x</i>, <i>y</i>), <i>Q</i>(<i>x</i>, <i>y</i>), 0 ⟩</span>, las componentes en <span class="math-text"><b>i</b></span> y <span class="math-text"><b>j</b></span> se anulan, sobreviviendo únicamente la componente perpendicular al plano:<br>
+          <span class="math-text">rot<sub><i>z</i></sub> <b>F</b> = ( ∇ × <b>F</b> ) · <b>k</b> = <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Interpretación física y geométrica: vorticidad y rueda de paletas</h2>
+        <p>Para comprender físicamente el vector rotacional, imaginemos un fluido incompresible con velocidad descrita por <span class="math-text"><b>F</b></span> y coloquemos en un punto <span class="math-text"><i>P</i>₀</span> una diminuta rueda de paletas (paddle wheel) libre de girar sobre un eje de orientación espacial <span class="math-text"><b>n</b></span>.</p>
+        <p>1. <strong>Eje de máxima velocidad de rotación:</strong><br>
+        La rueda de paletas girará a la máxima velocidad angular posible cuando su eje esté alineado con la dirección del vector <span class="math-text">∇ × <b>F</b>(<i>P</i>₀)</span>. La regla de la mano derecha determina el sentido del giro.</p>
+        <p>2. <strong>Magnitud del rotacional y velocidad angular:</strong><br>
+        La velocidad angular de giro <span class="math-text"><i>ω</i></span> del molinete satisface rigurosamente:<br>
+        <span class="math-text">‖∇ × <b>F</b>(<i>P</i>₀)‖ = 2 <i>ω</i></span>.<br>
+        La magnitud del rotacional duplica la velocidad angular instantánea del medio continuo en ese punto.</p>
+        <p>3. <strong>Definición geométrica intrínseca mediante circulación límite:</strong><br>
+        <span class="math-text">( ∇ × <b>F</b>(<i>P</i>₀) ) · <b>n</b> = <span class="math-limit"><span>lim</span><sub>Δ<i>A</i> → 0</sub></span> <span class="math-fraction"><span>1</span><span>Δ<i>A</i></span></span> ∮<sub>∂<i>A</i></sub> <b>F</b> · <i>d</i><b>r</b></span>,<br>
+        donde <span class="math-text">∮<sub>∂<i>A</i></sub> <b>F</b> · <i>d</i><b>r</b></span> es la circulación del campo a lo largo de la curva cerrada frontera <span class="math-text">∂<i>A</i></span> orientada positivamente respecto a la normal <span class="math-text"><b>n</b></span>.</p>
+
+        <h2 class="lesson-section-title">Campos irrotacionales y criterio de campos conservativos</h2>
+        <p>Un campo vectorial <span class="math-text"><b>F</b></span> se denomina <strong>irrotacional</strong> en un dominio <span class="math-text"><i>D</i></span> si su rotacional es idénticamente nulo en todo punto:<br>
+        <span class="math-text">∇ × <b>F</b> ≡ <b>0</b> &nbsp;&nbsp; ∀ (<i>x</i>, <i>y</i>, <i>z</i>) ∈ <i>D</i></span>.</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Teorema fundamental de campos conservativos e irrotacionales</strong></div>
+          <p>Sea <span class="math-text"><b>F</b></span> un campo vectorial de clase <span class="math-text"><i>C</i>¹</span> definido sobre un dominio <span class="math-text"><i>D</i> ⊂ ℝ³</span> que sea <strong>simplemente conexo</strong> (es decir, conexo y sin «agujeros» o lazos que no puedan encogerse continuamente a un punto):</p>
+          <p><strong>El campo vectorial F es conservativo si y solo si es irrotacional en D:</strong><br>
+          <span class="math-text"><b>F</b> = ∇<i>f</i> &nbsp;&nbsp; ⇔ &nbsp;&nbsp; ∇ × <b>F</b> = <b>0</b></span>.</p>
+          <p>• <em>Advertencia topológica crucial:</em> La hipótesis de que <span class="math-text"><i>D</i></span> sea simplemente conexo es obligatoria. Si el dominio posee un vacío interior (como el plano perforado <span class="math-text">ℝ² \ {(0,0)}</span>), un campo puede tener rotacional nulo en todo punto del dominio sin ser conservativo.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1: Rotacional del campo de rotación rígida y velocidad angular</strong><br>
+        Un cuerpo rígido gira con velocidad angular constante <span class="math-text"><b>ω</b> = <i>ω</i> <b>k</b></span> en torno al eje <span class="math-text"><i>Z</i></span>. El campo de velocidades lineales es <span class="math-text"><b>v</b> = <b>ω</b> × <b>r</b> = ⟨ −<i>ω y</i>, &nbsp; <i>ω x</i>, &nbsp; 0 ⟩</span>.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) Componentes del campo: <span class="math-text"><i>P</i> = −<i>ω y</i></span>, <span class="math-text"><i>Q</i> = <i>ω x</i></span>, <span class="math-text"><i>R</i> = 0</span>.<br>
+        2) Evaluamos cada componente del rotacional:<br>
+        - Componente <span class="math-text"><b>i</b></span>: <span class="math-text"><span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>y</i></span></span> − <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>z</i></span></span> = 0 − 0 = 0</span>.<br>
+        - Componente <span class="math-text"><b>j</b></span>: <span class="math-text"><span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>z</i></span></span> − <span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>x</i></span></span> = 0 − 0 = 0</span>.<br>
+        - Componente <span class="math-text"><b>k</b></span>: <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = <span class="math-fraction"><span>∂(<i>ω x</i>)</span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂(−<i>ω y</i>)</span><span>∂<i>y</i></span></span> = <i>ω</i> − (−<i>ω</i>) = 2<i>ω</i></span>.<br>
+        3) Vector rotacional resultante:<br>
+        <span class="math-text">∇ × <b>v</b> = ⟨ 0, 0, 2<i>ω</i> ⟩ = 2 <b>ω</b></span>.<br>
+        Se confirma exactamente que el rotacional es el doble de la velocidad angular y apunta a lo largo del eje de rotación.</p>
+
+        <p><strong>Ejemplo 2: Demostración de campo conservativo y cálculo del potencial</strong><br>
+        Dado el campo vectorial <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ 2<i>x y</i> + <i>z</i>², &nbsp; <i>x</i>² + 2<i>y z</i>, &nbsp; 2<i>x z</i> + <i>y</i>² ⟩</span>:<br>
+        a) Demostrar que <span class="math-text"><b>F</b></span> es un campo conservativo en todo <span class="math-text">ℝ³</span>.<br>
+        b) Determinar una función potencial escalar <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>)</span> tal que <span class="math-text">∇<i>f</i> = <b>F</b></span>.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) <strong>Cálculo del rotacional:</strong><br>
+        <span class="math-text">rot<sub><i>x</i></sub> = <span class="math-fraction"><span>∂(2<i>xz</i> + <i>y</i>²)</span><span>∂<i>y</i></span></span> − <span class="math-fraction"><span>∂(<i>x</i>² + 2<i>yz</i>)</span><span>∂<i>z</i></span></span> = 2<i>y</i> − 2<i>y</i> = 0</span>.<br>
+        <span class="math-text">rot<sub><i>y</i></sub> = <span class="math-fraction"><span>∂(2<i>xy</i> + <i>z</i>²)</span><span>∂<i>z</i></span></span> − <span class="math-fraction"><span>∂(2<i>xz</i> + <i>y</i>²)</span><span>∂<i>x</i></span></span> = 2<i>z</i> − 2<i>z</i> = 0</span>.<br>
+        <span class="math-text">rot<sub><i>z</i></sub> = <span class="math-fraction"><span>∂(<i>x</i>² + 2<i>yz</i>)</span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂(2<i>xy</i> + <i>z</i>²)</span><span>∂<i>y</i></span></span> = 2<i>x</i> − 2<i>x</i> = 0</span>.<br>
+        Por ser <span class="math-text">∇ × <b>F</b> = <b>0</b></span> en todo <span class="math-text">ℝ³</span> (que es simplemente conexo), <span class="math-text"><b>F</b></span> es estrictamente conservativo.<br>
+        2) <strong>Construcción del potencial por integraciones sucesivas:</strong><br>
+        - Integramos <span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> = 2<i>x y</i> + <i>z</i>² ⇒ <i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>x</i>² <i>y</i> + <i>x z</i>² + <i>g</i>(<i>y</i>, <i>z</i>)</span>.<br>
+        - Derivamos respecto a <span class="math-text"><i>y</i></span>:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span> = <i>x</i>² + <span class="math-fraction"><span>∂<i>g</i></span><span>∂<i>y</i></span></span></span>. Igualando con <span class="math-text"><i>Q</i> = <i>x</i>² + 2<i>y z</i></span>:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>g</i></span><span>∂<i>y</i></span></span> = 2<i>y z</i> ⇒ <i>g</i>(<i>y</i>, <i>z</i>) = <i>y</i>² <i>z</i> + <i>h</i>(<i>z</i>)</span>.<br>
+        - Derivamos la expresión acumulada <span class="math-text"><i>f</i> = <i>x</i>² <i>y</i> + <i>x z</i>² + <i>y</i>² <i>z</i> + <i>h</i>(<i>z</i>)</span> respecto a <span class="math-text"><i>z</i></span>:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> = 2<i>x z</i> + <i>y</i>² + <i>h</i>'(<i>z</i>)</span>. Igualando con <span class="math-text"><i>R</i> = 2<i>x z</i> + <i>y</i>²</span>:<br>
+        <span class="math-text"><i>h</i>'(<i>z</i>) = 0 ⇒ <i>h</i>(<i>z</i>) = <i>C</i></span>.<br>
+        Por consiguiente, la familia de funciones potenciales es:<br>
+        <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>x</i>² <i>y</i> + <i>x z</i>² + <i>y</i>² <i>z</i> + <i>C</i></span>.</p>
+
+        <h2 class="lesson-section-title">Ejercicios de práctica resueltos</h2>
+
+        <p><strong>Ejercicio 1: Campo irrotacional tridimensional simétrico</strong><br>
+        Determinar si <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ <i>y z</i>, &nbsp; <i>x z</i>, &nbsp; <i>x y</i> ⟩</span> es irrotacional y hallar su potencial.<br>
+        • <em>Solución explicada:</em><br>
+        1) Componentes del rotacional:<br>
+        <span class="math-text">∇ × <b>F</b> = ⟨ <span class="math-fraction"><span>∂(<i>xy</i>)</span><span>∂<i>y</i></span></span> − <span class="math-fraction"><span>∂(<i>xz</i>)</span><span>∂<i>z</i></span></span>, &nbsp; <span class="math-fraction"><span>∂(<i>yz</i>)</span><span>∂<i>z</i></span></span> − <span class="math-fraction"><span>∂(<i>xy</i>)</span><span>∂<i>x</i></span></span>, &nbsp; <span class="math-fraction"><span>∂(<i>xz</i>)</span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂(<i>yz</i>)</span><span>∂<i>y</i></span></span> ⟩ = ⟨ <i>x</i> − <i>x</i>, &nbsp; <i>y</i> − <i>y</i>, &nbsp; <i>z</i> − <i>z</i> ⟩ = ⟨ 0, 0, 0 ⟩</span>.<br>
+        2) El campo es irrotacional en todo <span class="math-text">ℝ³</span>.<br>
+        3) Su función potencial inmediata es <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>x y z</i> + <i>C</i></span>, ya que sus derivadas parciales reproducen con exactitud <span class="math-text">⟨ <i>y z</i>, <i>x z</i>, <i>x y</i> ⟩</span>.</p>
+
+        <p><strong>Ejercicio 2: El contraejemplo clásico del vórtice en dominio perforado</strong><br>
+        Sea el campo en el plano perforado <span class="math-text"><i>D</i> = ℝ² \ {(0,0)}</span>:<br>
+        <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ −<span class="math-fraction"><span><i>y</i></span><span><i>x</i>² + <i>y</i>²</span></span>, &nbsp; <span class="math-fraction"><span><i>x</i></span><span><i>x</i>² + <i>y</i>²</span></span> ⟩</span>.<br>
+        Demostrar que <span class="math-text">rot<sub><i>z</i></sub> <b>F</b> = 0</span> en todo punto de <span class="math-text"><i>D</i></span>, pero el campo NO es conservativo.<br>
+        • <em>Solución explicada:</em><br>
+        1) Calculamos las derivadas parciales cruzadas:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> = <span class="math-fraction"><span>(1)(<i>x</i>² + <i>y</i>²) − <i>x</i>(2<i>x</i>)</span><span>(<i>x</i>² + <i>y</i>²)²</span></span> = <span class="math-fraction"><span><i>y</i>² − <i>x</i>²</span><span>(<i>x</i>² + <i>y</i>²)²</span></span></span>.<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = <span class="math-fraction"><span>(−1)(<i>x</i>² + <i>y</i>²) − (−<i>y</i>)(2<i>y</i>)</span><span>(<i>x</i>² + <i>y</i>²)²</span></span> = <span class="math-fraction"><span><i>y</i>² − <i>x</i>²</span><span>(<i>x</i>² + <i>y</i>²)²</span></span></span>.<br>
+        Restando: <span class="math-text">rot<sub><i>z</i></sub> <b>F</b> = <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = 0</span> en todo punto regular <span class="math-text">(<i>x</i>, <i>y</i>) ≠ (0, 0)</span>.<br>
+        2) Circulación sobre la circunferencia unitaria <span class="math-text"><i>C</i>: <b>r</b>(<i>t</i>) = ⟨ cos <i>t</i>, sen <i>t</i> ⟩, <i>t</i> ∈ [0, 2<i>π</i>]</span>:<br>
+        <span class="math-text">∮<sub><i>C</i></sub> <b>F</b> · <i>d</i><b>r</b> = ∫₀<sup>2<i>π</i></sup> [ (−sen <i>t</i>)(−sen <i>t</i>) + (cos <i>t</i>)(cos <i>t</i>) ] <i>dt</i> = ∫₀<sup>2<i>π</i></sup> 1 <i>dt</i> = 2<i>π</i> ≠ 0</span>.<br>
+        Como la circulación sobre una curva cerrada no es cero, el campo <strong>no es conservativo</strong> en <span class="math-text"><i>D</i></span>. Esto ocurre porque el dominio <span class="math-text">ℝ² \ {(0,0)}</span> no es simplemente conexo (posee un agujero en el origen).</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #667ef8; background: linear-gradient(145deg, #f9faff, #f1f4ff);">
+          <div class="lesson-definition-title"><strong>Diagnóstico de vorticidad y campo conservativo en la Calculadora</strong></div>
+          <p>La Calculadora de Matemática II evalúa el vector rotacional <span class="math-text">∇ × <b>F</b></span> y emite un diagnóstico automático sobre el carácter irrotacional global y la existencia garantizada de potencial escalar conservativo.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/matematica/#analisis-vectorial">Analizar rotacional y vorticidad en la Calculadora ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-3/">← Tema 03: Divergencia</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 04 de 06</span>
+        <a class="study-button study-button-primary" href="../tema-5/">Siguiente: Integrales de línea →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

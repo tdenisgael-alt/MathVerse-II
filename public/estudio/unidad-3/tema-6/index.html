@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 6: Teorema de Green en el plano, formas vectorial de circulación y flujo, cálculo de áreas mediante integrales de contorno y regiones múltiplemente conexas. Unidad 3 de Matemática II.">
+  <title>Tema 06 · Teorema de Green | Unidad 03 · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../#contenido-academico">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Unidad 03 · Análisis vectorial</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 06 · Teorema de Green</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 06 · Análisis Vectorial</span>
+        <p class="lesson-lead">El Teorema de Green constituye el primer gran teorema de integración del análisis vectorial. Establece un vínculo geométrico y analítico profundo entre la integral de línea a lo largo de una curva cerrada simple en el plano y la integral doble sobre la región bidimensional que dicha curva encierra. Representa la versión bidimensional del Teorema Fundamental del Cálculo, permitiendo transformar integrales de contorno difíciles en integrales dobles directas, calcular áreas geométricas de figuras complejas y analizar la circulación y el flujo de campos físicos.</p>
+
+        <h1 class="lesson-page-title">El Teorema de Green en el plano</h1>
+
+        <p><em>Material complementario estructurado según los estándares de Cálculo Multivariable y Análisis Vectorial universitario (referencias: James Stewart, Marsden & Tromba, Thomas).</em></p>
+
+        <h2 class="lesson-section-title">Enunciado formal e hipótesis del teorema</h2>
+        <p>Sea <span class="math-text"><i>D</i> ⊂ ℝ²</span> una región plana acotada y conexa cuya frontera <span class="math-text"><i>C</i> = ∂<i>D</i></span> es una curva cerrada simple, suave a trozos y orientada positivamente (en sentido antihorario, de modo que al recorrer la curva la región <span class="math-text"><i>D</i></span> queda permanentemente a la izquierda del observador).</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Teorema de Green (Forma clásica en coordenadas)</strong></div>
+          <p>Sean <span class="math-text"><i>P</i>(<i>x</i>, <i>y</i>)</span> y <span class="math-text"><i>Q</i>(<i>x</i>, <i>y</i>)</span> funciones escalares con derivadas parciales de primer orden continuas sobre un conjunto abierto que contiene a la región cerrada <span class="math-text"><i>D</i></span>. Entonces:<br>
+          <span class="math-text">∮<sub><i>C</i></sub> (<i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i>) = ∬<sub><i>D</i></sub> ( <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> ) <i>dA</i></span></p>
+          <p>• <strong>Símbolo de integral de contorno cerrado (∮):</strong> El círculo en el operador integral indica que la trayectoria de integración es cerrada y no se cruza a sí misma (curva de Jordan).<br>
+          • <strong>Condición de orientación:</strong> Si la curva se recorre en sentido horario (orientación negativa <span class="math-text">−<i>C</i></span>), se invierte el signo:<br>
+          <span class="math-text">∮<sub>−<i>C</i></sub> (<i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i>) = −∬<sub><i>D</i></sub> ( <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> ) <i>dA</i></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Formulaciones vectoriales: forma tangencial y forma normal</h2>
+        <p>El Teorema de Green puede expresarse en lenguaje vectorial moderno revelando dos interpretaciones físicas esenciales de la dinámica de medios continuos:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>1. Forma tangencial o de circulación (Versión del Rotacional)</strong></div>
+          <p>Considerando el campo vectorial <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ <i>P</i>(<i>x</i>, <i>y</i>), <i>Q</i>(<i>x</i>, <i>y</i>), 0 ⟩</span> en el plano <span class="math-text"><i>xy</i></span>, su rotacional apunta exclusivamente en la dirección normal perpendicular al plano (<span class="math-text"><b>k</b></span>):<br>
+          <span class="math-text">∇ × <b>F</b> = ( <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> ) <b>k</b> = (rot<sub><i>z</i></sub> <b>F</b>) <b>k</b></span></p>
+          <p>Por tanto, el Teorema de Green establece que la circulación tangencial del campo alrededor de la frontera es igual a la integral del rotacional normal sobre la superficie plana:<br>
+          <span class="math-text">∮<sub><i>C</i></sub> <b>F</b> · <i>d</i><b>r</b> = ∬<sub><i>D</i></sub> (∇ × <b>F</b>) · <b>k</b> <i>dA</i></span></p>
+          <p><em>Interpretación física:</em> La circulación microscópica acumulada de remolinos en el interior de <span class="math-text"><i>D</i></span> se cancela en las paredes internas y produce la circulación macroscópica observada en el contorno exterior <span class="math-text"><i>C</i></span>.</p>
+        </div>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>2. Forma normal o de flujo (Versión de la Divergencia en 2D)</strong></div>
+          <p>Si denotamos por <span class="math-text"><b>n</b></span> el vector unitario normal exterior a la curva <span class="math-text"><i>C</i></span>, el flujo total saliente del campo <span class="math-text"><b>F</b> = ⟨ <i>P</i>, <i>Q</i> ⟩</span> a través de la frontera está dado por:<br>
+          <span class="math-text">∮<sub><i>C</i></sub> <b>F</b> · <b>n</b> <i>ds</i> = ∮<sub><i>C</i></sub> (<i>P</i> <i>dy</i> − <i>Q</i> <i>dx</i>)</span></p>
+          <p>Aplicando el Teorema de Green a esta expresión, se obtiene el <strong>Teorema de la Divergencia bidimensional</strong>:<br>
+          <span class="math-text">∮<sub><i>C</i></sub> <b>F</b> · <b>n</b> <i>ds</i> = ∬<sub><i>D</i></sub> ( <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span> ) <i>dA</i> = ∬<sub><i>D</i></sub> (∇ · <b>F</b>) <i>dA</i></span></p>
+          <p><em>Interpretación física:</em> El flujo neto saliente a través del borde cerrado es igual a la suma total de las fuentes y sumideros presentes en el interior de la región.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Cálculo de áreas de regiones planas mediante integrales de contorno</h2>
+        <p>Dado que el área de una región plana <span class="math-text"><i>D</i></span> se expresa como la integral doble <span class="math-text"><i>A</i>(<i>D</i>) = ∬<sub><i>D</i></sub> 1 <i>dA</i></span>, podemos elegir combinaciones de funciones <span class="math-text"><i>P</i></span> y <span class="math-text"><i>Q</i></span> tales que <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = 1</span>:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Fórmulas de área mediante el Teorema de Green</strong></div>
+          <p>• Si <span class="math-text"><i>P</i> = 0, <i>Q</i> = <i>x</i></span> ⇒ <span class="math-text"><i>A</i>(<i>D</i>) = ∮<sub><i>C</i></sub> <i>x</i> <i>dy</i></span><br>
+          • Si <span class="math-text"><i>P</i> = −<i>y</i>, <i>Q</i> = 0</span> ⇒ <span class="math-text"><i>A</i>(<i>D</i>) = −∮<sub><i>C</i></sub> <i>y</i> <i>dx</i></span><br>
+          • Promedio simétrico (recomendado para curvas con simetría o funciones trigonométricas):<br>
+          <span class="math-text"><i>A</i>(<i>D</i>) = <span class="math-fraction"><span>1</span><span>2</span></span> ∮<sub><i>C</i></sub> (<i>x</i> <i>dy</i> − <i>y</i> <i>dx</i>)</span></p>
+          <p>Esta propiedad es la base teórica del <em>planímetro mecánico</em>, un instrumento analógico empleado históricamente en topografía e ingeniería para medir áreas irregulares recorriendo únicamente su contorno perimetral.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Regiones con agujeros y múltiple conectividad</h2>
+        <p>El Teorema de Green es plenamente aplicable a regiones con huecos (múltiplemente conexas), siempre que la frontera total se oriente de modo que la región permanezca en todo momento a la izquierda al recorrer cualquier componente del contorno:</p>
+        <p>• La frontera exterior <span class="math-text"><i>C</i>₁</span> se recorre en sentido <strong>antihorario</strong> (+).<br>
+        • Las fronteras interiores de los agujeros <span class="math-text"><i>C</i>₂, <i>C</i>₃, …</span> se recorren en sentido <strong>horario</strong> (−).<br>
+        • De este modo: <span class="math-text">∬<sub><i>D</i></sub> ( <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> ) <i>dA</i> = ∮<sub><i>C</i>₁</sub> (<i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i>) + ∮<sub><i>C</i>₂</sub> (<i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i>)</span>.</p>
+
+        <h2 class="lesson-section-title">Ejemplos explicados paso a paso</h2>
+
+        <p><strong>Ejemplo 1: Simplificación de funciones no elementales mediante Green</strong><br>
+        Evaluar la integral de línea en sentido antihorario:<br>
+        <span class="math-text">∮<sub><i>C</i></sub> (3<i>y</i> − <i>e</i><sup>sen <i>x</i></sup>) <i>dx</i> + (7<i>x</i> + √<span class="math-radical"><i>y</i>⁴ + 1</span>) <i>dy</i></span><br>
+        donde <span class="math-text"><i>C</i></span> es la circunferencia <span class="math-text"><i>x</i>² + <i>y</i>² = 9</span>.<br>
+        • <em>Desarrollo analítico:</em><br>
+        1) Intentar parametrizar directamente <span class="math-text"><i>x</i> = 3 cos <i>t</i>, <i>y</i> = 3 sen <i>t</i></span> produce integrandos intractables como <span class="math-text"><i>e</i><sup>sen(3 cos <i>t</i>)</sup></span> que no poseen antiderivada elemental.<br>
+        2) Identificamos las componentes del campo:<br>
+        <span class="math-text"><i>P</i>(<i>x</i>, <i>y</i>) = 3<i>y</i> − <i>e</i><sup>sen <i>x</i></sup> ⇒ <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = 3</span><br>
+        <span class="math-text"><i>Q</i>(<i>x</i>, <i>y</i>) = 7<i>x</i> + √<span class="math-radical"><i>y</i>⁴ + 1</span> ⇒ <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> = 7</span><br>
+        3) Calculamos la diferencia de derivadas cruzadas:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = 7 − 3 = 4</span> (¡las expresiones no elementales se anulan por completo!).<br>
+        4) Aplicamos el Teorema de Green:<br>
+        <span class="math-text">∮<sub><i>C</i></sub> (<i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i>) = ∬<sub><i>D</i></sub> 4 <i>dA</i> = 4 ∬<sub><i>D</i></sub> <i>dA</i> = 4 · Área(disco de radio 3)</span><br>
+        <span class="math-text">Área(<i>D</i>) = <i>π</i> · (3)² = 9<i>π</i> ⇒ 4 · (9<i>π</i>) = 36<i>π</i></span>.</p>
+
+        <p><strong>Ejemplo 2: Área exacta de una elipse con la fórmula simétrica</strong><br>
+        Calcular el área de la región encerrada por la elipse <span class="math-text"><span class="math-fraction"><span><i>x</i>²</span><span><i>a</i>²</span></span> + <span class="math-fraction"><span><i>y</i>²</span><span><i>b</i>²</span></span> = 1</span>.<br>
+        • <em>Desarrollo analítico:</em><br>
+        1) Parametrizamos la frontera orientada positivamente:<br>
+        <span class="math-text"><i>x</i>(<i>t</i>) = <i>a</i> cos <i>t</i> ⇒ <i>dx</i> = −<i>a</i> sen <i>t dt</i></span><br>
+        <span class="math-text"><i>y</i>(<i>t</i>) = <i>b</i> sen <i>t</i> ⇒ <i>dy</i> = <i>b</i> cos <i>t dt</i></span>, con <span class="math-text"><i>t</i> ∈ [0, 2<i>π</i>]</span>.<br>
+        2) Usamos la fórmula simétrica de Green <span class="math-text"><i>A</i> = <span class="math-fraction"><span>1</span><span>2</span></span> ∮<sub><i>C</i></sub> (<i>x dy</i> − <i>y dx</i>)</span>:<br>
+        <span class="math-text"><i>x dy</i> − <i>y dx</i> = (<i>a</i> cos <i>t</i>)(<i>b</i> cos <i>t dt</i>) − (<i>b</i> sen <i>t</i>)(−<i>a</i> sen <i>t dt</i>) = <i>ab</i> (cos² <i>t</i> + sen² <i>t</i>) <i>dt</i> = <i>ab dt</i></span>.<br>
+        3) Evaluamos la integral definida:<br>
+        <span class="math-text"><i>A</i> = <span class="math-fraction"><span>1</span><span>2</span></span> ∫₀<sup>2<i>π</i></sup> <i>ab dt</i> = <span class="math-fraction"><span><i>ab</i></span><span>2</span></span> [ <i>t</i> ]₀<sup>2<i>π</i></sup> = <span class="math-fraction"><span><i>ab</i></span><span>2</span></span> (2<i>π</i>) = <i>π ab</i></span>.</p>
+
+        <h2 class="lesson-section-title">Ejercicios de práctica resueltos</h2>
+
+        <p><strong>Ejercicio 1: Integral sobre circunferencia y coordenadas polares</strong><br>
+        Evaluar <span class="math-text">∮<sub><i>C</i></sub> (<i>y</i>³ <i>dx</i> − <i>x</i>³ <i>dy</i>)</span> donde <span class="math-text"><i>C</i></span> es la circunferencia <span class="math-text"><i>x</i>² + <i>y</i>² = 4</span> recorrida en sentido antihorario.<br>
+        • <em>Solución explicada:</em><br>
+        1) Componentes: <span class="math-text"><i>P</i> = <i>y</i>³</span>, <span class="math-text"><i>Q</i> = −<i>x</i>³</span>.<br>
+        2) Derivadas parciales: <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> = −3<i>x</i>²</span>, <span class="math-text"><span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = 3<i>y</i>²</span>.<br>
+        3) Diferencia de derivadas: <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = −3<i>x</i>² − 3<i>y</i>² = −3(<i>x</i>² + <i>y</i>²)</span>.<br>
+        4) Por Teorema de Green pasamos a coordenadas polares en el disco de radio 2:<br>
+        <span class="math-text">∬<sub><i>D</i></sub> −3(<i>x</i>² + <i>y</i>²) <i>dA</i> = ∫₀<sup>2<i>π</i></sup> ∫₀² −3(<i>r</i>²)(<i>r dr dθ</i>) = −3 ∫₀<sup>2<i>π</i></sup> <i>dθ</i> ∫₀² <i>r</i>³ <i>dr</i></span><br>
+        <span class="math-text">= −3(2<i>π</i>) [ <span class="math-fraction"><span><i>r</i>⁴</span><span>4</span></span> ]₀² = −6<i>π</i> [ <span class="math-fraction"><span>16</span><span>4</span></span> ] = −6<i>π</i>(4) = −24<i>π</i></span>.</p>
+
+        <p><strong>Ejercicio 2: Verificación de Green frente al cálculo directo sobre un triángulo</strong><br>
+        Evaluar <span class="math-text">∮<sub><i>C</i></sub> (<i>x y</i> <i>dx</i> + <i>x</i>² <i>y</i>³ <i>dy</i>)</span> a lo largo del contorno triangular que une los vértices <span class="math-text">(0, 0)</span>, <span class="math-text">(1, 0)</span> y <span class="math-text">(1, 2)</span> en sentido antihorario.<br>
+        • <em>Método A: Mediante el Teorema de Green:</em><br>
+        1) <span class="math-text"><i>P</i> = <i>x y</i> ⇒ <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = <i>x</i></span>; &nbsp; <span class="math-text"><i>Q</i> = <i>x</i>² <i>y</i>³ ⇒ <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> = 2<i>x y</i>³</span>.<br>
+        2) Región triangular: <span class="math-text">0 ≤ <i>x</i> ≤ 1</span>, <span class="math-text">0 ≤ <i>y</i> ≤ 2<i>x</i></span>.<br>
+        3) Integral doble iterada:<br>
+        <span class="math-text">∬<sub><i>D</i></sub> (2<i>x y</i>³ − <i>x</i>) <i>dA</i> = ∫₀¹ [ ∫₀<sup>2<i>x</i></sup> (2<i>x y</i>³ − <i>x</i>) <i>dy</i> ] <i>dx</i></span><br>
+        4) Evaluando en <span class="math-text"><i>y</i></span>:<br>
+        <span class="math-text">[ <span class="math-fraction"><span>2<i>x y</i>⁴</span><span>4</span></span> − <i>x y</i> ]₀<sup>2<i>x</i></sup> = [ <span class="math-fraction"><span><i>x</i>(16<i>x</i>⁴)</span><span>2</span></span> − <i>x</i>(2<i>x</i>) ] = 8<i>x</i>⁵ − 2<i>x</i>²</span>.<br>
+        5) Evaluando en <span class="math-text"><i>x</i></span>:<br>
+        <span class="math-text">∫₀¹ (8<i>x</i>⁵ − 2<i>x</i>²) <i>dx</i> = [ <span class="math-fraction"><span>8<i>x</i>⁶</span><span>6</span></span> − <span class="math-fraction"><span>2<i>x</i>³</span><span>3</span></span> ]₀¹ = <span class="math-fraction"><span>4</span><span>3</span></span> − <span class="math-fraction"><span>2</span><span>3</span></span> = <span class="math-fraction"><span>2</span><span>3</span></span></span>.<br>
+        • <em>Método B: Cálculo directo sobre los tres lados de la frontera:</em><br>
+        - Lado 1 de <span class="math-text">(0, 0)</span> a <span class="math-text">(1, 0)</span>: <span class="math-text"><i>y</i> = 0, <i>dy</i> = 0 ⇒ ∫₀¹ 0 = 0</span>.<br>
+        - Lado 2 de <span class="math-text">(1, 0)</span> a <span class="math-text">(1, 2)</span>: <span class="math-text"><i>x</i> = 1, <i>dx</i> = 0 ⇒ ∫₀² (1)² <i>y</i>³ <i>dy</i> = [ <span class="math-fraction"><span><i>y</i>⁴</span><span>4</span></span> ]₀² = 4</span>.<br>
+        - Lado 3 de <span class="math-text">(1, 2)</span> a <span class="math-text">(0, 0)</span>: <span class="math-text"><i>y</i> = 2<i>x</i>, <i>dy</i> = 2 <i>dx</i></span> con <span class="math-text"><i>x</i></span> de 1 a 0:<br>
+        <span class="math-text">∫₁⁰ [ <i>x</i>(2<i>x</i>) + <i>x</i>²(8<i>x</i>³)(2) ] <i>dx</i> = ∫₁⁰ (2<i>x</i>² + 16<i>x</i>⁵) <i>dx</i> = − [ <span class="math-fraction"><span>2</span><span>3</span></span> + <span class="math-fraction"><span>8</span><span>3</span></span> ] = −<span class="math-fraction"><span>10</span><span>3</span></span></span>.<br>
+        - Suma de los tres tramos: <span class="math-text">0 + 4 − <span class="math-fraction"><span>10</span><span>3</span></span> = <span class="math-fraction"><span>12</span><span>3</span></span> − <span class="math-fraction"><span>10</span><span>3</span></span> = <span class="math-fraction"><span>2</span><span>3</span></span></span>.<br>
+        <em>Ambos métodos coinciden exactamente, corroborando la validez del Teorema de Green.</em></p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #667ef8; background: linear-gradient(145deg, #f9faff, #f1f4ff);">
+          <div class="lesson-definition-title"><strong>Diagnóstico de rotacional y divergencia en la Calculadora de MathVerse</strong></div>
+          <p>Puedes verificar los componentes del integrando de Green (<span class="math-text">∂<i>Q</i>/∂<i>x</i> − ∂<i>P</i>/∂<i>y</i></span>) y (<span class="math-text">∂<i>P</i>/∂<i>x</i> + ∂<i>Q</i>/∂<i>y</i></span>) ingresando cualquier campo bidimensional en la calculadora matemática 3D.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/matematica/#analisis-vectorial">Abrir calculadora vectorial 3D ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-5/">← Tema 05: Integrales de línea</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 06 de 06</span>
+        <a class="study-button study-button-primary" href="../">Volver al índice de la Unidad 3 ↑</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Calculadora de Física de MathVerse II: Cinemática, MRU, MRUV, caída libre, tiro parabólico, interpretación de enunciados y gráficas interactivas.">
+  <title>Calculadora de Física | MathVerse II</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/modules.css">
+  <link rel="stylesheet" href="../../css/study-dark.css">
+  <link rel="stylesheet" href="css/fisica.css">
+  <script src="../../js/theme.js"></script>
+  <link rel="stylesheet" href="../../css/nexo-assistant.css">
+  <script src="../../js/nexo-assistant.js" defer></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../#inicio">Inicio</a>
+        <a href="../../estudio/">Estudio</a>
+        <a href="../">Calculadoras</a>
+        <a href="../matematica/">Matemática II</a>
+        <a href="./" style="color:#687cf6;font-weight:700">Física</a>
+        <a href="../../profesor/">Profesor virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">☾</span>
+          <span id="theme-label">Modo oscuro</span>
+        </button>
+        <a class="nav-home" href="../">Volver a Calculadoras <span>↗</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="module-main container" id="contenido">
+    <div class="study-heading">
+      <p class="eyebrow">MATHVERSE II / CIENCIAS EXACTAS</p>
+      <h1 class="module-page-title">Calculadora de Física<span>.</span></h1>
+      <p class="module-page-intro">Plataforma computacional y entorno interactivo para la resolución paso a paso y simulación gráfica de Cinemática en ingeniería.</p>
+    </div>
+
+    <!-- Panel de estado del motor -->
+    <div class="upcoming-unit-panel upcoming-unit-panel-differential" style="margin: 0 0 28px 0; max-width: 100%;">
+      <span class="upcoming-unit-status" style="color:#2dd4bf">
+        <span class="status-dot" style="background:#2dd4bf; box-shadow:0 0 0 4px #2dd4bf22"></span> MÓDULO 01 ACTIVO · CINEMÁTICA Y TRAYECTORIAS
+      </span>
+      <h2>Laboratorio interactivo de Cinemática</h2>
+      <p style="margin-bottom: 12px; line-height: 1.6;">
+        Resuelve problemas de <strong>MRU</strong>, <strong>MRUV / MRUA</strong>, <strong>caída libre</strong> y <strong>movimiento parabólico</strong>. Puedes ingresar los datos numéricos directamente en cada sección o escribir el enunciado de tu problema con tus propias palabras para que el motor identifique los datos, deduzca el tipo de movimiento y trace las curvas de posición, velocidad y trayectoria en tiempo real.
+      </p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 11px;">
+        <span class="academic-tag" style="background:rgba(104,124,246,0.12); padding:4px 10px; border-radius:6px; font-weight:600;">✓ Procedimientos detallados</span>
+        <span class="academic-tag" style="background:rgba(104,124,246,0.12); padding:4px 10px; border-radius:6px; font-weight:600;">✓ Gráficas interactivas GeoGebra</span>
+        <span class="academic-tag" style="background:rgba(104,124,246,0.12); padding:4px 10px; border-radius:6px; font-weight:600;">✓ Simulación animada y zoom</span>
+      </div>
+    </div>
+
+    <!-- Contenedor de Cinemática Web -->
+    <section id="cin-app" aria-label="Calculadora interactiva de Cinemática">
+      <header class="cin-head">
+        <div>
+          <h2>Calculadora de Cinemática</h2>
+          <p class="cin-sub">Escribe tu problema o llena los datos y mira el procedimiento paso a paso. Unidades SI: m, s, m/s, m/s².</p>
+        </div>
+        <div class="cin-gbar">
+          <label class="cin-g">Gravedad g (m/s²)
+            <input id="cin-g" value="9,8" inputmode="decimal">
+          </label>
+          <button type="button" class="cin-reset" id="cin-reset-all">Reiniciar todo</button>
+        </div>
+      </header>
+      <div class="cin-tabs" role="tablist"></div>
+      <div class="cin-body"></div>
+    </section>
+
+    <!-- Módulos adicionales de Física en desarrollo -->
+    <section class="academic-overview" style="margin-top: 36px;" aria-labelledby="phys-modules-heading">
+      <div class="academic-overview-heading" style="text-align: left; margin-bottom: 20px;">
+        <p class="study-overline">CIENCIAS FÍSICAS · HOJA DE RUTA</p>
+        <h2 id="phys-modules-heading" style="font-size: clamp(20px, 2.5vw, 26px);">Módulos de la plataforma de Física</h2>
+        <p>Herramientas numéricas organizadas por áreas de la física universitaria:</p>
+      </div>
+
+      <div class="academic-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+
+        <!-- 01: Cinemática (ACTIVO) -->
+        <article class="academic-card academic-card-differential" style="min-height: 220px; border-color: #2dd4bf;">
+          <div class="academic-card-top" style="min-height: auto;">
+            <div class="academic-card-title">
+              <span style="color:#2dd4bf">MÓDULO 01 · DISPONIBLE</span>
+              <h3 style="font-size: 18px; margin-top: 5px;">Cinemática y Trayectorias</h3>
+            </div>
+          </div>
+          <p style="margin: 10px 0; font-size: 12px; color: #5f667a; line-height: 1.55;">
+            Modelado completo de MRU, MRUV, tiro parabólico en 2D, caída libre, alcance, encuentro y visualización interactiva de curvas cinemáticas.
+          </p>
+          <div class="academic-tags" style="margin-top: auto;">
+            <span>MRU / MRUV</span>
+            <span>Caída libre</span>
+            <span>Parabólico</span>
+            <span>Canvas 2D</span>
+          </div>
+        </article>
+
+        <!-- 02: Dinámica -->
+        <article class="academic-card academic-card-integral" style="min-height: 220px;">
+          <div class="academic-card-top" style="min-height: auto;">
+            <div class="academic-card-title">
+              <span>MÓDULO 02 · EN PREPARACIÓN</span>
+              <h3 style="font-size: 18px; margin-top: 5px;">Dinámica y Leyes de Newton</h3>
+            </div>
+          </div>
+          <p style="margin: 10px 0; font-size: 12px; color: #5f667a; line-height: 1.55;">
+            Diagramas de cuerpo libre (DCL), planos inclinados con fricción estática/cinética, sistemas de poleas, trabajo mecánico y energía cinética/potencial.
+          </p>
+          <div class="academic-tags" style="margin-top: auto;">
+            <span>F = m·a</span>
+            <span>Fricción</span>
+            <span>Energía</span>
+          </div>
+        </article>
+
+        <!-- 03: Termodinámica -->
+        <article class="academic-card academic-card-vectorial" style="min-height: 220px;">
+          <div class="academic-card-top" style="min-height: auto;">
+            <div class="academic-card-title">
+              <span>MÓDULO 03 · EN PREPARACIÓN</span>
+              <h3 style="font-size: 18px; margin-top: 5px;">Termodinámica y Gases</h3>
+            </div>
+          </div>
+          <p style="margin: 10px 0; font-size: 12px; color: #5f667a; line-height: 1.55;">
+            Leyes de los gases ideales (PV = nRT), procesos isotérmicos, isobáricos, isocóricos y adiabáticos, entropía y ciclos termodinámicos.
+          </p>
+          <div class="academic-tags" style="margin-top: auto;">
+            <span>PV = nRT</span>
+            <span>Ciclo de Carnot</span>
+            <span>Calorimetría</span>
+          </div>
+        </article>
+
+        <!-- 04: Electromagnetismo -->
+        <article class="academic-card" style="min-height: 220px; border-color: #687cf6;">
+          <div class="academic-card-top" style="min-height: auto;">
+            <div class="academic-card-title">
+              <span style="color: #687cf6;">MÓDULO 04 · EN PREPARACIÓN</span>
+              <h3 style="font-size: 18px; margin-top: 5px;">Electromagnetismo y Circuitos</h3>
+            </div>
+          </div>
+          <p style="margin: 10px 0; font-size: 12px; color: #5f667a; line-height: 1.55;">
+            Fuerzas electrostáticas (Ley de Coulomb), potencial eléctrico, circuitos de corriente continua y alterna, y leyes de Kirchhoff.
+          </p>
+          <div class="academic-tags" style="margin-top: auto;">
+            <span>Ley de Coulomb</span>
+            <span>Ley de Ohm</span>
+            <span>Circuitos RLC</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <div style="margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap;">
+      <a class="button button-primary" href="../">← Volver al selector de calculadoras</a>
+      <a class="button button-primary" href="../matematica/" style="background:#4338ca;">Abrir Calculadora de Matemática II <span>↗</span></a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+
+  <script src="js/cinematica.js"></script>
+</body>
+</html>

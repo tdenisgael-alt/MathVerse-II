@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 5: Integrales de línea de campos escalares y vectoriales, cálculo de trabajo, circulación y el Teorema Fundamental. Unidad 3 de Matemática II.">
+  <title>Tema 05 · Integrales de línea | Unidad 03 · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../#contenido-academico">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Unidad 03 · Análisis vectorial</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 05 · Integrales de línea</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 05 · Análisis Vectorial</span>
+        <p class="lesson-lead">Las integrales de línea generalizan el concepto de integral definida univariable hacia curvas en el plano y en el espacio tridimensional. Constituyen la herramienta matemática indispensable para calcular la masa de alambres delgados con densidad heterogénea, la longitud de trayectorias espaciales, el trabajo mecánico producido por campos de fuerzas no uniformes y la circulación de fluidos a lo largo de circuitos cerrados. Asimismo, para campos conservativos, el Teorema Fundamental de las Integrales de Línea establece la independencia total de la trayectoria seguida.</p>
+
+        <h1 class="lesson-page-title">Integrales de línea de campos escalares y vectoriales</h1>
+
+        <p><em>Material complementario estructurado según los estándares de Cálculo Multivariable y Análisis Vectorial universitario (referencias: James Stewart, Marsden & Tromba, Thomas).</em></p>
+
+        <h2 class="lesson-section-title">Integral de línea de un campo escalar respecto a la longitud de arco</h2>
+        <p>Sea <span class="math-text"><i>C</i></span> una curva suave parametrizada por la función vectorial continua <span class="math-text"><b>r</b>(<i>t</i>) = ⟨ <i>x</i>(<i>t</i>), <i>y</i>(<i>t</i>), <i>z</i>(<i>t</i>) ⟩</span> para <span class="math-text"><i>a</i> ≤ <i>t</i> ≤ <i>b</i></span>, donde <span class="math-text"><b>r</b>'(<i>t</i>) ≠ <b>0</b></span>.</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Definición: Integral de línea escalar</strong></div>
+          <p>El elemento diferencial de longitud de arco euclídeo es:<br>
+          <span class="math-text"><i>ds</i> = ‖<b>r</b>'(<i>t</i>)‖ <i>dt</i> = √<span class="math-radical">[<i>x</i>'(<i>t</i>)]² + [<i>y</i>'(<i>t</i>)]² + [<i>z</i>'(<i>t</i>)]²</span> <i>dt</i></span></p>
+          <p>Si <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>)</span> es un campo escalar continuo sobre la curva <span class="math-text"><i>C</i></span>, la <strong>integral de línea de <i>f</i> a lo largo de <i>C</i></strong> es:<br>
+          <span class="math-text">∫<sub><i>C</i></sub> <i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) <i>ds</i> = ∫<sub><i>a</i></sub><sup><i>b</i></sup> <i>f</i>(<i>x</i>(<i>t</i>), <i>y</i>(<i>t</i>), <i>z</i>(<i>t</i>)) ‖<b>r</b>'(<i>t</i>)‖ <i>dt</i></span></p>
+          <p>• <strong>Propiedades fundamentales:</strong><br>
+          1. <em>Independencia de la orientación:</em> A diferencia de los campos vectoriales, la integral escalar mide magnitudes absolutas sobre la curva, de modo que <span class="math-text">∫<sub>−<i>C</i></sub> <i>f</i> <i>ds</i> = ∫<sub><i>C</i></sub> <i>f</i> <i>ds</i></span>.<br>
+          2. <em>Masa de un filamento curvilíneo:</em> Si <span class="math-text"><i>ρ</i>(<i>x</i>, <i>y</i>, <i>z</i>)</span> representa la densidad lineal de masa, la masa total del alambre es <span class="math-text"><i>M</i> = ∫<sub><i>C</i></sub> <i>ρ</i>(<i>x</i>, <i>y</i>, <i>z</i>) <i>ds</i></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Integral de línea de un campo vectorial: trabajo y circulación</h2>
+        <p>Cuando una partícula se desplaza a lo largo de una curva orientada <span class="math-text"><i>C</i></span> bajo la acción de un campo de fuerzas <span class="math-text"><b>F</b></span>, en cada punto la única componente de la fuerza que realiza trabajo efectivo es la componente tangencial a la trayectoria: <span class="math-text"><b>F</b> · <b>T</b></span>, donde <span class="math-text"><b>T</b> = <span class="math-fraction"><span><b>r</b>'(<i>t</i>)</span><span>‖<b>r</b>'(<i>t</i>)‖</span></span></span> es el vector tangente unitario.</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Definición: Integral de línea vectorial (Trabajo mecánico)</strong></div>
+          <p>La integral de línea de <span class="math-text"><b>F</b></span> a lo largo de la curva orientada <span class="math-text"><i>C</i></span> se define como:<br>
+          <span class="math-text"><i>W</i> = ∫<sub><i>C</i></sub> <b>F</b> · <i>d</i><b>r</b> = ∫<sub><i>C</i></sub> ( <b>F</b> · <b>T</b> ) <i>ds</i> = ∫<sub><i>a</i></sub><sup><i>b</i></sup> <b>F</b>(<b>r</b>(<i>t</i>)) · <b>r</b>'(<i>t</i>) <i>dt</i></span></p>
+          <p>• <strong>Notación diferencial en componentes:</strong><br>
+          Para <span class="math-text"><b>F</b> = ⟨ <i>P</i>, <i>Q</i>, <i>R</i> ⟩</span> y <span class="math-text"><i>d</i><b>r</b> = ⟨ <i>dx</i>, <i>dy</i>, <i>dz</i> ⟩</span>:<br>
+          <span class="math-text">∫<sub><i>C</i></sub> <b>F</b> · <i>d</i><b>r</b> = ∫<sub><i>C</i></sub> ( <i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i> + <i>R</i> <i>dz</i> ) = ∫<sub><i>a</i></sub><sup><i>b</i></sup> [ <i>P</i> <i>x</i>'(<i>t</i>) + <i>Q</i> <i>y</i>'(<i>t</i>) + <i>R</i> <i>z</i>'(<i>t</i>) ] <i>dt</i></span></p>
+          <p>• <strong>Sensibilidad a la orientación:</strong> Invertir el sentido del recorrido cambia el signo del trabajo:<br>
+          <span class="math-text">∫<sub>−<i>C</i></sub> <b>F</b> · <i>d</i><b>r</b> = − ∫<sub><i>C</i></sub> <b>F</b> · <i>d</i><b>r</b></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Teorema Fundamental de las Integrales de Línea</h2>
+        <p>Este teorema establece la generalización directa de la regla de Barrow hacia trayectorias en dimensiones superiores:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Teorema Fundamental de las Integrales de Línea</strong></div>
+          <p>Sea <span class="math-text"><i>C</i></span> una curva suave parametrizada por <span class="math-text"><b>r</b>(<i>t</i>)</span> para <span class="math-text"><i>a</i> ≤ <i>t</i> ≤ <i>b</i></span>. Si <span class="math-text"><i>f</i></span> es una función diferenciable cuyo gradiente <span class="math-text">∇<i>f</i></span> es continuo en <span class="math-text"><i>C</i></span>, entonces:<br>
+          <span class="math-text">∫<sub><i>C</i></sub> ∇<i>f</i> · <i>d</i><b>r</b> = <i>f</i>(<b>r</b>(<i>b</i>)) − <i>f</i>(<b>r</b>(<i>a</i>)) = <i>f</i>(<i>B</i>) − <i>f</i>(<i>A</i>)</span></p>
+          <p>• <strong>Propiedades equivalentes de los campos conservativos:</strong><br>
+          1. <em>Independencia de la trayectoria:</em> El trabajo depende exclusivamente de los puntos extremos inicial <span class="math-text"><i>A</i></span> y final <span class="math-text"><i>B</i></span>, y no de la curva específica que los conecta.<br>
+          2. <em>Circulación cerrada nula:</em> A lo largo de cualquier curva cerrada <span class="math-text"><i>C</i></span> (donde <span class="math-text"><i>A</i> = <i>B</i></span>), la integral de línea es idénticamente cero:<br>
+          <span class="math-text">∮<sub><i>C</i></sub> <b>F</b> · <i>d</i><b>r</b> = 0</span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1: Cálculo del trabajo por parametrización directa vs. función potencial</strong><br>
+        Calcular el trabajo realizado por el campo <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ <i>y</i>², &nbsp; 2<i>x y</i> + 1 ⟩</span> al desplazar una partícula desde el origen <span class="math-text">(0, 0)</span> hasta el punto <span class="math-text">(1, 1)</span> a lo largo de la parábola <span class="math-text"><i>y</i> = <i>x</i>²</span>.<br>
+        • <em>Método 1: Parametrización directa:</em><br>
+        1) Parametrizamos la parábola: <span class="math-text"><i>x</i> = <i>t</i></span>, <span class="math-text"><i>y</i> = <i>t</i>²</span> con <span class="math-text"><i>t</i> ∈ [0, 1]</span>.<br>
+        2) Diferenciales: <span class="math-text"><i>dx</i> = <i>dt</i></span>, <span class="math-text"><i>dy</i> = 2<i>t dt</i></span>.<br>
+        3) Evaluamos el integrando:<br>
+        <span class="math-text"><b>F</b>(<b>r</b>(<i>t</i>)) · <b>r</b>'(<i>t</i>) = (<i>t</i>²)² (1) + (2<i>t</i>(<i>t</i>²) + 1)(2<i>t</i>) = <i>t</i>⁴ + (2<i>t</i>³ + 1)(2<i>t</i>) = <i>t</i>⁴ + 4<i>t</i>⁴ + 2<i>t</i> = 5<i>t</i>⁴ + 2<i>t</i></span>.<br>
+        4) Integramos respecto a <span class="math-text"><i>t</i></span>:<br>
+        <span class="math-text"><i>W</i> = ∫₀¹ (5<i>t</i>⁴ + 2<i>t</i>) <i>dt</i> = [ <i>t</i>⁵ + <i>t</i>² ]₀¹ = (1 + 1) − 0 = 2</span>.<br>
+        • <em>Método 2: Mediante el Teorema Fundamental:</em><br>
+        1) Verificamos el rotacional: <span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>y</i></span></span> = 2<i>y</i> − 2<i>y</i> = 0</span>. El campo es conservativo en todo <span class="math-text">ℝ²</span>.<br>
+        2) Hallamos la función potencial: <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>) = <i>x y</i>² + <i>y</i></span>, pues <span class="math-text"><i>f<sub>x</sub></i> = <i>y</i>²</span> y <span class="math-text"><i>f<sub>y</sub></i> = 2<i>x y</i> + 1</span>.<br>
+        3) Evaluamos en los extremos:<br>
+        <span class="math-text"><i>W</i> = <i>f</i>(1, 1) − <i>f</i>(0, 0) = (1(1)² + 1) − (0 + 0) = 2 − 0 = 2</span>.<br>
+        Ambos métodos producen con rigor el mismo resultado exacto.</p>
+
+        <p><strong>Ejemplo 2: Circulación cerrada sobre la circunferencia unitaria</strong><br>
+        Calcular la circulación del campo <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ −<i>y</i>, <i>x</i> ⟩</span> a lo largo de la circunferencia unitaria orientada en sentido antihorario.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) Parametrización: <span class="math-text"><i>x</i> = cos <i>t</i>, &nbsp; <i>y</i> = sen <i>t</i></span> para <span class="math-text"><i>t</i> ∈ [0, 2<i>π</i>]</span>.<br>
+        2) Diferenciales: <span class="math-text"><i>dx</i> = −sen <i>t dt</i>, &nbsp; <i>dy</i> = cos <i>t dt</i></span>.<br>
+        3) Sustitución en la integral de línea:<br>
+        <span class="math-text">∮<sub><i>C</i></sub> ( <i>P</i> <i>dx</i> + <i>Q</i> <i>dy</i> ) = ∫₀<sup>2<i>π</i></sup> [ (−sen <i>t</i>)(−sen <i>t</i>) + (cos <i>t</i>)(cos <i>t</i>) ] <i>dt</i> = ∫₀<sup>2<i>π</i></sup> ( sen² <i>t</i> + cos² <i>t</i> ) <i>dt</i> = ∫₀<sup>2<i>π</i></sup> 1 <i>dt</i> = 2<i>π</i></span>.<br>
+        La circulación neta no nula demuestra físicamente que el campo de vórtice no es conservativo.</p>
+
+        <h2 class="lesson-section-title">Ejercicios de práctica resueltos</h2>
+
+        <p><strong>Ejercicio 1: Integral de línea escalar sobre segmento de recta</strong><br>
+        Evaluar <span class="math-text">∫<sub><i>C</i></sub> <i>x</i> <i>ds</i></span>, donde <span class="math-text"><i>C</i></span> es el segmento rectilíneo que une <span class="math-text">(0, 0)</span> con <span class="math-text">(3, 4)</span>.<br>
+        • <em>Solución explicada:</em><br>
+        1) Parametrizamos el segmento: <span class="math-text"><b>r</b>(<i>t</i>) = ⟨ 3<i>t</i>, 4<i>t</i> ⟩</span> con <span class="math-text"><i>t</i> ∈ [0, 1]</span>.<br>
+        2) Longitud del vector tangente: <span class="math-text"><b>r</b>'(<i>t</i>) = ⟨ 3, 4 ⟩ ⇒ ‖<b>r</b>'(<i>t</i>)‖ = √<span class="math-radical">3² + 4²</span> = √<span class="math-radical">25</span> = 5</span>.<br>
+        3) Diferencial de arco: <span class="math-text"><i>ds</i> = 5 <i>dt</i></span>.<br>
+        4) Evaluación:<br>
+        <span class="math-text">∫<sub><i>C</i></sub> <i>x</i> <i>ds</i> = ∫₀¹ (3<i>t</i>)(5) <i>dt</i> = 15 ∫₀¹ <i>t</i> <i>dt</i> = 15 [ <span class="math-fraction"><span><i>t</i>²</span><span>2</span></span> ]₀¹ = <span class="math-fraction"><span>15</span><span>2</span></span> = 7.5</span>.</p>
+
+        <p><strong>Ejercicio 2: Trabajo sobre una hélice circular tridimensional</strong><br>
+        Calcular el trabajo realizado por <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ <i>z</i>, <i>x</i>, <i>y</i> ⟩</span> sobre una vuelta completa de la hélice <span class="math-text"><b>r</b>(<i>t</i>) = ⟨ cos <i>t</i>, sen <i>t</i>, <i>t</i> ⟩</span> para <span class="math-text">0 ≤ <i>t</i> ≤ 2<i>π</i></span>.<br>
+        • <em>Solución explicada:</em><br>
+        1) Vector tangente: <span class="math-text"><b>r</b>'(<i>t</i>) = ⟨ −sen <i>t</i>, cos <i>t</i>, 1 ⟩</span>.<br>
+        2) Producto escalar: <span class="math-text"><b>F</b>(<b>r</b>(<i>t</i>)) · <b>r</b>'(<i>t</i>) = ⟨ <i>t</i>, cos <i>t</i>, sen <i>t</i> ⟩ · ⟨ −sen <i>t</i>, cos <i>t</i>, 1 ⟩ = −<i>t</i> sen <i>t</i> + cos² <i>t</i> + sen <i>t</i></span>.<br>
+        3) Integrando los tres términos en <span class="math-text">[0, 2<i>π</i>]</span>:<br>
+        - Por partes: <span class="math-text">∫₀<sup>2<i>π</i></sup> −<i>t</i> sen <i>t dt</i> = [ <i>t</i> cos <i>t</i> − sen <i>t</i> ]₀<sup>2<i>π</i></sup> = (2<i>π</i>(1) − 0) − (0) = 2<i>π</i></span>.<br>
+        - Término cuadrático: <span class="math-text">∫₀<sup>2<i>π</i></sup> cos² <i>t dt</i> = <i>π</i></span>.<br>
+        - Término sinusoidal: <span class="math-text">∫₀<sup>2<i>π</i></sup> sen <i>t dt</i> = 0</span>.<br>
+        4) Suma total: <span class="math-text"><i>W</i> = 2<i>π</i> + <i>π</i> + 0 = 3<i>π</i></span>.</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #667ef8; background: linear-gradient(145deg, #f9faff, #f1f4ff);">
+          <div class="lesson-definition-title"><strong>Verificación de potencial en la Calculadora de MathVerse</strong></div>
+          <p>Para comprobar si un campo admite función potencial antes de calcular una integral de línea, utiliza la herramienta de diagnóstico de campos conservativos de la Calculadora de Matemática II.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/matematica/#analisis-vectorial">Comprobar conservación en la Calculadora ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-4/">← Tema 04: Rotacional</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 05 de 06</span>
+        <a class="study-button study-button-primary" href="../tema-6/">Siguiente: Teorema de Green →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

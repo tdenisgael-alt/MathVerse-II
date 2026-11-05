@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 3: Divergencia de un campo vectorial, flujo volumétrico, fuentes, sumideros y campos solenoidales. Unidad 3 de Matemática II.">
+  <title>Tema 03 · Divergencia de un campo vectorial | Unidad 03 · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../#contenido-academico">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Unidad 03 · Análisis vectorial</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 03 · Divergencia de un campo vectorial</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 03 · Análisis Vectorial</span>
+        <p class="lesson-lead">La divergencia cuantifica el comportamiento de emanación o absorción neta de un campo vectorial en cada punto del espacio. Físicamente, mide la tasa neta de flujo que atraviesa la frontera de un volumen infinitesimal por unidad de volumen. Su valor escalar permite clasificar los puntos del medio como fuentes (producción o expansión local de fluido), sumideros (absorción o compresión local) o zonas incompresibles con carácter solenoidal.</p>
+
+        <h1 class="lesson-page-title">Divergencia de un campo vectorial</h1>
+
+        <p><em>Material complementario estructurado según los estándares de Cálculo Multivariable y Análisis Vectorial universitario (referencias: James Stewart, Marsden & Tromba, Thomas).</em></p>
+
+        <h2 class="lesson-section-title">Definición analítica formal</h2>
+        <p>Sea <span class="math-text"><b>F</b></span> un campo vectorial diferenciable en un dominio abierto de <span class="math-text">ℝ³</span> o <span class="math-text">ℝ²</span>:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Definición: Divergencia de un campo vectorial</strong></div>
+          <p>1. En <span class="math-text">ℝ³</span>, para <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>P</i> <b>i</b> + <i>Q</i> <b>j</b> + <i>R</i> <b>k</b></span>, la <strong>divergencia</strong> es el campo escalar:<br>
+          <span class="math-text">div <b>F</b> = ∇ · <b>F</b> = <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span> + <span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>z</i></span></span></span></p>
+          <p>2. En el plano <span class="math-text">ℝ²</span>, para <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ <i>P</i>(<i>x</i>, <i>y</i>), <i>Q</i>(<i>x</i>, <i>y</i>) ⟩</span>:<br>
+          <span class="math-text">div <b>F</b> = ∇ · <b>F</b> = <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span></span></p>
+          <p>• <strong>Propiedad de linealidad:</strong><br>
+          <span class="math-text">∇ · (<i>a</i> <b>F</b> + <i>b</i> <b>G</b>) = <i>a</i> (∇ · <b>F</b>) + <i>b</i> (∇ · <b>G</b>)</span> para cualesquiera constantes reales <span class="math-text"><i>a</i>, <i>b</i></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Interpretación geométrica y física: densidad de flujo</h2>
+        <p>Consideremos un volumen elemental con forma de caja paralelepipédica centrada en <span class="math-text"><i>P</i>₀(<i>x</i>, <i>y</i>, <i>z</i>)</span> con aristas <span class="math-text">Δ<i>x</i>, Δ<i>y</i>, Δ<i>z</i></span>. El flujo neto que sale a través de las dos caras perpendiculares al eje <span class="math-text"><i>X</i></span> es aproximadamente:<br>
+        <span class="math-text">Flujo<sub><i>x</i></sub> ≈ [ <i>P</i>(<i>x</i> + <span class="math-fraction"><span>Δ<i>x</i></span><span>2</span></span>, <i>y</i>, <i>z</i>) − <i>P</i>(<i>x</i> − <span class="math-fraction"><span>Δ<i>x</i></span><span>2</span></span>, <i>y</i>, <i>z</i>) ] Δ<i>y</i> Δ<i>z</i> ≈ <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> Δ<i>x</i> Δ<i>y</i> Δ<i>z</i></span>.<br>
+        Sumando los flujos netos a través de las seis caras y dividiendo entre el volumen elemental <span class="math-text">Δ<i>V</i> = Δ<i>x</i> Δ<i>y</i> Δ<i>z</i></span>, en el límite cuando <span class="math-text">Δ<i>V</i> → 0</span> se obtiene la <strong>definición intrínseca de la divergencia</strong> independiente de coordenadas:</p>
+        <p><span class="math-text">div <b>F</b>(<i>P</i>₀) = <span class="math-limit"><span>lim</span><sub>Δ<i>V</i> → 0</sub></span> <span class="math-fraction"><span>1</span><span>Δ<i>V</i></span></span> ∬<sub>∂<i>V</i></sub> <b>F</b> · <b>n</b> <i>dS</i></span></p>
+        <p>Donde <span class="math-text">∂<i>V</i></span> es la superficie frontera cerrada que encierra a <span class="math-text">Δ<i>V</i></span> y <span class="math-text"><b>n</b></span> es el vector normal unitario exterior.</p>
+
+        <h2 class="lesson-section-title">Diagnóstico del comportamiento físico: fuentes, sumideros y campos solenoidales</h2>
+        <p>La evaluación del signo de la divergencia en un punto o en una región permite clasificar el comportamiento del campo:</p>
+        <p>1. <strong>Fuente (Source, ∇ · F > 0):</strong><br>
+        El flujo neto que sale de cualquier vecindad del punto supera al flujo que entra. Existe una emanación o generación neta de fluido (o densidad) en ese punto; el medio se expande localmente.</p>
+        <p>2. <strong>Sumidero (Sink, ∇ · F &lt; 0):</strong><br>
+        El flujo entrante supera al flujo saliente. Existe absorción o compresión neta de masa/energía en el punto.</p>
+        <p>3. <strong>Campo solenoidal o incompresible (∇ · F ≡ 0):</strong><br>
+        Si la divergencia es idénticamente nula en todo un dominio abierto <span class="math-text"><i>D</i></span>, el campo se denomina <strong>solenoidal</strong>. En un campo solenoidal no hay fuentes ni sumideros; la cantidad de fluido que entra a cualquier volumen cerrado es exactamente igual a la que sale.</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Distinción esencial: Propiedad local en P₀ vs. Carácter global del campo</strong></div>
+          <p>• <strong>Propiedad local en un punto P₀:</strong> Que <span class="math-text">∇ · <b>F</b>(<i>P</i>₀) = 0</span> en un punto aislado únicamente indica que en ese punto específico no hay generación ni absorción neta de flujo.<br>
+          • <strong>Carácter solenoidal global:</strong> Para que el campo sea calificado rigurosamente como solenoidal o incompresible, su divergencia debe ser <strong>idénticamente nula en todos los puntos del dominio</strong> (<span class="math-text">∇ · <b>F</b> ≡ 0 ∀ (<i>x</i>, <i>y</i>, <i>z</i>) ∈ <i>D</i></span>).<br>
+          <em>Ejemplo:</em> Para <span class="math-text"><b>F</b> = ⟨ <i>x</i>², 0, 0 ⟩</span>, se tiene <span class="math-text">∇ · <b>F</b> = 2<i>x</i></span>. En el plano <span class="math-text"><i>x</i> = 0</span> la divergencia es cero, pero el campo NO es solenoidal globalmente.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1: Análisis de expansión no homogénea y puntos críticos</strong><br>
+        Sea el campo vectorial <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ <i>x</i>³, <i>y</i>³, <i>z</i>³ ⟩</span>.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) Calculamos las derivadas parciales de cada componente:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> = <span class="math-fraction"><span>∂(<i>x</i>³)</span><span>∂<i>x</i></span></span> = 3<i>x</i>²</span>, &nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span> = <span class="math-fraction"><span>∂(<i>y</i>³)</span><span>∂<i>y</i></span></span> = 3<i>y</i>²</span>, &nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>z</i></span></span> = <span class="math-fraction"><span>∂(<i>z</i>³)</span><span>∂<i>z</i></span></span> = 3<i>z</i>²</span>.<br>
+        2) Expresión general de la divergencia:<br>
+        <span class="math-text">∇ · <b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = 3<i>x</i>² + 3<i>y</i>² + 3<i>z</i>² = 3(<i>x</i>² + <i>y</i>² + <i>z</i>²)</span>.<br>
+        3) Diagnóstico físico en el dominio:<br>
+        - En el origen <span class="math-text"><i>O</i>(0, 0, 0)</span>: <span class="math-text">∇ · <b>F</b>(0, 0, 0) = 0</span> (divergencia nula puntual).<br>
+        - Para todo punto <span class="math-text">(<i>x</i>, <i>y</i>, <i>z</i>) ≠ (0, 0, 0)</span>: como <span class="math-text"><i>x</i>² + <i>y</i>² + <i>z</i>² > 0</span>, se tiene <span class="math-text">∇ · <b>F</b> > 0</span>.<br>
+        El campo actúa como una fuente expansiva en todo el espacio tridimensional excepto en el origen puntual.</p>
+
+        <p><strong>Ejemplo 2: Carácter solenoidal de un vórtice circular plano</strong><br>
+        Determinar la divergencia del campo de rotación pura <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ −<i>y</i>, <i>x</i> ⟩</span>.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) Componentes: <span class="math-text"><i>P</i>(<i>x</i>, <i>y</i>) = −<i>y</i></span>, <span class="math-text"><i>Q</i>(<i>x</i>, <i>y</i>) = <i>x</i></span>.<br>
+        2) Derivadas parciales directas:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> = <span class="math-fraction"><span>∂(−<i>y</i>)</span><span>∂<i>x</i></span></span> = 0</span>, &nbsp;&nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span> = <span class="math-fraction"><span>∂(<i>x</i>)</span><span>∂<i>y</i></span></span> = 0</span>.<br>
+        3) Divergencia total: <span class="math-text">∇ · <b>F</b> = 0 + 0 = 0</span> para todo <span class="math-text">(<i>x</i>, <i>y</i>) ∈ ℝ²</span>.<br>
+        El campo es <strong>globalmente solenoidal</strong>. El fluido gira sin comprimirse ni expandirse en ningún punto.</p>
+
+        <h2 class="lesson-section-title">Ejercicios de práctica resueltos</h2>
+
+        <p><strong>Ejercicio 1: Parámetros para solenoididad condicional</strong><br>
+        Dado el campo <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ <i>a x</i> + 2<i>y</i>, &nbsp; 3<i>x</i> − <i>a y</i>, &nbsp; <i>z</i>² ⟩</span>, calcular su divergencia y determinar en qué superficie el campo es incompresible.<br>
+        • <em>Solución explicada:</em><br>
+        1) Derivadas parciales:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> = <i>a</i></span>, &nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span> = −<i>a</i></span>, &nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>z</i></span></span> = 2<i>z</i></span>.<br>
+        2) Suma: <span class="math-text">∇ · <b>F</b> = <i>a</i> + (−<i>a</i>) + 2<i>z</i> = 2<i>z</i></span>.<br>
+        3) Análisis: Los términos con el parámetro <span class="math-text"><i>a</i></span> se cancelan mutuamente para cualquier valor real de <span class="math-text"><i>a</i></span>. El campo es incompresible (<span class="math-text">∇ · <b>F</b> = 0</span>) exactamente sobre el plano horizontal <span class="math-text"><i>z</i> = 0</span> (el plano <span class="math-text"><i>XY</i></span>). En el semiespacio superior <span class="math-text"><i>z</i> > 0</span> actúa como fuente (<span class="math-text">∇ · <b>F</b> > 0</span>) y en el inferior <span class="math-text"><i>z</i> &lt; 0</span> como sumidero (<span class="math-text">∇ · <b>F</b> &lt; 0</span>).</p>
+
+        <p><strong>Ejercicio 2: Divergencia de campos centrales generales r<sup>n</sup> r</strong><br>
+        Sea <span class="math-text"><b>r</b> = ⟨ <i>x</i>, <i>y</i>, <i>z</i> ⟩</span> y <span class="math-text"><i>r</i> = ‖<b>r</b>‖ = √<span class="math-radical"><i>x</i>² + <i>y</i>² + <i>z</i>²</span></span>. Calcular la divergencia del campo central <span class="math-text"><b>F</b> = <i>r</i><sup><i>n</i></sup> <b>r</b></span> para <span class="math-text"><i>r</i> > 0</span>.<br>
+        • <em>Solución explicada:</em><br>
+        1) Aplicando la regla del producto escalar: <span class="math-text">∇ · (<i>r</i><sup><i>n</i></sup> <b>r</b>) = <i>r</i><sup><i>n</i></sup> (∇ · <b>r</b>) + (∇<i>r</i><sup><i>n</i></sup>) · <b>r</b></span>.<br>
+        2) Calculamos <span class="math-text">∇ · <b>r</b> = <span class="math-fraction"><span>∂<i>x</i></span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂<i>y</i></span><span>∂<i>y</i></span></span> + <span class="math-fraction"><span>∂<i>z</i></span><span>∂<i>z</i></span></span> = 1 + 1 + 1 = 3</span>.<br>
+        3) Calculamos <span class="math-text">∇<i>r</i><sup><i>n</i></sup> = <i>n r</i><sup><i>n</i>−1</sup> ∇<i>r</i> = <i>n r</i><sup><i>n</i>−1</sup> ( <span class="math-fraction"><span><b>r</b></span><span><i>r</i></span></span> ) = <i>n r</i><sup><i>n</i>−2</sup> <b>r</b></span>.<br>
+        4) Multiplicando escalarmente por <span class="math-text"><b>r</b></span>:<br>
+        <span class="math-text">(∇<i>r</i><sup><i>n</i></sup>) · <b>r</b> = (<i>n r</i><sup><i>n</i>−2</sup> <b>r</b>) · <b>r</b> = <i>n r</i><sup><i>n</i>−2</sup> (<b>r</b> · <b>r</b>) = <i>n r</i><sup><i>n</i>−2</sup> (<i>r</i>²) = <i>n r</i><sup><i>n</i></sup></span>.<br>
+        5) Sumando ambos términos:<br>
+        <span class="math-text">∇ · (<i>r</i><sup><i>n</i></sup> <b>r</b>) = 3 <i>r</i><sup><i>n</i></sup> + <i>n r</i><sup><i>n</i></sup> = (<i>n</i> + 3) <i>r</i><sup><i>n</i></sup></span>.<br>
+        <em>Caso físico trascendental:</em> Para el campo de la ley de Coulomb o de gravitación newtoniana, <span class="math-text"><i>n</i> = −3</span> (<span class="math-text"><b>F</b> = <span class="math-fraction"><span><b>r</b></span><span><i>r</i>³</span></span></span>). La divergencia resulta:<br>
+        <span class="math-text">∇ · ( <span class="math-fraction"><span><b>r</b></span><span><i>r</i>³</span></span> ) = (−3 + 3) <i>r</i><sup>−3</sup> = 0 &nbsp;&nbsp;(∀ <i>r</i> > 0)</span>.<br>
+        En todo punto fuera del origen puntual, el campo newtoniano es estrictamente solenoidal.</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #667ef8; background: linear-gradient(145deg, #f9faff, #f1f4ff);">
+          <div class="lesson-definition-title"><strong>Diagnóstico de divergencia en la Calculadora de MathVerse</strong></div>
+          <p>En el módulo de Análisis Vectorial de la Calculadora, el sistema clasifica de forma automática si el campo es solenoidal global o si presenta carácter puntual de fuente o sumidero en las coordenadas <span class="math-text"><i>P</i>₀(<i>x</i>₀, <i>y</i>₀, <i>z</i>₀)</span>.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/matematica/#analisis-vectorial">Probar diagnóstico de divergencia en la Calculadora ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-2/">← Tema 02: Operadores diferenciales</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 03 de 06</span>
+        <a class="study-button study-button-primary" href="../tema-4/">Siguiente: Rotacional →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

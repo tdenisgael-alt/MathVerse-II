@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 2: Operadores diferenciales vectoriales, el operador Nabla, Laplaciano e identidades diferenciales de segundo orden. Unidad 3 de Matemática II.">
+  <title>Tema 02 · Operadores diferenciales | Unidad 03 · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../#contenido-academico">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Unidad 03 · Análisis vectorial</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 02 · Operadores diferenciales y campos</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 02 · Análisis Vectorial</span>
+        <p class="lesson-lead">En el cálculo multivariable avanzado, los operadores diferenciales sintetizan las tasas de variación espacial en una notación algebraica unificada de extraordinaria potencia. El operador formal Nabla (∇) actúa como el núcleo unificador entre campos escalares y vectoriales, generando el gradiente, la divergencia y el rotacional. Asimismo, su composición produce el operador Laplaciano (∇²), eje central de la teoría de funciones armónicas, la transmisión de calor, la electrostática y la mecánica cuántica.</p>
+
+        <h1 class="lesson-page-title">Operadores diferenciales y campos escalares y vectoriales</h1>
+
+        <p><em>Material complementario estructurado según los estándares de Cálculo Multivariable y Análisis Vectorial universitario (referencias: James Stewart, Marsden & Tromba, Thomas).</em></p>
+
+        <h2 class="lesson-section-title">El operador formal Nabla (∇)</h2>
+        <p>En el espacio euclidiano tridimensional <span class="math-text">ℝ³</span> con base ortonormal estándar <span class="math-text">{<b>i</b>, <b>j</b>, <b>k</b>}</span>, se define el operador diferencial vectorial <strong>Nabla</strong> (denotado por el símbolo <span class="math-text">∇</span> o <em>del</em>) como un vector simbólico cuyos componentes son los operadores de derivación parcial:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Definición: Operador diferencial Nabla</strong></div>
+          <p><span class="math-text">∇ = <b>i</b> <span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span> + <b>j</b> <span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span> + <b>k</b> <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span> = ⟨ <span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span>, &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span>, &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span> ⟩</span></p>
+          <p>Nabla no es un vector de cantidades numéricas, sino un <strong>operador diferencial</strong>. Al aplicarse sobre entidades matemáticas de distintos rangos tensoriales, produce tres operaciones fundamentales:</p>
+          <p>1. <strong>Gradiente de un campo escalar:</strong> <span class="math-text">∇<i>f</i> = ⟨ <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span>, <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span>, <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> ⟩</span> (transforma un campo escalar en un campo vectorial).<br>
+          2. <strong>Divergencia de un campo vectorial:</strong> <span class="math-text">∇ · <b>F</b> = <span class="math-fraction"><span>∂<i>P</i></span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂<i>Q</i></span><span>∂<i>y</i></span></span> + <span class="math-fraction"><span>∂<i>R</i></span><span>∂<i>z</i></span></span></span> (producto escalar formal; transforma un campo vectorial en un campo escalar).<br>
+          3. <strong>Rotacional de un campo vectorial:</strong> <span class="math-text">∇ × <b>F</b></span> (producto vectorial formal; transforma un campo vectorial en otro campo vectorial).</p>
+        </div>
+
+        <h2 class="lesson-section-title">El operador Laplaciano (Δ = ∇²) y funciones armónicas</h2>
+        <p>Al aplicar el operador divergencia sobre el campo gradiente de una función escalar <span class="math-text"><i>f</i></span> dos veces diferenciable (<span class="math-text"><i>f</i> ∈ <i>C</i>²</span>), se obtiene el <strong>operador Laplaciano</strong> (denotado por <span class="math-text">∇²</span> o <span class="math-text">Δ</span>):</p>
+        <p><span class="math-text">∇² <i>f</i> = ∇ · (∇<i>f</i>) = <span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> ) + <span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span> ) + <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> ) = <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>x</i>²</span></span> + <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>y</i>²</span></span> + <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>z</i>²</span></span></span>.</p>
+        <p>• <strong>Ecuación de Laplace y funciones armónicas:</strong><br>
+        Una función escalar <span class="math-text"><i>f</i></span> que satisface la ecuación diferencial en derivadas parciales:<br>
+        <span class="math-text">∇² <i>f</i> = 0</span><br>
+        se denomina <strong>función armónica</strong>. Las funciones armónicas gozan de la propiedad del valor medio y del principio del máximo, describiendo distribuciones estacionarias de temperatura, potenciales electrostáticos en regiones libres de carga y flujos potenciales incompresibles.</p>
+
+        <h2 class="lesson-section-title">Identidades vectoriales de segundo orden fundamentales</h2>
+        <p>Entre las identidades diferenciales más relevantes destacan:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Teorema: Identidades diferenciales de segundo orden</strong></div>
+          <p>Para todo campo escalar <span class="math-text"><i>f</i></span> y campo vectorial <span class="math-text"><b>F</b></span> con derivadas parciales continuas de segundo orden en su dominio:</p>
+          <p>1. <strong>El rotacional de un campo gradiente es idénticamente nulo:</strong><br>
+          <span class="math-text">∇ × (∇<i>f</i>) = <b>0</b></span>.<br>
+          <em>Consecuencia física:</em> Todo campo de fuerzas conservativo carece de rotación microscópica (es irrotacional).</p>
+          <p>2. <strong>La divergencia del rotacional de cualquier campo vectorial es nula:</strong><br>
+          <span class="math-text">∇ · (∇ × <b>F</b>) = 0</span>.<br>
+          <em>Consecuencia física:</em> En electromagnetismo, como el campo magnético deriva de un potencial vector (<span class="math-text"><b>B</b> = ∇ × <b>A</b></span>), se deduce la ley de Gauss magnética: <span class="math-text">∇ · <b>B</b> = 0</span> (inexistencia de monopolos magnéticos aislados).</p>
+          <p>3. <strong>Reglas del producto diferencial:</strong><br>
+          - <span class="math-text">∇ · (<i>f</i> <b>F</b>) = <i>f</i> (∇ · <b>F</b>) + (∇<i>f</i>) · <b>F</b></span>.<br>
+          - <span class="math-text">∇ × (<i>f</i> <b>F</b>) = <i>f</i> (∇ × <b>F</b>) + (∇<i>f</i>) × <b>F</b></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Demostración analítica rigurosa: ∇ × (∇f) = 0</h2>
+        <p>Sea <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>)</span> de clase <span class="math-text"><i>C</i>²</span>. El gradiente es <span class="math-text">∇<i>f</i> = ⟨ <i>f<sub>x</sub></i>, <i>f<sub>y</sub></i>, <i>f<sub>z</sub></i> ⟩</span>.<br>
+        Calculamos su rotacional mediante el determinante mnemotécnico formal:<br>
+        <span class="math-text">∇ × (∇<i>f</i>) = | <b>i</b> &nbsp; <b>j</b> &nbsp; <b>k</b> ; &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span> &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span> &nbsp; <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span> ; &nbsp; <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> &nbsp; <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span> &nbsp; <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> |</span>.<br>
+        Desarrollando por cofactores en la primera fila:<br>
+        - Componente <span class="math-text"><b>i</b></span>: <span class="math-text"><span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> ) − <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span> ) = <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>y</i>∂<i>z</i></span></span> − <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>z</i>∂<i>y</i></span></span></span>.<br>
+        - Componente <span class="math-text"><b>j</b></span>: <span class="math-text">−[ <span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> ) − <span class="math-fraction"><span>∂</span><span>∂<i>z</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> ) ] = <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>z</i>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>x</i>∂<i>z</i></span></span></span>.<br>
+        - Componente <span class="math-text"><b>k</b></span>: <span class="math-text"><span class="math-fraction"><span>∂</span><span>∂<i>x</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span> ) − <span class="math-fraction"><span>∂</span><span>∂<i>y</i></span></span>( <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> ) = <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>x</i>∂<i>y</i></span></span> − <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>y</i>∂<i>x</i></span></span></span>.<br>
+        Por el <strong>Teorema de Schwarz/Clairaut</strong> de igualdad de derivadas parciales mixtas para funciones <span class="math-text"><i>C</i>²</span>, cada uno de estos paréntesis es exactamente cero:<br>
+        <span class="math-text">∇ × (∇<i>f</i>) = 0 <b>i</b> + 0 <b>j</b> + 0 <b>k</b> = <b>0</b></span>.<br>
+        Queda formalmente demostrado.</p>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1: Verificación de función armónica para el potencial newtoniano</strong><br>
+        Demostrar que el potencial radial <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <span class="math-fraction"><span>1</span><span><i>r</i></span></span> = <span class="math-fraction"><span>1</span><span>√<span class="math-radical"><i>x</i>² + <i>y</i>² + <i>z</i>²</span></span></span></span> es armónico para todo punto fuera del origen (<span class="math-text"><i>r</i> > 0</span>).<br>
+        • <em>Solución paso a paso:</em><br>
+        1) Derivadas de primer orden respecto a <span class="math-text"><i>x</i></span>:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> = −<span class="math-fraction"><span>1</span><span><i>r</i>²</span></span> <span class="math-fraction"><span>∂<i>r</i></span><span>∂<i>x</i></span></span> = −<span class="math-fraction"><span><i>x</i></span><span><i>r</i>³</span></span></span> (recordando que <span class="math-text"><span class="math-fraction"><span>∂<i>r</i></span><span>∂<i>x</i></span></span> = <span class="math-fraction"><span><i>x</i></span><span><i>r</i></span></span></span>).<br>
+        2) Derivadas de segundo orden respecto a <span class="math-text"><i>x</i></span> por la regla del cociente:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>x</i>²</span></span> = −<span class="math-fraction"><span>(1)(<i>r</i>³) − <i>x</i> (3<i>r</i>² <span class="math-fraction"><span><i>x</i></span><span><i>r</i></span></span>)</span><span><i>r</i>⁶</span></span> = −<span class="math-fraction"><span><i>r</i>³ − 3<i>x</i>² <i>r</i></span><span><i>r</i>⁶</span></span> = −<span class="math-fraction"><span><i>r</i>² − 3<i>x</i>²</span><span><i>r</i>⁵</span></span> = <span class="math-fraction"><span>3<i>x</i>² − <i>r</i>²</span><span><i>r</i>⁵</span></span></span>.<br>
+        3) Por simetría radial en <span class="math-text"><i>y</i></span> y <span class="math-text"><i>z</i></span>:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>y</i>²</span></span> = <span class="math-fraction"><span>3<i>y</i>² − <i>r</i>²</span><span><i>r</i>⁵</span></span>, &nbsp;&nbsp; <span class="math-fraction"><span>∂²<i>f</i></span><span>∂<i>z</i>²</span></span> = <span class="math-fraction"><span>3<i>z</i>² − <i>r</i>²</span><span><i>r</i>⁵</span></span></span>.<br>
+        4) Sumando los tres términos para obtener el Laplaciano:<br>
+        <span class="math-text">∇² <i>f</i> = <span class="math-fraction"><span>(3<i>x</i>² − <i>r</i>²) + (3<i>y</i>² − <i>r</i>²) + (3<i>z</i>² − <i>r</i>²)</span><span><i>r</i>⁵</span></span> = <span class="math-fraction"><span>3(<i>x</i>² + <i>y</i>² + <i>z</i>²) − 3<i>r</i>²</span><span><i>r</i>⁵</span></span> = <span class="math-fraction"><span>3<i>r</i>² − 3<i>r</i>²</span><span><i>r</i>⁵</span></span> = 0</span>.<br>
+        Por consiguiente, <span class="math-text">∇² ( <span class="math-fraction"><span>1</span><span><i>r</i></span></span> ) = 0</span> para todo <span class="math-text"><i>r</i> > 0</span>.</p>
+
+        <p><strong>Ejemplo 2: Comprobación de ∇ · (∇ × F) = 0 sobre un campo vectorial</strong><br>
+        Sea <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ <i>x</i>² <i>y</i>, &nbsp; <i>y</i>² <i>z</i>, &nbsp; <i>z</i>² <i>x</i> ⟩</span>. Calcular explícitamente <span class="math-text">∇ × <b>F</b></span> y luego su divergencia.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) <strong>Cálculo de componentes del rotacional:</strong><br>
+        - Componente <span class="math-text"><i>x</i></span>: <span class="math-text"><span class="math-fraction"><span>∂(<i>z</i>²<i>x</i>)</span><span>∂<i>y</i></span></span> − <span class="math-fraction"><span>∂(<i>y</i>²<i>z</i>)</span><span>∂<i>z</i></span></span> = 0 − <i>y</i>² = −<i>y</i>²</span>.<br>
+        - Componente <span class="math-text"><i>y</i></span>: <span class="math-text"><span class="math-fraction"><span>∂(<i>x</i>²<i>y</i>)</span><span>∂<i>z</i></span></span> − <span class="math-fraction"><span>∂(<i>z</i>²<i>x</i>)</span><span>∂<i>x</i></span></span> = 0 − <i>z</i>² = −<i>z</i>²</span>.<br>
+        - Componente <span class="math-text"><i>z</i></span>: <span class="math-text"><span class="math-fraction"><span>∂(<i>y</i>²<i>z</i>)</span><span>∂<i>x</i></span></span> − <span class="math-fraction"><span>∂(<i>x</i>²<i>y</i>)</span><span>∂<i>y</i></span></span> = 0 − <i>x</i>² = −<i>x</i>²</span>.<br>
+        Por tanto: <span class="math-text">∇ × <b>F</b> = ⟨ −<i>y</i>², −<i>z</i>², −<i>x</i>² ⟩</span>.<br>
+        2) <strong>Cálculo de la divergencia del resultado:</strong><br>
+        <span class="math-text">∇ · (∇ × <b>F</b>) = <span class="math-fraction"><span>∂(−<i>y</i>²)</span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂(−<i>z</i>²)</span><span>∂<i>y</i></span></span> + <span class="math-fraction"><span>∂(−<i>x</i>²)</span><span>∂<i>z</i></span></span> = 0 + 0 + 0 = 0</span>.<br>
+        La identidad se verifica de manera idéntica.</p>
+
+        <h2 class="lesson-section-title">Ejercicios de práctica resueltos</h2>
+
+        <p><strong>Ejercicio 1: Función armónica bidimensional</strong><br>
+        Demostrar que la función <span class="math-text"><i>u</i>(<i>x</i>, <i>y</i>) = <i>e</i><sup><i>x</i></sup> cos <i>y</i></span> es armónica en todo el plano <span class="math-text">ℝ²</span>.<br>
+        • <em>Solución explicada:</em><br>
+        1) Derivadas parciales en <span class="math-text"><i>x</i></span>: <span class="math-text"><i>u<sub>x</sub></i> = <i>e</i><sup><i>x</i></sup> cos <i>y</i> ⇒ <i>u<sub>xx</sub></i> = <i>e</i><sup><i>x</i></sup> cos <i>y</i></span>.<br>
+        2) Derivadas parciales en <span class="math-text"><i>y</i></span>: <span class="math-text"><i>u<sub>y</sub></i> = −<i>e</i><sup><i>x</i></sup> sen <i>y</i> ⇒ <i>u<sub>yy</sub></i> = −<i>e</i><sup><i>x</i></sup> cos <i>y</i></span>.<br>
+        3) Laplaciano: <span class="math-text">∇² <i>u</i> = <i>u<sub>xx</sub></i> + <i>u<sub>yy</sub></i> = <i>e</i><sup><i>x</i></sup> cos <i>y</i> + (−<i>e</i><sup><i>x</i></sup> cos <i>y</i>) = 0</span>.<br>
+        La función cumple la ecuación de Laplace en todo <span class="math-text">ℝ²</span>.</p>
+
+        <p><strong>Ejercicio 2: Regla del producto para la divergencia</strong><br>
+        Calcular <span class="math-text">∇ · (<i>f</i> <b>F</b>)</span> para <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>x y</i></span> y <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ <i>y</i>, <i>z</i>, <i>x</i> ⟩</span>.<br>
+        • <em>Solución explicada:</em><br>
+        1) Campo producto: <span class="math-text"><i>f</i> <b>F</b> = ⟨ <i>x y</i>², <i>x y z</i>, <i>x</i>² <i>y</i> ⟩</span>.<br>
+        2) Divergencia directa:<br>
+        <span class="math-text">∇ · (<i>f</i> <b>F</b>) = <span class="math-fraction"><span>∂(<i>x y</i>²)</span><span>∂<i>x</i></span></span> + <span class="math-fraction"><span>∂(<i>x y z</i>)</span><span>∂<i>y</i></span></span> + <span class="math-fraction"><span>∂(<i>x</i>² <i>y</i>)</span><span>∂<i>z</i></span></span> = <i>y</i>² + <i>x z</i> + 0 = <i>y</i>² + <i>x z</i></span>.<br>
+        3) Verificación mediante la regla de la identidad: <span class="math-text">∇·<b>F</b> = 0 + 0 + 0 = 0</span>, <span class="math-text">∇<i>f</i> = ⟨ <i>y</i>, <i>x</i>, 0 ⟩</span>.<br>
+        <span class="math-text">(∇<i>f</i>) · <b>F</b> = ⟨ <i>y</i>, <i>x</i>, 0 ⟩ · ⟨ <i>y</i>, <i>z</i>, <i>x</i> ⟩ = <i>y</i>² + <i>x z</i> + 0 = <i>y</i>² + <i>x z</i></span>.<br>
+        Ambos métodos arrojan el mismo resultado exacto.</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #667ef8; background: linear-gradient(145deg, #f9faff, #f1f4ff);">
+          <div class="lesson-definition-title"><strong>Cálculo simbólico en la Calculadora de MathVerse</strong></div>
+          <p>En la Calculadora de Análisis Vectorial puedes ingresar cualquier campo tridimensional <span class="math-text">⟨ <i>P</i>, <i>Q</i>, <i>R</i> ⟩</span> para derivar automáticamente su divergencia y rotacional paso a paso con verificación simbólica.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/matematica/#analisis-vectorial">Calcular operadores diferenciales en la Calculadora ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-1/">← Tema 01: Campos vectoriales</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 02 de 06</span>
+        <a class="study-button study-button-primary" href="../tema-3/">Siguiente: Divergencia →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

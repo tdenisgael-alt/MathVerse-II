@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 1: Campos vectoriales y su representación geométrica en dos y tres dimensiones. Unidad 3 de Matemática II.">
+  <title>Tema 01 · Campos vectoriales | Unidad 03 · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../#contenido-academico">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Unidad 03 · Análisis vectorial</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 01 · Campos vectoriales y representación geométrica</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 01 · Análisis Vectorial</span>
+        <p class="lesson-lead">Un campo vectorial es una asignación analítica y geométrica en la que a cada punto de un dominio espacial se le asocia un vector. Mientras que un campo escalar cuantifica una magnitud numérica pura en cada ubicación (como la temperatura o la densidad), un campo vectorial describe simultáneamente una intensidad y una orientación espacial precisa. Esta estructura matemática constituye el lenguaje fundamental de la hidrodinámica, el electromagnetismo, la aerodinámica y la gravitación newtoniana.</p>
+
+        <h1 class="lesson-page-title">Campos vectoriales y representación geométrica</h1>
+
+        <p><em>Material complementario estructurado según los estándares de Cálculo Multivariable y Análisis Vectorial universitario (referencias: James Stewart, Marsden & Tromba, Thomas).</em></p>
+
+        <h2 class="lesson-section-title">Definición formal de campo vectorial</h2>
+        <p>Sea <span class="math-text"><i>D</i></span> un subconjunto de <span class="math-text">ℝ²</span> (plano) o de <span class="math-text">ℝ³</span> (espacio tridimensional):</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Definición formal: Campo vectorial en ℝ² y ℝ³</strong></div>
+          <p>1. Un <strong>campo vectorial en el plano</strong> es una función <span class="math-text"><b>F</b>: <i>D</i> ⊂ ℝ² → ℝ²</span> que asigna a cada par ordenado <span class="math-text">(<i>x</i>, <i>y</i>) ∈ <i>D</i></span> un vector bidimensional:<br>
+          <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = <i>P</i>(<i>x</i>, <i>y</i>) <b>i</b> + <i>Q</i>(<i>x</i>, <i>y</i>) <b>j</b> = ⟨ <i>P</i>(<i>x</i>, <i>y</i>), &nbsp; <i>Q</i>(<i>x</i>, <i>y</i>) ⟩</span></p>
+          <p>2. Un <strong>campo vectorial en el espacio</strong> es una función <span class="math-text"><b>F</b>: <i>D</i> ⊂ ℝ³ → ℝ³</span> que asigna a cada terna <span class="math-text">(<i>x</i>, <i>y</i>, <i>z</i>) ∈ <i>D</i></span> un vector tridimensional:<br>
+          <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>P</i>(<i>x</i>, <i>y</i>, <i>z</i>) <b>i</b> + <i>Q</i>(<i>x</i>, <i>y</i>, <i>z</i>) <b>j</b> + <i>R</i>(<i>x</i>, <i>y</i>, <i>z</i>) <b>k</b> = ⟨ <i>P</i>, &nbsp; <i>Q</i>, &nbsp; <i>R</i> ⟩</span></p>
+          <p>Las funciones escalares <span class="math-text"><i>P</i>, <i>Q</i>, <i>R</i>: <i>D</i> → ℝ</span> se denominan <strong>funciones componentes</strong> del campo. El campo vectorial es continuo o diferenciable si y solo si todas sus funciones componentes son continuas o diferenciables en <span class="math-text"><i>D</i></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Representación geométrica y líneas de flujo</h2>
+        <p>Para visualizar un campo vectorial, se trazan flechas ancladas directamente en los puntos del plano o del espacio cartesiano. La flecha anclada en <span class="math-text">(<i>x</i>, <i>y</i>)</span> tiene su origen en ese punto, apunta en la dirección de <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>)</span> y su longitud es proporcional a la norma o módulo <span class="math-text">‖<b>F</b>(<i>x</i>, <i>y</i>)‖ = √<span class="math-radical"><i>P</i>² + <i>Q</i>²</span></span>.</p>
+        <p>• <strong>Líneas de flujo o de corriente (Streamlines):</strong><br>
+        Son trayectorias curvas parametrizadas <span class="math-text"><b>r</b>(<i>t</i>) = ⟨ <i>x</i>(<i>t</i>), <i>y</i>(<i>t</i>) ⟩</span> cuya tangente en cada punto es paralela al campo vectorial:<br>
+        <span class="math-text"><span class="math-fraction"><span><i>d</i><b>r</b></span><span><i>dt</i></span></span> = <b>F</b>(<b>r</b>(<i>t</i>)) ⇒ <span class="math-fraction"><span><i>dx</i></span><span><i>dt</i></span></span> = <i>P</i>(<i>x</i>, <i>y</i>), &nbsp;&nbsp; <span class="math-fraction"><span><i>dy</i></span><span><i>dt</i></span></span> = <i>Q</i>(<i>x</i>, <i>y</i>)</span>.<br>
+        Eliminando el parámetro temporal <span class="math-text"><i>t</i></span>, se obtiene la ecuación diferencial cartesiana de las líneas de corriente:<br>
+        <span class="math-text"><span class="math-fraction"><span><i>dy</i></span><span><i>dx</i></span></span> = <span class="math-fraction"><span><i>Q</i>(<i>x</i>, <i>y</i>)</span><span><i>P</i>(<i>x</i>, <i>y</i>)</span></span> &nbsp;&nbsp;ó&nbsp;&nbsp; <i>Q</i>(<i>x</i>, <i>y</i>) <i>dx</i> − <i>P</i>(<i>x</i>, <i>y</i>) <i>dy</i> = 0</span>.</p>
+
+        <h2 class="lesson-section-title">Familias fundamentales de campos vectoriales</h2>
+        <p>1. <strong>Campos radiales de posición y dilatación:</strong><br>
+        <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ <i>x</i>, <i>y</i> ⟩</span> o en 3D <span class="math-text"><b>F</b>(<b>r</b>) = <b>r</b></span>. Todos los vectores apuntan hacia afuera en dirección radial alejándose del origen. Su magnitud <span class="math-text">‖<b>F</b>‖ = <i>r</i></span> crece linealmente con la distancia.</p>
+        <p>2. <strong>Campos de rotación pura (vórtices circulares):</strong><br>
+        <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ −<i>y</i>, <i>x</i> ⟩</span>. Nótese que <span class="math-text"><b>F</b> · <b>r</b> = (−<i>y</i>)(<i>x</i>) + (<i>x</i>)(<i>y</i>) = 0</span>. El campo es estrictamente ortogonal al vector de posición en todo punto; por consiguiente, las partículas describen trayectorias circulares concéntricas en sentido antihorario con velocidad angular constante.</p>
+        <p>3. <strong>Campos de gradiente (campos conservativos):</strong><br>
+        Dada una función escalar diferenciable <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>)</span>, el campo vectorial gradiente <span class="math-text"><b>F</b> = ∇<i>f</i> = ⟨ <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span>, <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span>, <span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> ⟩</span> apunta siempre en la dirección de máximo crecimiento de <span class="math-text"><i>f</i></span> y es perpendicular en todo punto regular a las curvas o superficies de nivel de <span class="math-text"><i>f</i></span>.</p>
+        <p>4. <strong>Campos centrales del inverso del cuadrado:</strong><br>
+        <span class="math-text"><b>F</b>(<b>r</b>) = −<span class="math-fraction"><span><i>k</i></span><span>‖<b>r</b>‖³</span></span> <b>r</b> = −<span class="math-fraction"><span><i>k</i></span><span>(<i>x</i>² + <i>y</i>² + <i>z</i>²)<sup>3/2</sup></span></span> ⟨ <i>x</i>, <i>y</i>, <i>z</i> ⟩</span>, característicos de la ley de atracción gravitatoria de Newton y de la ley de Coulomb para cargas eléctricas.</p>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1: Análisis geométrico y líneas de flujo del campo de rotación</strong><br>
+        Sea el campo vectorial <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ −<i>y</i>, <i>x</i> ⟩</span>.<br>
+        • <em>Solución analítica explicada:</em><br>
+        1) <strong>Evaluación en puntos muestra del plano:</strong><br>
+        - En <span class="math-text">(1, 0)</span>: <span class="math-text"><b>F</b>(1, 0) = ⟨ 0, 1 ⟩</span> (vector vertical hacia arriba, longitud 1).<br>
+        - En <span class="math-text">(0, 1)</span>: <span class="math-text"><b>F</b>(0, 1) = ⟨ −1, 0 ⟩</span> (vector horizontal hacia la izquierda, longitud 1).<br>
+        - En <span class="math-text">(−1, 0)</span>: <span class="math-text"><b>F</b>(−1, 0) = ⟨ 0, −1 ⟩</span> (vector vertical hacia abajo, longitud 1).<br>
+        - En <span class="math-text">(0, −1)</span>: <span class="math-text"><b>F</b>(0, −1) = ⟨ 1, 0 ⟩</span> (vector horizontal hacia la derecha, longitud 1).<br>
+        - En <span class="math-text">(2, 2)</span>: <span class="math-text"><b>F</b>(2, 2) = ⟨ −2, 2 ⟩</span>, de magnitud <span class="math-text">√<span class="math-radical">(−2)² + 2²</span> = √<span class="math-radical">8</span> = 2√<span class="math-radical">2</span></span>.<br>
+        2) <strong>Determinación analítica de las líneas de corriente:</strong><br>
+        Planteamos la ecuación diferencial de las líneas de flujo:<br>
+        <span class="math-text"><span class="math-fraction"><span><i>dy</i></span><span><i>dx</i></span></span> = <span class="math-fraction"><span><i>Q</i></span><span><i>P</i></span></span> = <span class="math-fraction"><span><i>x</i></span><span>−<i>y</i></span></span> ⇒ −<i>y</i> <i>dy</i> = <i>x</i> <i>dx</i> ⇒ <i>x</i> <i>dx</i> + <i>y</i> <i>dy</i> = 0</span>.<br>
+        Integrando en ambos miembros:<br>
+        <span class="math-text">∫ <i>x</i> <i>dx</i> + ∫ <i>y</i> <i>dy</i> = <i>C</i>₁ ⇒ <span class="math-fraction"><span><i>x</i>²</span><span>2</span></span> + <span class="math-fraction"><span><i>y</i>²</span><span>2</span></span> = <i>C</i>₁ ⇒ <i>x</i>² + <i>y</i>² = <i>C</i></span>.<br>
+        Las líneas de flujo son círculos concéntricos con centro en el origen, orientados en sentido antihorario.</p>
+
+        <p><strong>Ejemplo 2: Campo gravitatorio tridimensional newtoniano</strong><br>
+        Demostrar que el campo gravitatorio <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>) = −<span class="math-fraction"><span><i>G M m</i></span><span>(<i>x</i>² + <i>y</i>² + <i>z</i>²)<sup>3/2</sup></span></span> ⟨ <i>x</i>, <i>y</i>, <i>z</i> ⟩</span> es un campo gradiente generado por el potencial gravitatorio <span class="math-text"><i>U</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <span class="math-fraction"><span><i>G M m</i></span><span>√<span class="math-radical"><i>x</i>² + <i>y</i>² + <i>z</i>²</span></span></span></span>.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) Sea <span class="math-text"><i>r</i> = √<span class="math-radical"><i>x</i>² + <i>y</i>² + <i>z</i>²</span></span>, de modo que <span class="math-text"><i>U</i> = <span class="math-fraction"><span><i>G M m</i></span><span><i>r</i></span></span></span>.<br>
+        2) Derivando respecto a <span class="math-text"><i>x</i></span> mediante la regla de la cadena:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>r</i></span><span>∂<i>x</i></span></span> = <span class="math-fraction"><span>2<i>x</i></span><span>2√<span class="math-radical"><i>x</i>² + <i>y</i>² + <i>z</i>²</span></span></span> = <span class="math-fraction"><span><i>x</i></span><span><i>r</i></span></span></span>.<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>U</i></span><span>∂<i>x</i></span></span> = <i>G M m</i> ( −<span class="math-fraction"><span>1</span><span><i>r</i>²</span></span> ) <span class="math-fraction"><span>∂<i>r</i></span><span>∂<i>x</i></span></span> = −<span class="math-fraction"><span><i>G M m</i> <i>x</i></span><span><i>r</i>³</span></span></span>.<br>
+        3) Por simetría en <span class="math-text"><i>y</i></span> y <span class="math-text"><i>z</i></span>:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>U</i></span><span>∂<i>y</i></span></span> = −<span class="math-fraction"><span><i>G M m</i> <i>y</i></span><span><i>r</i>³</span></span>, &nbsp;&nbsp; <span class="math-fraction"><span>∂<i>U</i></span><span>∂<i>z</i></span></span> = −<span class="math-fraction"><span><i>G M m</i> <i>z</i></span><span><i>r</i>³</span></span></span>.<br>
+        4) Agrupando en el vector gradiente:<br>
+        <span class="math-text">∇<i>U</i> = ⟨ <span class="math-fraction"><span>∂<i>U</i></span><span>∂<i>x</i></span></span>, <span class="math-fraction"><span>∂<i>U</i></span><span>∂<i>y</i></span></span>, <span class="math-fraction"><span>∂<i>U</i></span><span>∂<i>z</i></span></span> ⟩ = −<span class="math-fraction"><span><i>G M m</i></span><span><i>r</i>³</span></span> ⟨ <i>x</i>, <i>y</i>, <i>z</i> ⟩ = <b>F</b>(<i>x</i>, <i>y</i>, <i>z</i>)</span>.<br>
+        Queda comprobado que la fuerza gravitatoria es conservativa y derivable de un potencial escalar.</p>
+
+        <h2 class="lesson-section-title">Ejercicios de práctica resueltos</h2>
+
+        <p><strong>Ejercicio 1: Determinación de líneas de corriente hiperbólicas</strong><br>
+        Determinar la ecuación de las líneas de flujo del campo vectorial <span class="math-text"><b>F</b>(<i>x</i>, <i>y</i>) = ⟨ 2<i>x</i>, −<i>y</i> ⟩</span>.<br>
+        • <em>Solución explicada:</em><br>
+        1) Planteamos la ecuación diferencial de trayectoria:<br>
+        <span class="math-text"><span class="math-fraction"><span><i>dy</i></span><span><i>dx</i></span></span> = <span class="math-fraction"><span>−<i>y</i></span><span>2<i>x</i></span></span> ⇒ <span class="math-fraction"><span><i>dy</i></span><span><i>y</i></span></span> = −<span class="math-fraction"><span><i>dx</i></span><span>2<i>x</i></span></span></span>.<br>
+        2) Integrando ambos lados:<br>
+        <span class="math-text">ln |<i>y</i>| = −<span class="math-fraction"><span>1</span><span>2</span></span> ln |<i>x</i>| + <i>C</i>₁ = ln |<i>x</i>|<sup>−1/2</sup> + <i>C</i>₁</span>.<br>
+        3) Aplicando exponencial:<br>
+        <span class="math-text">|<i>y</i>| = <span class="math-fraction"><span><i>k</i></span><span>√<span class="math-radical">|<i>x</i>|</span></span></span> ⇒ <i>y</i>² |<i>x</i>| = <i>k</i>² ⇒ <i>y</i>² <i>x</i> = <i>C</i></span>.<br>
+        Las líneas de flujo son curvas de tercer grado con asíntotas en los ejes coordenados.</p>
+
+        <p><strong>Ejercicio 2: Campo gradiente y evaluación puntual</strong><br>
+        Dado el potencial escalar <span class="math-text"><i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = <i>x</i>² <i>y</i> − <i>z</i>³</span>, hallar su campo gradiente <span class="math-text"><b>F</b> = ∇<i>f</i></span>, evaluarlo en el punto <span class="math-text"><i>P</i>₀(2, −1, 1)</span> y calcular su magnitud.<br>
+        • <em>Solución explicada:</em><br>
+        1) Derivadas parciales:<br>
+        <span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>x</i></span></span> = 2<i>x y</i></span>, &nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>y</i></span></span> = <i>x</i>²</span>, &nbsp;<span class="math-text"><span class="math-fraction"><span>∂<i>f</i></span><span>∂<i>z</i></span></span> = −3<i>z</i>²</span>.<br>
+        2) Vector gradiente general: <span class="math-text">∇<i>f</i>(<i>x</i>, <i>y</i>, <i>z</i>) = ⟨ 2<i>x y</i>, &nbsp; <i>x</i>², &nbsp; −3<i>z</i>² ⟩</span>.<br>
+        3) Evaluación en <span class="math-text">(2, −1, 1)</span>:<br>
+        <span class="math-text">∇<i>f</i>(2, −1, 1) = ⟨ 2(2)(−1), &nbsp; 2², &nbsp; −3(1)² ⟩ = ⟨ −4, &nbsp; 4, &nbsp; −3 ⟩</span>.<br>
+        4) Módulo o norma euclídea:<br>
+        <span class="math-text">‖∇<i>f</i>(2, −1, 1)‖ = √<span class="math-radical">(−4)² + 4² + (−3)²</span> = √<span class="math-radical">16 + 16 + 9</span> = √<span class="math-radical">41</span> ≈ 6.4031</span>.</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #667ef8; background: linear-gradient(145deg, #f9faff, #f1f4ff);">
+          <div class="lesson-definition-title"><strong>Experimentación interactiva en la Calculadora</strong></div>
+          <p>Puedes verificar visualmente la malla de muestreo y las flechas vectoriales 3D en cualquier punto de evaluación abriendo el módulo de <strong>Análisis Vectorial</strong> de la Calculadora de Matemática II.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/matematica/#analisis-vectorial">Visualizar campos en 3D en la Calculadora ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../">← Índice de la Unidad 3</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 01 de 06</span>
+        <a class="study-button study-button-primary" href="../tema-2/">Siguiente: Operadores diferenciales →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

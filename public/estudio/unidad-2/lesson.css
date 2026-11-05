@@ -1,0 +1,31 @@
+@import url("../unidad-1/lesson.css");
+
+#unit2-index .unit2-index-panel { max-width: none; margin-inline: auto; }
+#unit2-index .unit-index-back { margin-top: 16px; text-decoration: none; }
+#unit2-index .unit2-index-topics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#unit2-index .academic-index-description { margin: 6px 0 10px; color: #60687d; font-size: 12px; line-height: 1.5; }
+#unit2-index .academic-link:focus-visible { outline: 3px solid #30b9d1; outline-offset: 3px; }
+@media (max-width: 1050px) {
+  #unit2-index .unit2-index-topics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  #unit2-index .unit2-index-topics { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}
+#lesson-page .lesson-content p.lesson-lead { margin-bottom: 22px; color: #626c84; font-size: clamp(15px, 1.18vw, 17px); line-height: 1.8; }
+html[data-theme="dark"] #lesson-page .lesson-content p.lesson-lead { color: #dce2f0; }
+
+html[data-theme="dark"] #unit2-index .academic-index-description { color: #c4cbe0; }
+@media (prefers-reduced-motion: reduce) {
+  #unit2-index .academic-link {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "mathverse-ii",
+  "version": "2.0.0",
+  "private": true,
+  "description": "MathVerse II - Plataforma Educativa de Matemática II y Física",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./public/calculadora/matematica/css/tailwind.min.css --minify",
+    "build": "npm run build:css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

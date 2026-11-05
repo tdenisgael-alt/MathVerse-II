@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 4: Caída libre y lanzamiento vertical. Aceleración de la gravedad (9.8 y 10 m/s²), convenio riguroso de signos, altura máxima, tiempo de vuelo y ejemplos resueltos.">
+  <title>Tema 04 · Caída libre y lanzamiento vertical | Física · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../calculadora/fisica/" style="color:#2dd4bf;font-weight:600">Calculadora Física</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Física · Cinemática</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 04 · Caída libre</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 04 · Ciencias Físicas</span>
+        <p class="lesson-lead">La caída libre y el lanzamiento vertical representan la aplicación natural directa del MRUV en la dimensión vertical terrestre. En el modelo ideal de la física clásica se desprecia la fricción aerodinámica con el aire, de manera que todos los cuerpos, sin importar su masa, densidad o silueta, caen hacia el suelo con la misma aceleración constante originada por el campo gravitatorio de la Tierra.</p>
+
+        <h1 class="lesson-page-title">Caída libre y lanzamiento vertical</h1>
+
+        <p><em>Material estructurado en base a las guías académicas oficiales «Resumen de Física» y «Guía de Física · Cinemática».</em></p>
+
+        <h2 class="lesson-section-title">1. ¿Qué es la caída libre y la aceleración de la gravedad?</h2>
+        <p>Se denomina <strong>caída libre</strong> al movimiento vertical que experimenta un objeto cuando la única influencia física que actúa sobre él es la fuerza de atracción gravitatoria. En el lenguaje formal de la cinemática, este concepto abarca tanto objetos que caen desde el reposo como aquellos proyectados verticalmente hacia arriba o hacia abajo.</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>La constante de aceleración de la gravedad (<i>g</i>)</strong></div>
+          <p>Cerca de la superficie terrestre, la aceleración gravitatoria se mantiene aproximadamente uniforme en magnitud:<br>
+          • <strong>Valor científico estándar:</strong> <span class="math-text"><i>g</i> ≈ 9.8 m/s²</span> (o <span class="math-text">9.81 m/s²</span>).<br>
+          • <strong>Valor didáctico simplificado:</strong> En muchos ejercicios de bachillerato e ingeniería inicial se utiliza <span class="math-text"><i>g</i> = 10 m/s²</span> para agilizar el cálculo aritmético sin perder rigor físico.<br>
+          • <strong>Independencia de la masa:</strong> Como demostró Galileo Galilei frente a la concepción aristotélica, en el vacío una pluma y una bola de plomo caen exactamente con el mismo tiempo y aceleración.</p>
+        </div>
+
+        <h2 class="lesson-section-title">2. Explicación rigurosa de los convenios de signos</h2>
+        <p>El signo de la gravedad no es intrínseco a la naturaleza, sino una consecuencia matemática del sentido elegido para el eje vertical coordenado:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Convenio vectorial estándar (Hacia arriba = Positivo +)</strong></div>
+          <p>Es la convención unificada universal para evitar contradicciones en problemas con subida y bajada combinadas:<br>
+          1. <strong>Aceleración:</strong> Dado que la gravedad atrae permanentemente hacia el centro de la Tierra (hacia abajo), la aceleración es negativa en todo momento:<br>
+          <span class="math-text"><i>a</i> = −<i>g</i> = −9.8 m/s²</span> (o <span class="math-text">−10 m/s²</span>).<br>
+          2. <strong>Velocidad ascendente:</strong> Si el cuerpo se mueve hacia arriba, <span class="math-text"><i>v</i> > 0</span>.<br>
+          3. <strong>Velocidad descendente:</strong> Si el cuerpo se mueve hacia abajo, <span class="math-text"><i>v</i> &lt; 0</span>.<br>
+          4. <strong>Ecuaciones vectoriales unificadas:</strong><br>
+          <span class="math-text"><i>v</i>(<i>t</i>) = <i>v</i>₀ − <i>g</i> · <i>t</i></span><br>
+          <span class="math-text"><i>y</i>(<i>t</i>) = <i>y</i>₀ + <i>v</i>₀ · <i>t</i> − <span class="math-fraction"><span>1</span><span>2</span></span> <i>g</i> · <i>t</i>²</span><br>
+          <span class="math-text"><i>v</i>² = <i>v</i>₀² − 2 <i>g</i> (<i>y</i> − <i>y</i>₀)</span></p>
+        </div>
+
+        <h2 class="lesson-section-title">3. Fórmulas especiales para caída desde el reposo</h2>
+        <p>Cuando un objeto simplemente se suelta desde cierta altura <span class="math-text"><i>h</i></span> (<span class="math-text"><i>v</i>₀ = 0 m/s</span>) y solo interesa la magnitud escalar del descenso, las ecuaciones adoptan una forma simplificada directa:</p>
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Caída desde el reposo</strong></div>
+          <p>• <strong>Altura recorrida:</strong> <span class="math-text"><i>h</i> = <span class="math-fraction"><span>1</span><span>2</span></span> <i>g</i> <i>t</i>²</span><br>
+          • <strong>Tiempo de caída hasta el suelo:</strong> <span class="math-text"><i>t</i> = √<span class="math-radical"><span class="math-fraction"><span>2<i>h</i></span><span><i>g</i></span></span></span></span><br>
+          • <strong>Rapidez de impacto en el suelo:</strong> <span class="math-text"><i>v</i> = <i>g</i> · <i>t</i> = √<span class="math-radical">2<i>g</i><i>h</i></span></span></p>
+        </div>
+
+        <h2 class="lesson-section-title">4. Características esenciales del lanzamiento vertical</h2>
+        <p>• <strong>Punto más alto (Altura máxima):</strong> En la cúspide de la trayectoria ascendente, la velocidad vertical se anula instantáneamente: <span class="math-text"><i>v</i> = 0 m/s</span>.<br>
+        • <strong>¡Alerta conceptual!:</strong> En la altura máxima, aunque la velocidad sea cero por un instante fugaz, la <em>aceleración sigue siendo <span class="math-text">−<i>g</i></span></em>. Si la aceleración fuese nula, el cuerpo no retornaría y quedaría suspendido indefinidamente en el aire.<br>
+        • <strong>Simetría del vuelo:</strong> Si el objeto retorna a la misma altura de lanzamiento: el tiempo de subida es idéntico al tiempo de bajada (<span class="math-text"><i>t</i><sub>subida</sub> = <i>t</i><sub>bajada</sub> = <i>v</i>₀/<i>g</i></span>), y la rapidez con la que regresa es exactamente igual a la inicial (<span class="math-text">|<i>v</i><sub>impacto</sub>| = <i>v</i>₀</span>), aunque con sentido opuesto (<span class="math-text"><i>v</i><sub>impacto</sub> = −<i>v</i>₀</span>).<br>
+        • <strong>Altura máxima sobre el punto de lanzamiento:</strong> <span class="math-text"><i>H</i><sub>máx</sub> = <span class="math-fraction"><span><i>v</i>₀²</span><span>2<i>g</i></span></span></span>.</p>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1 (Resumen de Física · Piedra soltada desde 20 metros con g = 10 m/s²):</strong><br>
+        Se deja caer una piedra desde una altura de <span class="math-text">20 metros</span> sobre el suelo. ¿Cuánto tiempo tarda en impactar y cuál es su velocidad final? (Usar <span class="math-text"><i>g</i> = 10 m/s²</span>).<br>
+        • <em>Datos:</em> <span class="math-text"><i>h</i> = 20 m</span>, <span class="math-text"><i>v</i>₀ = 0 m/s</span>, <span class="math-text"><i>g</i> = 10 m/s²</span>.<br>
+        • <em>Tiempo de caída:</em><br>
+        <span class="math-text"><i>h</i> = <span class="math-fraction"><span>1</span><span>2</span></span> <i>g</i> <i>t</i>² ⇒ 20 = <span class="math-fraction"><span>1</span><span>2</span></span>(10) <i>t</i>² ⇒ 20 = 5<i>t</i>² ⇒ <i>t</i>² = <span class="math-fraction"><span>20</span><span>5</span></span> = 4 ⇒ <i>t</i> = √4 = 2 s</span>.<br>
+        • <em>Velocidad al llegar al suelo:</em><br>
+        <span class="math-text"><i>v</i> = <i>g</i> · <i>t</i> = 10 × 2 = 20 m/s</span> (hacia abajo).<br>
+        • <em>Respuesta:</em> Tarda <span class="math-text">2 segundos</span> y llega con una rapidez de <span class="math-text">20 m/s</span>.</p>
+
+        <p><strong>Ejemplo 2 (Guía de Física · Piedra soltada desde 19.6 metros con g = 9.8 m/s²):</strong><br>
+        Se deja caer una piedra desde una altura de <span class="math-text">19.6 m</span> con <span class="math-text"><i>g</i> = 9.8 m/s²</span>. Determinar tiempo de caída y rapidez de llegada.<br>
+        • <em>Datos:</em> <span class="math-text"><i>h</i> = 19.6 m</span>, <span class="math-text"><i>v</i>₀ = 0 m/s</span>, <span class="math-text"><i>g</i> = 9.8 m/s²</span>.<br>
+        • <em>Tiempo:</em><br>
+        <span class="math-text"><i>t</i> = √<span class="math-radical"><span class="math-fraction"><span>2 × 19.6</span><span>9.8</span></span></span> = √<span class="math-radical"><span class="math-fraction"><span>39.2</span><span>9.8</span></span></span> = √4 = 2 s</span>.<br>
+        • <em>Velocidad:</em><br>
+        <span class="math-text"><i>v</i> = <i>g</i> · <i>t</i> = 9.8 × 2 = 19.6 m/s</span> (hacia abajo).<br>
+        • <em>Respuesta:</em> Tarda exactamente <span class="math-text">2 segundos</span> y alcanza <span class="math-text">19.6 m/s</span>.</p>
+
+        <p><strong>Ejemplo 3 (Lanzamiento vertical hacia arriba):</strong><br>
+        Se dispara verticalmente una esfera hacia arriba con una velocidad inicial de <span class="math-text">29.4 m/s</span>. Usando <span class="math-text"><i>g</i> = 9.8 m/s²</span>, calcular el tiempo en llegar a la altura máxima, dicha altura y el tiempo total de permanencia en el aire.<br>
+        • <em>Tiempo hasta la cúspide (<span class="math-text"><i>v</i> = 0 m/s</span>):</em><br>
+        <span class="math-text"><i>v</i> = <i>v</i>₀ − <i>gt</i> ⇒ 0 = 29.4 − 9.8 <i>t</i><sub>s</sub> ⇒ <i>t</i><sub>s</sub> = <span class="math-fraction"><span>29.4</span><span>9.8</span></span> = 3 s</span>.<br>
+        • <em>Altura máxima (<span class="math-text"><i>H</i></span>):</em><br>
+        <span class="math-text"><i>H</i> = <span class="math-fraction"><span><i>v</i>₀²</span><span>2<i>g</i></span></span> = <span class="math-fraction"><span>(29.4)²</span><span>2(9.8)</span></span> = <span class="math-fraction"><span>864.36</span><span>19.6</span></span> = 44.1 m</span>.<br>
+        • <em>Tiempo total en el aire:</em> Por simetría gravitatoria, <span class="math-text"><i>T</i> = 2 · <i>t</i><sub>s</sub> = 2 · (3 s) = 6 s</span>.<br>
+        • <em>Respuesta:</em> Tarda <span class="math-text">3 segundos</span> en subir, alcanza <span class="math-text">44.1 metros</span> de altura y vuelve al suelo a los <span class="math-text">6 segundos</span>.</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #2dd4bf; background: linear-gradient(145deg, #f0fdfa, #e6fffa);">
+          <div class="lesson-definition-title"><strong>Simulador de Caída Libre y Lanzamiento Vertical</strong></div>
+          <p>Configura el valor de la gravedad (<span class="math-text"><i>g</i> = 9.8 m/s²</span> o <span class="math-text">10 m/s²</span>), ingresa la altura o velocidad de disparo en la pestaña Caída Libre de la calculadora para observar la animación y curvas temporales.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/fisica/" style="background: #0d9488; border-color: #0d9488;">Simular Caída Libre en la Calculadora ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-3/">← Tema 03: MRUV</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 04 de 07</span>
+        <a class="study-button study-button-primary" href="../tema-5/" style="background: #0d9488; border-color: #0d9488;">Siguiente: Movimiento parabólico →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

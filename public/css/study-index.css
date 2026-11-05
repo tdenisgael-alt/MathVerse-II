@@ -1,0 +1,59 @@
+.study-index-subject {
+  margin-top: 28px;
+}
+
+.study-index-subject-heading {
+  margin: 0 0 15px;
+  color: #202640;
+  font: 700 clamp(22px, 2.5vw, 28px)/1.2 var(--display);
+  letter-spacing: -.035em;
+}
+
+.study-index-physics-grid {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+}
+
+.study-index-physics-grid > .academic-card {
+  width: calc((100% - 30px) / 3);
+  min-width: 0;
+  justify-self: center;
+}
+
+.academic-card-unit1-pastel {
+  border: 1px solid #a9dfe7;
+  background: linear-gradient(145deg, #effbfd, #f8fdff);
+  box-shadow: 0 14px 36px rgba(71, 185, 198, .1);
+}
+
+.academic-card-unit1-pastel .academic-card-title > span { color: #559ca7; }
+.academic-card-unit1-pastel .academic-tags span { border-color: #d3edf0; background: #f1fbfc; }
+.academic-card-unit1-pastel .academic-status-active i { background: #69c5cf; }
+
+html[data-theme="dark"] .academic-card-unit1-pastel {
+  border-color: #78bdc6;
+  background: linear-gradient(145deg, rgba(36, 74, 85, .94), rgba(20, 35, 55, .98));
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .24);
+}
+
+html[data-theme="dark"] .academic-card-unit1-pastel .academic-card-title > span { color: #b0e8ec; }
+html[data-theme="dark"] .academic-card-unit1-pastel .academic-tags span {
+  border-color: rgba(137, 222, 229, .24);
+  background: rgba(54, 136, 148, .17);
+  color: #e1f5f7;
+}
+
+html[data-theme="dark"] .study-index-subject-heading {
+  color: #f7f7ff;
+}
+
+@media (max-width: 1050px) {
+  .study-index-physics-grid > .academic-card {
+    width: calc((100% - 15px) / 2);
+  }
+}
+
+@media (max-width: 720px) {
+  .study-index-subject { margin-top: 24px; }
+  .study-index-physics-grid > .academic-card { width: 100%; }
+}

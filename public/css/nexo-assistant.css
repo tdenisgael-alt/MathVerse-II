@@ -1,0 +1,828 @@
+/**
+ * NEXO Asistente Flotante Global - MathVerse II
+ * Estilos compartidos, responsivos y adaptados a modo claro/oscuro.
+ */
+
+/* Botón flotante de NEXO */
+.nexo-float-btn {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 9998;
+  width: 68px;
+  height: 68px;
+  padding: 0;
+  margin: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  animation: nexo-gentle-hover 4s ease-in-out infinite;
+  transition: transform 0.25s ease, filter 0.25s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nexo-float-btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(104, 124, 246, 0.45)) drop-shadow(0 2px 6px rgba(45, 212, 191, 0.3));
+  transition: filter 0.25s ease;
+}
+
+.nexo-float-btn:hover {
+  transform: translateY(-4px) scale(1.08);
+}
+
+.nexo-float-btn:hover img {
+  filter: drop-shadow(0 10px 22px rgba(104, 124, 246, 0.65)) drop-shadow(0 0 12px rgba(45, 212, 191, 0.55));
+}
+
+.nexo-float-btn:active {
+  transform: scale(0.95);
+}
+
+.nexo-float-btn[aria-expanded="true"] {
+  transform: scale(0.92);
+  opacity: 0.88;
+}
+
+.nexo-float-btn:focus-visible {
+  outline: 3px solid #6366f1 !important;
+  outline-offset: 4px !important;
+  border-radius: 50% !important;
+}
+
+.nexo-header-btn:focus-visible,
+.nexo-clear-btn:focus-visible,
+.nexo-chip:focus-visible,
+.nexo-send-btn:focus-visible,
+#nexo-btn-retry:focus-visible,
+.nexo-chat-input:focus-visible {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: 2px !important;
+}
+
+/* Tooltip / Bocadillo de NEXO */
+.nexo-float-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #12182c;
+  color: #ffffff;
+  padding: 6px 13px;
+  border-radius: 20px;
+  font: 600 11px/1.3 var(--sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(16, 21, 43, 0.25);
+  border: 1px solid rgba(104, 124, 246, 0.35);
+  opacity: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nexo-float-tooltip::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #12182c;
+}
+
+.nexo-float-btn[aria-expanded="true"] .nexo-float-tooltip {
+  display: none;
+  opacity: 0;
+}
+
+/* Animación de flotación suave sin fondo */
+@keyframes nexo-gentle-hover {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+}
+
+/* Ventana emergente del chat */
+.nexo-chat-window {
+  --nexo-bg: #ffffff;
+  --nexo-head: #f5f7fd;
+  --nexo-text: #1e2438;
+  --nexo-muted: #5e6882;
+  --nexo-border: #e0e5f2;
+  --nexo-bubble-teacher: #f0f3fa;
+  --nexo-bubble-user: #5147ce;
+  --nexo-bubble-user-text: #ffffff;
+  --nexo-input-bg: #ffffff;
+  --nexo-chip-bg: #eef2ff;
+  --nexo-chip-text: #4338ca;
+  --nexo-chip-border: #d4dcff;
+
+  position: fixed;
+  right: 22px;
+  bottom: 98px;
+  z-index: 9999;
+  width: 395px;
+  max-width: calc(100vw - 32px);
+  height: 560px;
+  max-height: calc(100vh - 120px);
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--nexo-border);
+  border-radius: 18px;
+  background: var(--nexo-bg);
+  color: var(--nexo-text);
+  box-shadow: 0 20px 60px rgba(18, 24, 48, 0.24);
+  font: 13px/1.55 var(--sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+}
+
+.nexo-chat-window.nexo-open {
+  display: flex !important;
+  animation: nexo-pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes nexo-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Modo oscuro */
+html[data-theme="dark"] .nexo-chat-window,
+.nexo-chat-window[data-theme="dark"] {
+  --nexo-bg: #10162a;
+  --nexo-head: #17203b;
+  --nexo-text: #eef2ff;
+  --nexo-muted: #9ba8c4;
+  --nexo-border: #2c3859;
+  --nexo-bubble-teacher: #1b2440;
+  --nexo-bubble-user: #6366f1;
+  --nexo-bubble-user-text: #ffffff;
+  --nexo-input-bg: #0c1122;
+  --nexo-chip-bg: #1e2849;
+  --nexo-chip-text: #a5b4fc;
+  --nexo-chip-border: #37436b;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* Modo minimizado */
+.nexo-chat-window.nexo-minimized {
+  height: 54px !important;
+  max-height: 54px !important;
+  overflow: hidden;
+}
+
+.nexo-chat-window.nexo-minimized .nexo-chat-body,
+.nexo-chat-window.nexo-minimized .nexo-chat-input-bar {
+  display: none !important;
+}
+
+/* Cabecera del chat */
+.nexo-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--nexo-head);
+  border-bottom: 1px solid var(--nexo-border);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.nexo-header-avatar {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(104, 124, 246, 0.35));
+}
+
+.nexo-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.nexo-header-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--nexo-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nexo-online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+  display: inline-block;
+}
+
+.nexo-header-context {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--nexo-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nexo-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nexo-header-btn {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--nexo-border);
+  border-radius: 7px;
+  background: var(--nexo-bg);
+  color: var(--nexo-muted);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.nexo-header-btn:hover {
+  color: var(--nexo-text);
+  border-color: #687cf6;
+}
+
+/* Barra de herramientas / Contexto */
+.nexo-chat-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 14px;
+  font-size: 11px;
+  color: var(--nexo-muted);
+  border-bottom: 1px solid var(--nexo-border);
+  background: var(--nexo-bg);
+  flex-shrink: 0;
+}
+
+.nexo-context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--nexo-chip-bg);
+  color: var(--nexo-chip-text);
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.nexo-clear-btn {
+  padding: 3px 8px;
+  font-size: 10px;
+  border: 1px solid var(--nexo-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--nexo-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nexo-clear-btn:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+/* Cuerpo del chat */
+.nexo-chat-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Lista de mensajes */
+.nexo-chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+
+.nexo-msg {
+  max-width: 88%;
+  padding: 10px 13px;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+  font-size: 12.5px;
+  line-height: 1.55;
+  animation: nexo-msg-fade 0.2s ease;
+}
+
+@keyframes nexo-msg-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nexo-msg-teacher {
+  align-self: flex-start;
+  background: var(--nexo-bubble-teacher);
+  border: 1px solid var(--nexo-border);
+  color: var(--nexo-text);
+}
+
+.nexo-msg-user {
+  align-self: flex-end;
+  background: var(--nexo-bubble-user);
+  color: var(--nexo-bubble-user-text);
+}
+
+.nexo-msg-author {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.nexo-msg-content p {
+  margin: 0 0 6px;
+}
+.nexo-msg-content p:last-child {
+  margin-bottom: 0;
+}
+.nexo-msg-content h4 {
+  margin: 8px 0 4px;
+  font-size: 12.5px;
+}
+.nexo-msg-content ul {
+  margin: 4px 0;
+  padding-left: 16px;
+}
+.nexo-msg-content code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(100, 116, 139, 0.2);
+  font-family: var(--mono, monospace);
+  font-size: 11.5px;
+}
+
+/* Indicador de carga */
+.nexo-chat-loading {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 11.5px;
+  color: var(--nexo-muted);
+  flex-shrink: 0;
+  background: var(--nexo-bg);
+}
+
+.nexo-chat-loading.nexo-visible {
+  display: flex !important;
+}
+
+.nexo-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.nexo-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #687cf6;
+  animation: nexo-dot-pulse 1.2s infinite ease-in-out;
+}
+.nexo-dots span:nth-child(2) { animation-delay: 0.2s; }
+.nexo-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes nexo-dot-pulse {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Banner de error */
+.nexo-chat-error {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #fef2f2;
+  color: #991b1b;
+  border-top: 1px solid #fecaca;
+  font-size: 11.5px;
+  flex-shrink: 0;
+}
+
+html[data-theme="dark"] .nexo-chat-error {
+  background: #451a1a;
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+.nexo-chat-error.nexo-visible {
+  display: flex !important;
+}
+
+.nexo-chat-error button {
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Chips de sugerencias contextuales */
+.nexo-chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--nexo-bg);
+  border-top: 1px solid var(--nexo-border);
+  flex-shrink: 0;
+}
+
+.nexo-chip {
+  padding: 4px 10px;
+  border: 1px solid var(--nexo-chip-border);
+  border-radius: 16px;
+  background: var(--nexo-chip-bg);
+  color: var(--nexo-chip-text);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.nexo-chip:hover {
+  background: #687cf6;
+  color: #ffffff;
+  border-color: #687cf6;
+}
+
+/* Barra de entrada de texto */
+.nexo-chat-input-bar {
+  padding: 10px 14px 12px;
+  background: var(--nexo-bg);
+  border-top: 1px solid var(--nexo-border);
+  flex-shrink: 0;
+}
+
+.nexo-chat-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nexo-chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--nexo-border);
+  border-radius: 10px;
+  background: var(--nexo-input-bg);
+  color: var(--nexo-text);
+  font: 13px var(--sans, sans-serif);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.nexo-chat-input:focus {
+  border-color: #687cf6;
+}
+
+.nexo-send-btn {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #5147ce;
+  color: #ffffff;
+  font: 600 12.5px var(--sans, sans-serif);
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.nexo-send-btn:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+.nexo-send-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Responsividad móvil */
+@media (max-width: 600px) {
+  .nexo-float-btn {
+    right: 16px;
+    bottom: 16px;
+    width: 60px;
+    height: 60px;
+  }
+  .nexo-float-tooltip {
+    display: none;
+  }
+  .nexo-chat-window {
+    right: 12px;
+    bottom: 84px;
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 100px);
+    border-radius: 16px;
+  }
+}
+
+/* Reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .nexo-float-btn {
+    animation: none !important;
+  }
+  .nexo-chat-window.nexo-open {
+    animation: none !important;
+  }
+  .nexo-msg {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   ESTILOS COMPARTIDOS DE RENDERIZADO MATEMÁTICO (KaTeX y Fallback puro)
+   Y FORMATEO DE MARKDOWN ESTRUCTURADO PARA NEXO Y PROFESOR VIRTUAL
+   ========================================================================== */
+
+.mv-math-block {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 14px;
+  background: rgba(100, 116, 139, 0.08);
+  border: 1px solid var(--nexo-border, rgba(100, 116, 139, 0.2));
+  border-radius: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  text-align: center;
+  max-width: 100%;
+  font-size: 1.05em;
+  line-height: 1.6;
+  color: inherit;
+}
+
+.mv-math-block:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 1px;
+}
+
+/* KaTeX container adjustments within message bubbles */
+.mv-math-block .katex-display {
+  margin: 4px 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 0;
+}
+
+.mv-math-inline {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 2px;
+  font-size: 1em;
+  color: inherit;
+}
+
+/* Fallback puro semántico */
+.mv-math-expr {
+  font-family: 'KaTeX_Math', 'Cambria Math', 'Times New Roman', serif;
+  letter-spacing: 0.02em;
+}
+
+.mv-math-frac {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0 4px;
+  font-size: 0.9em;
+  line-height: 1.15;
+}
+
+.mv-frac-top {
+  border-bottom: 1.4px solid currentColor;
+  padding-bottom: 2px;
+}
+
+.mv-frac-bottom {
+  padding-top: 2px;
+}
+
+.mv-math-sqrt {
+  display: inline-flex;
+  align-items: baseline;
+  vertical-align: middle;
+}
+
+.mv-sqrt-symbol {
+  font-size: 1.18em;
+  font-weight: 300;
+  margin-right: 1px;
+  font-family: serif;
+}
+
+.mv-sqrt-rad {
+  border-top: 1.4px solid currentColor;
+  padding: 0 4px;
+}
+
+.mv-math-unit {
+  font-family: var(--sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-style: normal;
+  margin-left: 3px;
+  opacity: 0.95;
+}
+
+.mv-math-matrix {
+  display: inline-table;
+  vertical-align: middle;
+  border-collapse: collapse;
+  margin: 6px 8px;
+  text-align: center;
+}
+
+.mv-math-matrix td {
+  padding: 4px 8px;
+  border: none !important;
+}
+
+.mv-matrix-paren {
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  border-radius: 8px;
+}
+
+.mv-matrix-bracket {
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  border-radius: 4px;
+}
+
+.mv-matrix-det {
+  border-left: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+.mv-vec, .mv-hat {
+  display: inline-block;
+  font-style: italic;
+}
+
+/* Tablas Markdown */
+.chat-table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 10px 0;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  border: 1px solid var(--nexo-border, #dbe0ee);
+}
+
+.chat-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+  text-align: left;
+}
+
+.chat-table th, .chat-table td {
+  border: 1px solid var(--nexo-border, #dbe0ee);
+  padding: 6px 12px;
+}
+
+.chat-table th {
+  background: rgba(100, 116, 139, 0.12);
+  font-weight: 600;
+}
+
+/* Código en bloque e inline */
+.chat-code-block {
+  background: #141829;
+  color: #e2e8f0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: var(--mono, monospace);
+  font-size: 11.5px;
+  line-height: 1.5;
+  margin: 8px 0;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+}
+
+.chat-inline-code {
+  background: rgba(100, 116, 139, 0.18);
+  padding: 1.5px 5px;
+  border-radius: 4px;
+  font-family: var(--mono, monospace);
+  font-size: 0.9em;
+}
+
+/* Citas y listas */
+.chat-quote {
+  border-left: 3px solid #6366f1;
+  margin: 8px 0;
+  padding: 6px 14px;
+  color: var(--nexo-muted, #64748b);
+  background: rgba(99, 102, 241, 0.06);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+.chat-hr {
+  border: none;
+  border-top: 1px solid var(--nexo-border, #e2e8f0);
+  margin: 12px 0;
+}
+
+.chat-list, .chat-list-ol {
+  margin: 6px 0 8px;
+  padding-left: 20px;
+}
+
+.chat-list li, .chat-list-ol li {
+  margin-bottom: 4px;
+}
+
+/* Scrollbars responsivos suaves para fórmulas y bloques largos en móvil */
+.mv-math-block::-webkit-scrollbar,
+.chat-code-block::-webkit-scrollbar,
+.chat-table-wrapper::-webkit-scrollbar,
+.katex-display::-webkit-scrollbar {
+  height: 5px;
+}
+
+.mv-math-block::-webkit-scrollbar-thumb,
+.chat-code-block::-webkit-scrollbar-thumb,
+.chat-table-wrapper::-webkit-scrollbar-thumb,
+.katex-display::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 4px;
+}
+
+/* Adaptación a tema oscuro */
+html[data-theme="dark"] .mv-math-block,
+.nexo-chat-window[data-theme="dark"] .mv-math-block {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .chat-table-wrapper,
+.nexo-chat-window[data-theme="dark"] .chat-table-wrapper {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+html[data-theme="dark"] .chat-table th,
+html[data-theme="dark"] .chat-table td,
+.nexo-chat-window[data-theme="dark"] .chat-table th,
+.nexo-chat-window[data-theme="dark"] .chat-table td {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+html[data-theme="dark"] .chat-table th,
+.nexo-chat-window[data-theme="dark"] .chat-table th {
+  background: rgba(255, 255, 255, 0.08);
+}

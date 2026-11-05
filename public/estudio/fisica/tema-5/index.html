@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10152b">
+  <meta name="description" content="Tema 5: Movimiento parabólico en 2D. Independencia de movimientos, componentes de velocidad, ecuaciones de posición, tiempo de vuelo, altura máxima, alcance y limitaciones con desnivel.">
+  <title>Tema 05 · Movimiento parabólico | Física · MathVerse II</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+  <link rel="stylesheet" href="../../../css/modules.css">
+  <link rel="stylesheet" href="../../../css/study-dark.css">
+  <script src="../../../js/study-u3.js" defer></script>
+  <link rel="stylesheet" href="../../../css/nexo-assistant.css">
+  <script src="../../../js/nexo-assistant.js" defer></script>
+  <script src="../../../js/theme.js"></script>
+</head>
+<body class="module-page study-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="../../../" aria-label="MathVerse II, inicio">
+        <span class="brand-mark" aria-hidden="true">M<span>²</span></span>
+        <span>MATHVERSE <b>II</b></span>
+      </a>
+      <div class="study-nav">
+        <a href="../../../#inicio">Inicio</a>
+        <a href="../../../#que-es">¿Qué es?</a>
+        <a href="../../">Estudio</a>
+        <a href="../../../calculadora/">Calculadoras</a>
+        <a href="../../../calculadora/fisica/" style="color:#2dd4bf;font-weight:600">Calculadora Física</a>
+        <a href="../../../profesor/">Profesor Virtual</a>
+        <button class="study-theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar al modo oscuro" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Modo oscuro</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="study-main container" id="contenido">
+    <nav class="study-crumbs" aria-label="Ruta de navegación">
+      <a href="../../../">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../../">Estudio</a>
+      <span aria-hidden="true">/</span>
+      <a href="../">Física · Cinemática</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Tema 05 · Movimiento parabólico</span>
+    </nav>
+
+    <article class="study-panel lesson-card" style="margin-top: 18px;">
+      <div class="lesson-content">
+        <span class="lesson-sample-label">Tema 05 · Ciencias Físicas</span>
+        <p class="lesson-lead">El movimiento parabólico o tiro oblicuo es el ejemplo por excelencia del movimiento bidimensional en física clásica. Representa la trayectoria curvada que traza en el aire cualquier proyectil lanzado con una velocidad inicial inclinada respecto a la horizontal. En ausencia de resistencia aerodinámica, este movimiento se descompone limpiamente en dos movimientos simultáneos e independientes: un MRU uniforme en el eje horizontal y un MRUV acelerado por la gravedad en el eje vertical.</p>
+
+        <h1 class="lesson-page-title">Movimiento parabólico (Tiro oblicuo en dos dimensiones)</h1>
+
+        <p><em>Material estructurado en base a las guías académicas oficiales «Resumen de Física» y «Guía de Física · Cinemática».</em></p>
+
+        <h2 class="lesson-section-title">1. Principio de independencia de movimientos de Galileo</h2>
+        <p>El estudio formal del tiro parabólico se sustenta en el <strong>principio de superposición galileana</strong>: las componentes horizontal y vertical del movimiento se desenvuelven de forma totalmente independiente la una de la otra, sin interferirse mutuamente:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Ejes del movimiento parabólico</strong></div>
+          <p>• <strong>Eje horizontal (<span class="math-text"><i>X</i></span>):</strong> No existe ninguna fuerza neta en el aire (<span class="math-text"><i>a</i><sub><i>x</i></sub> = 0</span>). Por tanto, la velocidad horizontal es constante durante toda la trayectoria: es un <strong>MRU</strong> puro.<br>
+          • <strong>Eje vertical (<span class="math-text"><i>Y</i></span>):</strong> Actúa de manera constante la aceleración gravitatoria dirigida hacia abajo (<span class="math-text"><i>a</i><sub><i>y</i></sub> = −<i>g</i></span>). Por consiguiente, la velocidad vertical varía uniformemente con el tiempo: es un <strong>MRUV</strong> idéntico a un lanzamiento vertical libre.</p>
+        </div>
+
+        <h2 class="lesson-section-title">2. Descomposición de la velocidad inicial</h2>
+        <p>Si un cuerpo se proyecta con una rapidez inicial <span class="math-text"><i>v</i>₀</span> bajo un ángulo de inclinación <span class="math-text"><i>θ</i></span> respecto a la horizontal, el vector velocidad se descompone trigonométricamente:</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Componentes vectoriales de disparo</strong></div>
+          <p>• <strong>Componente horizontal inicial:</strong><br>
+          <span class="math-text"><i>v</i>₀<sub><i>x</i></sub> = <i>v</i>₀ · cos(<i>θ</i>)</span> &nbsp; (se mantiene constante: <span class="math-text"><i>v</i><sub><i>x</i></sub>(<i>t</i>) = <i>v</i>₀<sub><i>x</i></sub></span> en todo instante).</p>
+          <p>• <strong>Componente vertical inicial:</strong><br>
+          <span class="math-text"><i>v</i>₀<sub><i>y</i></sub> = <i>v</i>₀ · sen(<i>θ</i>)</span></p>
+          <p>• <strong>Módulo y orientación del vector velocidad inicial:</strong><br>
+          <span class="math-text"><i>v</i>₀ = √<span class="math-radical"><i>v</i>₀<sub><i>x</i></sub>² + <i>v</i>₀<sub><i>y</i></sub>²</span></span>, &nbsp; con &nbsp; <span class="math-text"><i>θ</i> = arctan( <span class="math-fraction"><span><i>v</i>₀<sub><i>y</i></sub></span><span><i>v</i>₀<sub><i>x</i></sub></span></span> )</span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">3. Ecuaciones horarias generales de posición y velocidad</h2>
+        <p>Para cualquier proyectil en un instante <span class="math-text"><i>t</i></span>:</p>
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Ecuaciones cinemáticas paramétricas</strong></div>
+          <p><strong>En el eje horizontal:</strong><br>
+          • Posición: <span class="math-text"><i>x</i>(<i>t</i>) = <i>x</i>₀ + [ <i>v</i>₀ cos(<i>θ</i>) ] · <i>t</i></span><br>
+          • Velocidad: <span class="math-text"><i>v</i><sub><i>x</i></sub>(<i>t</i>) = <i>v</i>₀ cos(<i>θ</i>)</span></p>
+          <p><strong>En el eje vertical:</strong><br>
+          • Posición: <span class="math-text"><i>y</i>(<i>t</i>) = <i>y</i>₀ + [ <i>v</i>₀ sen(<i>θ</i>) ] · <i>t</i> − <span class="math-fraction"><span>1</span><span>2</span></span> <i>g</i> · <i>t</i>²</span><br>
+          • Velocidad: <span class="math-text"><i>v</i><sub><i>y</i></sub>(<i>t</i>) = <i>v</i>₀ sen(<i>θ</i>) − <i>g</i> · <i>t</i></span><br>
+          • Relación de Torricelli vertical: <span class="math-text"><i>v</i><sub><i>y</i></sub>² = <i>v</i>₀<sub><i>y</i></sub>² − 2<i>g</i>(<i>y</i> − <i>y</i>₀)</span></p>
+          <p>• <strong>Rapidez total del proyectil en cualquier instante:</strong><br>
+          <span class="math-text"><i>v</i>(<i>t</i>) = √<span class="math-radical">[<i>v</i><sub><i>x</i></sub>]² + [<i>v</i><sub><i>y</i></sub>(<i>t</i>)]²</span></span></p>
+        </div>
+
+        <h2 class="lesson-section-title">4. ¿Qué ocurre en el punto más alto (Cúspide de la trayectoria)?</h2>
+        <p>En el vértice o punto culminante de la parábola:</p>
+        <p>• <strong>La velocidad vertical es nula por un instante:</strong> <span class="math-text"><i>v</i><sub><i>y</i></sub> = 0 m/s</span>.<br>
+        • <strong>La velocidad total NO es cero:</strong> La partícula continúa desplazándose horizontalmente con velocidad <span class="math-text"><i>v</i><sub><i>x</i></sub> = <i>v</i>₀ cos(<i>θ</i>)</span>. Por tanto, en la altura máxima la rapidez del cuerpo alcanza su valor mínimo absoluto en todo el vuelo, pero nunca se detiene por completo.<br>
+        • <strong>La aceleración sigue siendo la gravedad:</strong> La aceleración en la cúspide sigue dirigida verticalmente hacia abajo con magnitud <span class="math-text"><i>g</i></span>.</p>
+
+        <h2 class="lesson-section-title">5. Caso especial: Mismo nivel de salida y de aterrizaje</h2>
+        <p>Cuando el proyectil aterriza exactamente a la misma cota vertical desde la que fue impulsado (<span class="math-text"><i>y</i> = <i>y</i>₀</span>):</p>
+
+        <div class="lesson-definition">
+          <div class="lesson-definition-title"><strong>Fórmulas especiales de vuelo nivelado</strong></div>
+          <p>• <strong>Tiempo total de vuelo:</strong><br>
+          <span class="math-text"><i>T</i> = <span class="math-fraction"><span>2 <i>v</i>₀ sen(<i>θ</i>)</span><span><i>g</i></span></span> = 2 · <i>t</i><sub>subida</sub></span></p>
+          <p>• <strong>Altura máxima sobre el nivel de salida:</strong><br>
+          <span class="math-text"><i>H</i> = <span class="math-fraction"><span><i>v</i>₀² sen²(<i>θ</i>)</span><span>2<i>g</i></span></span> = <span class="math-fraction"><span><i>v</i>₀<sub><i>y</i></sub>²</span><span>2<i>g</i></span></span></span></p>
+          <p>• <strong>Alcance horizontal máximo (<span class="math-text"><i>R</i></span>):</strong><br>
+          <span class="math-text"><i>R</i> = <span class="math-fraction"><span><i>v</i>₀² sen(2<i>θ</i>)</span><span><i>g</i></span></span></span></p>
+          <p>• <strong>Propiedades de alcance:</strong><br>
+          - El alcance horizontal es máximo cuando <span class="math-text">sen(2<i>θ</i>) = 1 ⇒ 2<i>θ</i> = 90° ⇒ <i>θ</i> = 45°</span>.<br>
+          - Dos ángulos complementarios (por ejemplo, <span class="math-text">30°</span> y <span class="math-text">60°</span>) disparados con la misma rapidez inicial arrojan exactamente el mismo alcance horizontal (<span class="math-text"><i>R</i></span>), aunque con tiempos de vuelo y alturas máximas diferentes.</p>
+        </div>
+
+        <div class="lesson-definition" style="border-left: 4px solid #ef4444; background: linear-gradient(145deg, #fff5f5, #fef2f2);">
+          <div class="lesson-definition-title"><strong style="color: #b91c1c;">¡ADVERTENCIA CRÍTICA!: Limitación de las fórmulas directas</strong></div>
+          <p style="color: #7f1d1d; margin: 0;"><strong>Estas tres fórmulas especiales (<span class="math-text"><i>T</i>, <i>H</i>, <i>R</i></span>) NO deben utilizarse si el punto de impacto está a una altura diferente del punto de disparo</strong> (por ejemplo, si se lanza desde un tejado, un risco o una pendiente). En casos generales con desnivel, debe plantearse la ecuación cuadrática vertical <span class="math-text"><i>y</i>(<i>t</i>) = <i>y</i><sub>suelo</sub></span> para obtener el tiempo real de vuelo, y luego sustituirlo en la posición horizontal <span class="math-text"><i>x</i> = <i>v</i>₀<sub><i>x</i></sub> · <i>t</i></span>.</p>
+        </div>
+
+        <h2 class="lesson-section-title">Ejemplos resueltos paso a paso</h2>
+
+        <p><strong>Ejemplo 1 (Resumen y Guía de Física · Mismo nivel de salida y llegada):</strong><br>
+        Una pelota se lanza con rapidez inicial de <span class="math-text">20 m/s</span> a un ángulo de <span class="math-text">30°</span> sobre la horizontal. Usando <span class="math-text"><i>g</i> = 10 m/s²</span> y suponiendo que cae a la misma altura de lanzamiento, calcular:<br>
+        a) Componentes de la velocidad inicial.<br>
+        b) Tiempo total de vuelo.<br>
+        c) Altura máxima alcanzada.<br>
+        d) Alcance horizontal.<br>
+        • <em>Solución paso a paso:</em><br>
+        1) <strong>Componentes iniciales:</strong><br>
+        <span class="math-text"><i>v</i>₀<sub><i>x</i></sub> = 20 · cos(30°) = 20 × 0.8660 ≈ 17.32 m/s</span>.<br>
+        <span class="math-text"><i>v</i>₀<sub><i>y</i></sub> = 20 · sen(30°) = 20 × 0.50 = 10.0 m/s</span>.<br>
+        2) <strong>Tiempo de vuelo:</strong><br>
+        <span class="math-text"><i>T</i> = <span class="math-fraction"><span>2 · <i>v</i>₀<sub><i>y</i></sub></span><span><i>g</i></span></span> = <span class="math-fraction"><span>2(10)</span><span>10</span></span> = 2 s</span>.<br>
+        3) <strong>Altura máxima:</strong><br>
+        <span class="math-text"><i>H</i> = <span class="math-fraction"><span><i>v</i>₀<sub><i>y</i></sub>²</span><span>2<i>g</i></span></span> = <span class="math-fraction"><span>(10)²</span><span>2(10)</span></span> = <span class="math-fraction"><span>100</span><span>20</span></span> = 5 m</span>.<br>
+        4) <strong>Alcance horizontal:</strong><br>
+        <span class="math-text"><i>R</i> = <span class="math-fraction"><span><i>v</i>₀² sen(60°)</span><span><i>g</i></span></span> = <span class="math-fraction"><span>(20)² (0.8660)</span><span>10</span></span> = <span class="math-fraction"><span>400 × 0.8660</span><span>10</span></span> = 34.64 m</span>.<br>
+        (O también por MRU horizontal: <span class="math-text"><i>R</i> = <i>v</i>₀<sub><i>x</i></sub> · <i>T</i> = 17.32 m/s × 2 s = 34.64 m</span>).<br>
+        • <em>Respuesta:</em> <span class="math-text"><i>v</i>₀<sub><i>x</i></sub> ≈ 17.32 m/s</span>, <span class="math-text"><i>v</i>₀<sub><i>y</i></sub> = 10 m/s</span>, <span class="math-text"><i>T</i> = 2 s</span>, <span class="math-text"><i>H</i> = 5 m</span>, <span class="math-text"><i>R</i> ≈ 34.64 m</span>.</p>
+
+        <p><strong>Ejemplo 2 (Lanzamiento horizontal desde un desnivel):</strong><br>
+        Una piedra se lanza horizontalmente a <span class="math-text">15 m/s</span> desde el borde de un acantilado de <span class="math-text">45 metros</span> de altura sobre el nivel del mar. Con <span class="math-text"><i>g</i> = 10 m/s²</span>, calcular el tiempo de caída y la distancia horizontal a la que impacta el agua.<br>
+        • <em>Desarrollo por componentes:</em><br>
+        1) Condiciones iniciales: <span class="math-text"><i>v</i>₀<sub><i>x</i></sub> = 15 m/s</span>, <span class="math-text"><i>v</i>₀<sub><i>y</i></sub> = 0 m/s</span>, <span class="math-text"><i>y</i>₀ = 45 m</span>.<br>
+        2) El tiempo depende exclusivamente de la caída vertical desde el reposo:<br>
+        <span class="math-text"><i>y</i>(<i>t</i>) = <i>y</i>₀ − <span class="math-fraction"><span>1</span><span>2</span></span> <i>g</i> <i>t</i>² ⇒ 0 = 45 − 5<i>t</i>² ⇒ 5<i>t</i>² = 45 ⇒ <i>t</i>² = 9 ⇒ <i>t</i> = 3 s</span>.<br>
+        3) Distancia horizontal recorrida durante esos 3 segundos:<br>
+        <span class="math-text"><i>x</i> = <i>v</i>₀<sub><i>x</i></sub> · <i>t</i> = 15 m/s × 3 s = 45 m</span>.<br>
+        • <em>Respuesta:</em> La piedra tarda <span class="math-text">3 segundos</span> en impactar el agua a una distancia horizontal de <span class="math-text">45 metros</span> de la base del acantilado.</p>
+
+        <!-- Conexión interactiva con la calculadora -->
+        <div class="lesson-definition" style="margin-top: 25px; border-left: 4px solid #2dd4bf; background: linear-gradient(145deg, #f0fdfa, #e6fffa);">
+          <div class="lesson-definition-title"><strong>Simulación visual de Tiro Parabólico en 2D</strong></div>
+          <p>Experimenta con distintos ángulos de tiro y velocidades de lanzamiento en la pestaña Parabólico de la calculadora de Física para visualizar en tiempo real el vector velocidad, la cúspide y el alcance.</p>
+          <p style="margin-top: 8px;"><a class="study-button study-button-primary" href="../../../calculadora/fisica/" style="background: #0d9488; border-color: #0d9488;">Lanzar proyectil en el simulador ↗</a></p>
+        </div>
+      </div>
+
+      <!-- Paginador Anterior / Siguiente -->
+      <nav class="lesson-pager" aria-label="Navegación entre temas" style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #eceef4;">
+        <a class="study-button study-button-secondary" href="../tema-4/">← Tema 04: Caída libre</a>
+        <span style="font-size: 11px; font-weight: 600; color: #6d758d;">Tema 05 de 07</span>
+        <a class="study-button study-button-primary" href="../tema-6/" style="background: #0d9488; border-color: #0d9488;">Siguiente: Comparación y errores →</a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 MathVerse II</span>
+      <span>Universidad Nacional de Ingeniería · Ingeniería en Computación</span>
+      <a href="../../../">MATHVERSE II ↗</a>
+    </div>
+  </footer>
+</body>
+</html>
