@@ -21,7 +21,7 @@
   let isSubmitting = false;
   let upgradePollTimer = null;
   let activeAbortController = null;
-  const CLIENT_TIMEOUT_MS = 11000;
+  const CLIENT_TIMEOUT_MS = 25000;
   const STORAGE_CLIENT_ID_KEY = 'mathverse.client.id.v1';
 
   function getOrCreateClientId() {

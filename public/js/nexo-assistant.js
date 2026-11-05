@@ -505,7 +505,7 @@
     let isSubmitting = false;
     let lastUserQuestion = '';
     let activeAbortController = null;
-    const CLIENT_TIMEOUT_MS = 11000;
+    const CLIENT_TIMEOUT_MS = 25000;
 
     // Gestión del tema (oscuro/claro)
     function syncTheme() {

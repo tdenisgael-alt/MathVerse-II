@@ -297,16 +297,18 @@ async function handler(req, res) {
     },
     contents,
     generationConfig: {
-      temperature: 0.35,
-      maxOutputTokens: 2048
+      maxOutputTokens: 2048,
+      thinkingConfig: {
+        thinkingLevel: 'LOW'
+      }
     }
   };
 
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
-  // Timeout para la llamada al proveedor Gemini (8.5s)
-  // Permite responder con un error 504 controlado antes de que Vercel cancele la ejecución serverless (10-15s)
-  const PROVIDER_TIMEOUT_MS = 8500;
+  // Timeout para la llamada al proveedor Gemini (20s por defecto, configurable)
+  // Permite al modelo razonar en nivel LOW y responder antes de que el cliente (25s) aborte
+  const PROVIDER_TIMEOUT_MS = Number(process.env.GEMINI_TIMEOUT_MS) || 20000;
   const controller = new AbortController();
   let isTimedOut = false;
   const timeoutId = setTimeout(() => {
@@ -337,6 +339,7 @@ async function handler(req, res) {
     }
   };
 
+  const startTime = Date.now();
   try {
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -349,9 +352,21 @@ async function handler(req, res) {
 
     if (!response.ok) {
       cleanupListeners();
+      const elapsedMs = Date.now() - startTime;
+
+      let errorCategory = 'UNKNOWN';
+      try {
+        const errorData = await response.json().catch(() => null);
+        if (errorData?.error?.status) {
+          errorCategory = String(errorData.error.status).slice(0, 50);
+        } else if (errorData?.error?.code) {
+          errorCategory = String(errorData.error.code).slice(0, 50);
+        }
+      } catch (_) {}
 
       // Manejo seguro de cuota y límites de tasa (429)
       if (response.status === 429) {
+        console.error(`[Gemini API Quota Error] HTTP 429 (${errorCategory}) | Duration: ${elapsedMs}ms | Model: ${model}`);
         return sendJson(res, 429, {
           error: 'Se ha alcanzado la cuota de consultas de la API de Gemini. Por favor espera unos momentos antes de enviar otra consulta.',
           code: 'QUOTA_EXCEEDED'
@@ -360,6 +375,7 @@ async function handler(req, res) {
 
       // Solicitud no válida al modelo (400)
       if (response.status === 400) {
+        console.error(`[Gemini API Bad Request] HTTP 400 (${errorCategory}) | Duration: ${elapsedMs}ms | Model: ${model}`);
         return sendJson(res, 400, {
           error: 'La consulta no pudo ser procesada por la API de Gemini.',
           code: 'GEMINI_BAD_REQUEST'
@@ -368,6 +384,7 @@ async function handler(req, res) {
 
       // Problema de autenticación o permisos con la clave de API (401 o 403)
       if (response.status === 401 || response.status === 403) {
+        console.error(`[Gemini API Auth Error] HTTP ${response.status} (${errorCategory}) | Duration: ${elapsedMs}ms | Model: ${model}`);
         return sendJson(res, 503, {
           error: 'El servicio del Profesor Virtual no está disponible temporalmente.',
           code: 'SERVICE_UNAVAILABLE'
@@ -376,6 +393,7 @@ async function handler(req, res) {
 
       // Servicio no disponible o fallos de pasarela del proveedor (502, 503, 504)
       if (response.status === 503 || response.status === 502 || response.status === 504) {
+        console.error(`[Gemini API Server Error] HTTP ${response.status} (${errorCategory}) | Duration: ${elapsedMs}ms | Model: ${model}`);
         return sendJson(res, 503, {
           error: 'El servicio del Profesor Virtual no está disponible temporalmente. Intenta nuevamente más tarde.',
           code: 'SERVICE_UNAVAILABLE'
@@ -383,6 +401,7 @@ async function handler(req, res) {
       }
 
       // Cualquier otro error del proveedor (500)
+      console.error(`[Gemini API Internal Error] HTTP ${response.status} (${errorCategory}) | Duration: ${elapsedMs}ms | Model: ${model}`);
       return sendJson(res, 500, {
         error: 'Error interno en el servidor al consultar al Profesor Virtual.',
         code: 'INTERNAL_ERROR'
@@ -409,6 +428,7 @@ async function handler(req, res) {
     });
   } catch (error) {
     cleanupListeners();
+    const elapsedMs = Date.now() - startTime;
 
     // Distinguir timeout o desconexión del cliente frente a errores inesperados
     if (isTimedOut || controller.signal.aborted || error?.name === 'AbortError' || error?.name === 'TimeoutError') {
@@ -416,12 +436,14 @@ async function handler(req, res) {
         // El cliente cerró la conexión prematuramente; no hay receptor para la respuesta
         return;
       }
+      console.error(`[Gemini API Timeout] Duration: ${elapsedMs}ms | Limit: ${PROVIDER_TIMEOUT_MS}ms | Model: ${model}`);
       return sendJson(res, 504, {
         error: 'El tiempo de respuesta del servicio se ha agotado. Por favor intenta nuevamente.',
         code: 'GATEWAY_TIMEOUT'
       });
     }
 
+    console.error(`[Gemini API Unexpected Exception] ${error?.name || 'Error'}: ${error?.message || 'Unknown'} | Duration: ${elapsedMs}ms | Model: ${model}`);
     return sendJson(res, 500, {
       error: 'Error interno en el servidor al consultar al Profesor Virtual.',
       code: 'INTERNAL_ERROR'
