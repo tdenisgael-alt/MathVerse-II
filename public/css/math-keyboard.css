@@ -1,0 +1,482 @@
+/**
+ * MathVerse II - Teclado Matemático Virtual
+ * Inspirado en la experiencia de GeoGebra, adaptado para Math.js.
+ * public/css/math-keyboard.css
+ */
+
+:root {
+  --mk-bg: rgba(15, 20, 40, 0.96);
+  --mk-head-bg: #151d36;
+  --mk-border: #283556;
+  --mk-text: #f1f5f9;
+  --mk-muted: #94a3b8;
+  --mk-key-bg: #1a233f;
+  --mk-key-hover: #26335a;
+  --mk-key-active: #324376;
+  --mk-key-border: #2c3a62;
+  --mk-key-text: #f8fafc;
+  --mk-var-bg: #10263e;
+  --mk-var-border: #1e456b;
+  --mk-var-text: #38bdf8;
+  --mk-fn-bg: #211e42;
+  --mk-fn-border: #3b3574;
+  --mk-fn-text: #c084fc;
+  --mk-op-bg: #1c2747;
+  --mk-op-border: #2d3e6e;
+  --mk-op-text: #facc15;
+  --mk-accent-bg: #4f46e5;
+  --mk-accent-hover: #4338ca;
+  --mk-accent-text: #ffffff;
+  --mk-danger-bg: #3f1721;
+  --mk-danger-border: #7f1d1d;
+  --mk-danger-text: #fca5a5;
+  --mk-danger-hover: #991b1b;
+  --mk-shadow: 0 -12px 36px rgba(0, 0, 0, 0.55);
+}
+
+/* Modo Claro */
+html[data-theme="light"] {
+  --mk-bg: rgba(255, 255, 255, 0.98);
+  --mk-head-bg: #f1f5f9;
+  --mk-border: #cbd5e1;
+  --mk-text: #0f172a;
+  --mk-muted: #64748b;
+  --mk-key-bg: #ffffff;
+  --mk-key-hover: #f1f5f9;
+  --mk-key-active: #e2e8f0;
+  --mk-key-border: #cbd5e1;
+  --mk-key-text: #1e293b;
+  --mk-var-bg: #f0f9ff;
+  --mk-var-border: #bae6fd;
+  --mk-var-text: #0284c7;
+  --mk-fn-bg: #faf5ff;
+  --mk-fn-border: #e9d5ff;
+  --mk-fn-text: #7e22ce;
+  --mk-op-bg: #f8fafc;
+  --mk-op-border: #cbd5e1;
+  --mk-op-text: #d97706;
+  --mk-accent-bg: #4f46e5;
+  --mk-accent-hover: #4338ca;
+  --mk-accent-text: #ffffff;
+  --mk-danger-bg: #fee2e2;
+  --mk-danger-border: #fca5a5;
+  --mk-danger-text: #b91c1c;
+  --mk-danger-hover: #fecaca;
+  --mk-shadow: 0 -12px 36px rgba(15, 23, 42, 0.12);
+}
+
+/* Botón Flotante Discreto de Activación (Inferior Izquierdo) */
+.math-keyboard-toggle-btn {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  z-index: 9990;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  background: var(--mk-head-bg);
+  color: var(--mk-text);
+  border: 1px solid var(--mk-border);
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4), 0 0 12px rgba(79, 70, 229, 0.2);
+  cursor: pointer;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease,
+              background-color 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.math-keyboard-toggle-btn:hover {
+  transform: translateY(-2px);
+  border-color: #6366f1;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.45), 0 0 18px rgba(99, 102, 241, 0.35);
+}
+
+.math-keyboard-toggle-btn:active {
+  transform: translateY(0);
+}
+
+.math-keyboard-toggle-btn svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.1;
+  color: #818cf8;
+}
+
+.math-keyboard-toggle-btn .status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #22d3ee;
+  box-shadow: 0 0 8px #22d3ee;
+  display: inline-block;
+}
+
+/* Contenedor Principal del Cajón del Teclado */
+.math-keyboard-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 760px;
+  width: 100%;
+  z-index: 9995;
+  background: var(--mk-bg);
+  border: 1px solid var(--mk-border);
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  box-shadow: var(--mk-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  user-select: none;
+}
+
+.math-keyboard-drawer.is-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modo Minimizado: sólo muestra la barra de título / pestañas */
+.math-keyboard-drawer.is-minimized {
+  transform: translateY(calc(100% - var(--mk-header-height, 46px)));
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Encabezado del Cajón */
+.math-keyboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--mk-head-bg);
+  border-bottom: 1px solid var(--mk-border);
+  gap: 8px;
+}
+
+/* Pestañas: Básico (123), Funciones f(x), Cálculo */
+.math-keyboard-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid var(--mk-border);
+}
+
+.math-keyboard-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--mk-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.math-keyboard-tab:hover {
+  color: var(--mk-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.math-keyboard-tab.is-active {
+  background: var(--mk-accent-bg);
+  color: var(--mk-accent-text);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
+}
+
+/* Indicador de Campo Activo */
+.math-keyboard-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--mk-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--mk-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.math-keyboard-indicator .target-name {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Botones de Control de Ventana (Minimizar, Cerrar) */
+.math-keyboard-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.math-keyboard-ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--mk-muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.math-keyboard-ctrl-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--mk-text);
+  border-color: var(--mk-border);
+}
+
+.math-keyboard-ctrl-btn.close:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+/* Cuerpo de Teclas */
+.math-keyboard-body {
+  padding: 10px 12px 14px 12px;
+  background: var(--mk-bg);
+}
+
+.math-keyboard-grid {
+  display: none;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.math-keyboard-grid.is-visible {
+  display: grid;
+}
+
+/* Estilo Base de Teclas */
+.math-key {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 4px 2px;
+  border-radius: 8px;
+  border: 1px solid var(--mk-key-border);
+  background: var(--mk-key-bg);
+  color: var(--mk-key-text);
+  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.08s ease, background-color 0.12s ease, border-color 0.12s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.math-key:hover {
+  background: var(--mk-key-hover);
+  border-color: #4b5d88;
+}
+
+.math-key:active {
+  transform: scale(0.95);
+  background: var(--mk-key-active);
+}
+
+.math-key .sub-label {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--mk-muted);
+  margin-top: 1px;
+  line-height: 1;
+}
+
+/* Variantes Semánticas de Teclas */
+.math-key.var-key {
+  background: var(--mk-var-bg);
+  border-color: var(--mk-var-border);
+  color: var(--mk-var-text);
+  font-style: italic;
+}
+
+.math-key.num-key {
+  background: var(--mk-key-bg);
+  color: var(--mk-key-text);
+  font-size: 15px;
+}
+
+.math-key.op-key {
+  background: var(--mk-op-bg);
+  border-color: var(--mk-op-border);
+  color: var(--mk-op-text);
+  font-size: 16px;
+}
+
+.math-key.fn-key {
+  background: var(--mk-fn-bg);
+  border-color: var(--mk-fn-border);
+  color: var(--mk-fn-text);
+  font-size: 13px;
+}
+
+.math-key.action-enter {
+  background: var(--mk-accent-bg);
+  border-color: var(--mk-accent-hover);
+  color: var(--mk-accent-text);
+  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.4);
+}
+
+.math-key.action-enter:hover {
+  background: var(--mk-accent-hover);
+}
+
+.math-key.action-danger {
+  background: var(--mk-danger-bg);
+  border-color: var(--mk-danger-border);
+  color: var(--mk-danger-text);
+}
+
+.math-key.action-danger:hover {
+  background: var(--mk-danger-hover);
+  color: #ffffff;
+}
+
+.math-key.action-util {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--mk-muted);
+}
+
+.math-key.action-util:hover {
+  color: var(--mk-text);
+}
+
+.math-key:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+body[data-math-keyboard-mode="physics"] .math-keyboard-tabs {
+  display: none;
+}
+
+body[data-math-keyboard-mode="physics"] .math-keyboard-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+body[data-math-keyboard-mode="physics"] .math-keyboard-indicator {
+  max-width: min(300px, calc(100vw - 138px));
+}
+
+body[data-math-keyboard-mode="physics"] .math-key.tramos-only {
+  display: none;
+}
+
+body[data-math-keyboard-mode="physics"] .math-keyboard-drawer.physics-tramos .math-key.tramos-only {
+  display: flex;
+}
+
+/* Reservar sólo la altura visible, sin interferir con la animación de NEXO. */
+body.math-keyboard-open #nexo-float-btn {
+  bottom: calc(var(--math-keyboard-height, 0px) + 22px);
+}
+
+body.math-keyboard-open #nexo-chat-window {
+  bottom: calc(var(--math-keyboard-height, 0px) + 98px);
+  max-height: calc(100dvh - var(--math-keyboard-height, 0px) - 120px);
+}
+
+/* Coexistencia Segura con NEXO Asistente en Pantallas Móviles */
+@media (max-width: 768px) {
+  .math-keyboard-toggle-btn {
+    left: 14px;
+    bottom: 16px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .math-keyboard-drawer {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .math-keyboard-header {
+    padding: 6px 10px;
+  }
+
+  .math-keyboard-tab {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .math-keyboard-indicator {
+    max-width: 140px;
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .math-keyboard-body {
+    padding: 8px 8px 12px 8px;
+  }
+
+  .math-keyboard-grid {
+    gap: 4px;
+  }
+
+  .math-key {
+    min-height: 38px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .math-key.op-key {
+    font-size: 15px;
+  }
+
+}
+
+@media (max-width: 600px) {
+  body.math-keyboard-open #nexo-float-btn {
+    bottom: calc(var(--math-keyboard-height, 0px) + 16px);
+  }
+
+  body.math-keyboard-open #nexo-chat-window {
+    bottom: calc(var(--math-keyboard-height, 0px) + 84px);
+    max-height: calc(100dvh - var(--math-keyboard-height, 0px) - 100px);
+  }
+}
