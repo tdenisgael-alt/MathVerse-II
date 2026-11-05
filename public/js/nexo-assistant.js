@@ -16,6 +16,22 @@
   const STORAGE_STATE_KEY = 'mathverse.nexo.state.v1';
   const STORAGE_THEME_KEY = 'mathverse.study.theme.v1';
   const STORAGE_CLIENT_ID_KEY = 'mathverse.client.id.v1';
+  const STORAGE_CONTEXT_ENABLED_KEY = 'mathverse.nexo.context.enabled';
+
+  function isContextEnabled() {
+    try {
+      const val = localStorage.getItem(STORAGE_CONTEXT_ENABLED_KEY);
+      if (val === 'false') return false;
+    } catch (e) {}
+    return true;
+  }
+
+  function setContextEnabled(enabled) {
+    try {
+      localStorage.setItem(STORAGE_CONTEXT_ENABLED_KEY, enabled ? 'true' : 'false');
+    } catch (e) {}
+  }
+
 
   function getOrCreateClientId() {
     try {
@@ -72,6 +88,374 @@
   /**
    * Detección de contexto académico según la ruta actual del navegador
    */
+
+  /**
+   * Extrae el contexto académico en tiempo real de la Calculadora de Matemática II.
+   * Acceso estrictamente de solo lectura a los campos, punto de evaluación, estado y resultados.
+   */
+  /**
+   * Sincronización transparente de estados de cálculo en la calculadora de Matemática II
+   */
+  function syncCalculatorTracking() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const hook = (fnName, onExecuted) => {
+      if (typeof window[fnName] === 'function' && !window[fnName]._nexoTracked) {
+        const original = window[fnName];
+        window[fnName] = function(...args) {
+          const ret = original.apply(this, args);
+          try { onExecuted(); } catch (e) {}
+          return ret;
+        };
+        window[fnName]._nexoTracked = true;
+      }
+    };
+
+    hook('calcular', () => {
+      const f = document.getElementById('func');
+      const a = document.getElementById('valA');
+      const b = document.getElementById('valB');
+      const m = document.getElementById('tab-hessian')?.classList.contains('bg-brand-600') ? 'hessian' :
+                document.getElementById('tab-gradient')?.classList.contains('bg-brand-600') ? 'gradient' :
+                document.getElementById('tab-tangent')?.classList.contains('bg-brand-600') ? 'tangent' : 'partials';
+      if (f) { f.dataset.lastCalc = f.value.trim(); f.dataset.lastMode = m; }
+      if (a) a.dataset.lastCalc = a.value.trim();
+      if (b) b.dataset.lastCalc = b.value.trim();
+    });
+
+    hook('setMode', (mode) => {
+      if (typeof window !== 'undefined' && mode) window.currentMode = mode;
+    });
+
+    hook('calcularIntegralDoble', () => {
+      const f = document.getElementById('intFunc');
+      const a = document.getElementById('intA');
+      const b = document.getElementById('intB');
+      const c = document.getElementById('intC');
+      const d = document.getElementById('intD');
+      if (f) f.dataset.lastCalc = f.value.trim();
+      if (a) a.dataset.lastCalc = a.value.trim();
+      if (b) b.dataset.lastCalc = b.value.trim();
+      if (c) c.dataset.lastCalc = c.value.trim();
+      if (d) d.dataset.lastCalc = d.value.trim();
+    });
+
+    hook('calcularAnalisisVectorial', () => {
+      const p = document.getElementById('vecP');
+      const q = document.getElementById('vecQ');
+      const r = document.getElementById('vecR');
+      const x0 = document.getElementById('vecX0');
+      const y0 = document.getElementById('vecY0');
+      const z0 = document.getElementById('vecZ0');
+      if (p) p.dataset.lastCalc = p.value.trim();
+      if (q) q.dataset.lastCalc = q.value.trim();
+      if (r) r.dataset.lastCalc = r.value.trim();
+      if (x0) x0.dataset.lastCalc = x0.value.trim();
+      if (y0) y0.dataset.lastCalc = y0.value.trim();
+      if (z0) z0.dataset.lastCalc = z0.value.trim();
+    });
+
+    // Inicializar snapshots para estado de carga inicial
+    const f1 = document.getElementById('func');
+    const a1 = document.getElementById('valA');
+    const b1 = document.getElementById('valB');
+    const p1 = document.getElementById('pasos');
+    const e1 = document.getElementById('errorBox');
+    if (f1 && f1.dataset.lastCalc === undefined && p1 && p1.children.length > 0 && (!e1 || e1.classList.contains('hidden'))) {
+      f1.dataset.lastCalc = f1.value.trim();
+      const m1 = document.getElementById('tab-hessian')?.classList.contains('bg-brand-600') ? 'hessian' :
+                 document.getElementById('tab-gradient')?.classList.contains('bg-brand-600') ? 'gradient' :
+                 document.getElementById('tab-tangent')?.classList.contains('bg-brand-600') ? 'tangent' : 'partials';
+      f1.dataset.lastMode = m1;
+      if (a1) a1.dataset.lastCalc = a1.value.trim();
+      if (b1) b1.dataset.lastCalc = b1.value.trim();
+    }
+  }
+
+  /**
+   * Extrae el contexto académico en tiempo real de la Calculadora de Matemática II.
+   * Acceso estrictamente de solo lectura a los campos, punto de evaluación, estado y resultados.
+   */
+  function extractMatematicaContext() {
+    if (typeof document === 'undefined') return null;
+
+    // Asegurar sincronización de tracking
+    syncCalculatorTracking();
+
+    const getCleanText = (el, maxLen = 500) => {
+      if (!el) return '';
+      const txt = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+      return maxLen ? txt.slice(0, maxLen) : txt;
+    };
+
+    const u1View = document.getElementById('unit-view-1');
+    const u2View = document.getElementById('unit-view-2');
+    const u3View = document.getElementById('unit-view-3');
+
+    // Determinar unidad activa
+    let unit = 1;
+    if (typeof window !== 'undefined' && typeof window.currentUnit === 'number') {
+      unit = window.currentUnit;
+    } else if (u2View && !u2View.classList.contains('hidden')) {
+      unit = 2;
+    } else if (u3View && !u3View.classList.contains('hidden')) {
+      unit = 3;
+    }
+
+    // UNIDAD 1: CÁLCULO DIFERENCIAL
+    if (unit === 1) {
+      let mode = 'partials';
+      if (document.getElementById('tab-hessian')?.classList.contains('bg-brand-600')) mode = 'hessian';
+      else if (document.getElementById('tab-gradient')?.classList.contains('bg-brand-600')) mode = 'gradient';
+      else if (document.getElementById('tab-tangent')?.classList.contains('bg-brand-600')) mode = 'tangent';
+      else if (document.getElementById('tab-partials')?.classList.contains('bg-brand-600')) mode = 'partials';
+      else if (typeof window !== 'undefined' && typeof window.currentMode === 'string') mode = window.currentMode;
+
+      const modeNames = {
+        partials: 'Derivadas Parciales de Primer y Segundo Orden',
+        gradient: 'Vector Gradiente y Derivada Direccional',
+        tangent: 'Plano Tangente y Aproximación Lineal',
+        hessian: 'Extremos Relativos y Matriz Hessiana'
+      };
+
+      const funcInput = document.getElementById('func');
+      const valAInput = document.getElementById('valA');
+      const valBInput = document.getElementById('valB');
+      const errorBox = document.getElementById('errorBox');
+      const errorMsg = document.getElementById('errorMessage');
+      const mainResEl = document.getElementById('mainResultValue');
+      const pasosEl = document.getElementById('pasos');
+
+      const funcVal = funcInput ? funcInput.value.trim() : '';
+      const aVal = valAInput ? valAInput.value.trim() : '';
+      const bVal = valBInput ? valBInput.value.trim() : '';
+
+      const hasError = errorBox && !errorBox.classList.contains('hidden');
+      const pasosText = getCleanText(pasosEl, 800);
+      const mainResultText = getCleanText(mainResEl, 500);
+
+      let status = 'CALCULATED';
+      let statusNote = '';
+      if (!funcVal) {
+        status = 'EMPTY';
+        statusNote = 'No se ha ingresado ninguna función f(x, y).';
+      } else if (hasError) {
+        status = 'ERROR';
+        statusNote = getCleanText(errorMsg, 200) || 'Error al evaluar la función en el punto indicado.';
+      } else if (funcInput && funcInput.dataset.lastCalc !== undefined && funcInput.dataset.lastCalc !== funcVal) {
+        status = 'STALE';
+        statusNote = 'La función en el campo fue modificada pero aún no se ha pulsado Calcular.';
+      } else if ((valAInput && valAInput.dataset.lastCalc !== undefined && valAInput.dataset.lastCalc !== aVal) ||
+                 (valBInput && valBInput.dataset.lastCalc !== undefined && valBInput.dataset.lastCalc !== bVal)) {
+        status = 'STALE';
+        statusNote = 'El punto de evaluación P(a, b) fue modificado pero aún no se ha pulsado Calcular.';
+      } else if (funcInput && funcInput.dataset.lastMode !== undefined && funcInput.dataset.lastMode !== mode) {
+        status = 'STALE';
+        statusNote = 'Se cambió de herramienta pero aún no se ha pulsado Calcular.';
+      } else if (pasosText && mode === 'partials' && !pasosText.includes(funcVal)) {
+        status = 'STALE';
+        statusNote = 'La función en el campo fue modificada pero aún no se ha pulsado Calcular.';
+      }
+
+      const inputs = {
+        function: funcVal,
+        evaluationPoint: { a: aVal, b: bVal }
+      };
+
+      if (mode === 'gradient') {
+        const u1 = document.getElementById('valU1');
+        const u2 = document.getElementById('valU2');
+        inputs.directionVector = { u1: u1 ? u1.value : '1', u2: u2 ? u2.value : '1' };
+      }
+
+      let plotDesc = 'Gráfica 3D no inicializada.';
+      const plotEl = document.getElementById('plot');
+      if (plotEl && plotEl.data && Array.isArray(plotEl.data)) {
+        const traces = plotEl.data.map(t => t.name || t.type).filter(Boolean);
+        plotDesc = `Superficie z=f(x,y) con ${plotEl.data.length} traza(s) activas: [${traces.join(', ')}]`;
+      }
+
+      return {
+        page: 'Calculadora de Matemática II',
+        unitNumber: 1,
+        module: 'Unidad 1 · Cálculo Diferencial',
+        tool: modeNames[mode] || mode,
+        status,
+        statusNote,
+        inputs,
+        results: mainResultText,
+        stepsSummary: pasosText,
+        plotDescription: plotDesc
+      };
+    }
+
+    // UNIDAD 2: INTEGRALES DOBLES
+    if (unit === 2) {
+      const intFuncInput = document.getElementById('intFunc');
+      const aInp = document.getElementById('intA');
+      const bInp = document.getElementById('intB');
+      const cInp = document.getElementById('intC');
+      const dInp = document.getElementById('intD');
+      const intErrorBox = document.getElementById('intErrorBox');
+      const intErrorMsg = document.getElementById('intErrorMessage');
+      const mainResEl = document.getElementById('intMainResultValue');
+      const resTypeEl = document.getElementById('intResultTypeBadge');
+      const areaEl = document.getElementById('intAreaVal');
+      const avgEl = document.getElementById('intAvgVal');
+      const pasosEl = document.getElementById('intPasos');
+
+      const funcVal = intFuncInput ? intFuncInput.value.trim() : '';
+      const aVal = aInp ? aInp.value.trim() : '0';
+      const bVal = bInp ? bInp.value.trim() : '1';
+      const cVal = cInp ? cInp.value.trim() : '0';
+      const dVal = dInp ? dInp.value.trim() : '1';
+
+      const hasError = intErrorBox && !intErrorBox.classList.contains('hidden');
+      const pasosText = getCleanText(pasosEl, 800);
+      const mainResultText = getCleanText(mainResEl, 300);
+      const resultType = getCleanText(resTypeEl, 100);
+
+      let status = 'CALCULATED';
+      let statusNote = '';
+      if (!funcVal) {
+        status = 'EMPTY';
+        statusNote = 'No se ha ingresado ninguna función integrando f(x, y).';
+      } else if (hasError) {
+        status = 'ERROR';
+        statusNote = getCleanText(intErrorMsg, 200) || 'Error en el cálculo de la integral doble.';
+      } else if (intFuncInput && intFuncInput.dataset.lastCalc !== undefined && intFuncInput.dataset.lastCalc !== funcVal) {
+        status = 'STALE';
+        statusNote = 'La función integrando fue modificada pero aún no se ha pulsado Calcular.';
+      } else if ((aInp && aInp.dataset.lastCalc !== undefined && aInp.dataset.lastCalc !== aVal) ||
+                 (bInp && bInp.dataset.lastCalc !== undefined && bInp.dataset.lastCalc !== bVal) ||
+                 (cInp && cInp.dataset.lastCalc !== undefined && cInp.dataset.lastCalc !== cVal) ||
+                 (dInp && dInp.dataset.lastCalc !== undefined && dInp.dataset.lastCalc !== dVal)) {
+        status = 'STALE';
+        statusNote = 'Los límites de integración fueron modificados pero aún no se ha pulsado Calcular.';
+      } else if (pasosText && !pasosText.includes(funcVal)) {
+        status = 'STALE';
+        statusNote = 'La función integrando fue modificada pero aún no se ha pulsado Calcular.';
+      }
+
+      let plotDesc = 'Gráfica 3D de volumen no inicializada.';
+      const plotEl = document.getElementById('intPlot');
+      if (plotEl && plotEl.data && Array.isArray(plotEl.data)) {
+        const traces = plotEl.data.map(t => t.name || t.type).filter(Boolean);
+        plotDesc = `Volumen de integración rectangular con ${plotEl.data.length} traza(s): [${traces.join(', ')}]`;
+      }
+
+      return {
+        page: 'Calculadora de Matemática II',
+        unitNumber: 2,
+        module: 'Unidad 2 · Integrales Múltiples',
+        tool: 'Integrales Dobles sobre Regiones Rectangulares (Fubini)',
+        status,
+        statusNote,
+        inputs: {
+          function: funcVal,
+          limits: {
+            x: [aVal, bVal],
+            y: [cVal, dVal]
+          }
+        },
+        results: `${mainResultText} ${resultType ? `(${resultType})` : ''} | Área base: ${getCleanText(areaEl, 50)} | Valor promedio: ${getCleanText(avgEl, 50)}`,
+        stepsSummary: pasosText,
+        plotDescription: plotDesc
+      };
+    }
+
+    // UNIDAD 3: ANÁLISIS VECTORIAL
+    if (unit === 3) {
+      const pInp = document.getElementById('vecP');
+      const qInp = document.getElementById('vecQ');
+      const rInp = document.getElementById('vecR');
+      const x0Inp = document.getElementById('vecX0');
+      const y0Inp = document.getElementById('vecY0');
+      const z0Inp = document.getElementById('vecZ0');
+      const vecErrorBox = document.getElementById('vecErrorBox');
+      const vecErrorMsg = document.getElementById('vecErrorMessage');
+      const divSym = document.getElementById('divSymbolicVal');
+      const divEval = document.getElementById('divEvalVal');
+      const divBadge = document.getElementById('divStatusBadge');
+      const curlSym = document.getElementById('curlSymbolicVal');
+      const curlEval = document.getElementById('curlEvalVal');
+      const curlMag = document.getElementById('curlMagVal');
+      const curlBadge = document.getElementById('curlStatusBadge');
+      const pasosEl = document.getElementById('vecPasos');
+
+      const P = pInp ? pInp.value.trim() : '';
+      const Q = qInp ? qInp.value.trim() : '';
+      const R = rInp ? rInp.value.trim() : '';
+      const x0 = x0Inp ? x0Inp.value.trim() : '1';
+      const y0 = y0Inp ? y0Inp.value.trim() : '1';
+      const z0 = z0Inp ? z0Inp.value.trim() : '1';
+
+      const hasError = vecErrorBox && !vecErrorBox.classList.contains('hidden');
+      const pasosText = getCleanText(pasosEl, 800);
+
+      let status = 'CALCULATED';
+      let statusNote = '';
+      if (!P || !Q || !R) {
+        status = 'EMPTY';
+        statusNote = 'Componentes P, Q o R del campo vectorial incompletas.';
+      } else if (hasError) {
+        status = 'ERROR';
+        statusNote = getCleanText(vecErrorMsg, 200) || 'Error en el análisis del campo vectorial.';
+      } else if ((pInp && pInp.dataset.lastCalc !== undefined && pInp.dataset.lastCalc !== P) ||
+                 (qInp && qInp.dataset.lastCalc !== undefined && qInp.dataset.lastCalc !== Q) ||
+                 (rInp && rInp.dataset.lastCalc !== undefined && rInp.dataset.lastCalc !== R)) {
+        status = 'STALE';
+        statusNote = 'Las componentes del campo vectorial fueron modificadas pero aún no se ha pulsado Calcular.';
+      } else if ((x0Inp && x0Inp.dataset.lastCalc !== undefined && x0Inp.dataset.lastCalc !== x0) ||
+                 (y0Inp && y0Inp.dataset.lastCalc !== undefined && y0Inp.dataset.lastCalc !== y0) ||
+                 (z0Inp && z0Inp.dataset.lastCalc !== undefined && z0Inp.dataset.lastCalc !== z0)) {
+        status = 'STALE';
+        statusNote = 'El punto P0(x0, y0, z0) fue modificado pero aún no se ha pulsado Calcular.';
+      }
+
+      let plotDesc = 'Visualización 3D del campo vectorial no inicializada.';
+      const plotEl = document.getElementById('vecPlot');
+      if (plotEl && plotEl.data && Array.isArray(plotEl.data)) {
+        const traces = plotEl.data.map(t => t.name || t.type).filter(Boolean);
+        plotDesc = `Campo vectorial F=⟨P,Q,R⟩ en 3D con ${plotEl.data.length} traza(s): [${traces.join(', ')}]`;
+      }
+
+      return {
+        page: 'Calculadora de Matemática II',
+        unitNumber: 3,
+        module: 'Unidad 3 · Análisis Vectorial',
+        tool: 'Campos Vectoriales, Divergencia, Rotacional y Campo Conservativo',
+        status,
+        statusNote,
+        inputs: {
+          vectorField: { P, Q, R },
+          point0: {
+            x0,
+            y0,
+            z0
+          }
+        },
+        results: `Divergencia ∇·F: simbólica=${getCleanText(divSym, 100)}, evaluada=${getCleanText(divEval, 100)} (${getCleanText(divBadge, 100)}) | Rotacional ∇×F: simbólico=${getCleanText(curlSym, 100)}, evaluado=${getCleanText(curlEval, 100)}, magnitud=${getCleanText(curlMag, 50)} (${getCleanText(curlBadge, 100)})`,
+        stepsSummary: pasosText,
+        plotDescription: plotDesc
+      };
+    }
+
+    return null;
+  }
+
+  /**
+   * Extracción general de contexto académico de la página actual
+   */
+  function extractAcademicContext() {
+    if (typeof window === 'undefined') return null;
+    const path = (window.location && window.location.pathname) ? window.location.pathname.toLowerCase() : '';
+    if (path.includes('/calculadora/matematica')) {
+      return extractMatematicaContext();
+    }
+    return null;
+  }
+
   function detectContext(pathOverride) {
     const rawPath = pathOverride || (typeof window !== 'undefined' && window.location ? window.location.pathname : '');
     const path = String(rawPath || '').toLowerCase();
@@ -400,6 +784,8 @@
    * Construcción del DOM del Asistente NEXO
    */
   function createWidgetDom() {
+    const isMatematicaCalc = (typeof window !== 'undefined' && window.location && window.location.pathname.includes('/calculadora/matematica'));
+
     // 1. Botón flotante
     const floatBtn = document.createElement('button');
     floatBtn.id = 'nexo-float-btn';
@@ -448,7 +834,12 @@
       </header>
 
       <div class="nexo-chat-toolbar">
-        <span class="nexo-context-badge">Módulo: ${escapeHtml(currentContext.category)}</span>
+        ${isMatematicaCalc ? `
+        <button class="nexo-context-toggle-btn is-active" id="nexo-context-toggle" type="button" aria-label="Alternar contexto académico de calculadora" aria-pressed="true" title="Contexto académico activo. NEXO lee los datos de tu calculadora para orientarte. Clic para desactivar.">
+          <span class="nexo-toggle-dot" aria-hidden="true"></span>
+          <span id="nexo-context-toggle-label">Contexto MII: ON</span>
+        </button>` : `
+        <span class="nexo-context-badge">Módulo: \${escapeHtml(currentContext.category)}</span>`}
         <button class="nexo-clear-btn" id="nexo-btn-clear" type="button" aria-label="Reiniciar conversación con NEXO" title="Reiniciar historial">Limpiar chat</button>
       </div>
 
@@ -501,6 +892,37 @@
     const minimizeBtn = chatWindow.querySelector('#nexo-btn-minimize');
     const themeBtn = chatWindow.querySelector('#nexo-btn-theme');
     const clearBtn = chatWindow.querySelector('#nexo-btn-clear');
+    const contextToggleBtn = chatWindow.querySelector('#nexo-context-toggle');
+
+    function updateContextToggleUI(enabled) {
+      if (!contextToggleBtn) return;
+      if (enabled) {
+        contextToggleBtn.classList.add('is-active');
+        contextToggleBtn.classList.remove('is-muted');
+        contextToggleBtn.setAttribute('aria-pressed', 'true');
+        contextToggleBtn.setAttribute('title', 'Contexto académico activo. NEXO lee los datos de tu calculadora para orientarte. Clic para desactivar.');
+        const lbl = contextToggleBtn.querySelector('#nexo-context-toggle-label');
+        if (lbl) lbl.textContent = 'Contexto MII: ON';
+        if (inputElem) inputElem.placeholder = 'Hazle una consulta a NEXO sobre tu ejercicio…';
+      } else {
+        contextToggleBtn.classList.remove('is-active');
+        contextToggleBtn.classList.add('is-muted');
+        contextToggleBtn.setAttribute('aria-pressed', 'false');
+        contextToggleBtn.setAttribute('title', 'Contexto académico desactivado. NEXO responderá consultas generales sin leer la calculadora. Clic para activar.');
+        const lbl = contextToggleBtn.querySelector('#nexo-context-toggle-label');
+        if (lbl) lbl.textContent = 'Contexto: OFF';
+        if (inputElem) inputElem.placeholder = 'Hazle una consulta a NEXO…';
+      }
+    }
+
+    if (contextToggleBtn) {
+      updateContextToggleUI(isContextEnabled());
+      contextToggleBtn.addEventListener('click', () => {
+        const nowEnabled = !isContextEnabled();
+        setContextEnabled(nowEnabled);
+        updateContextToggleUI(nowEnabled);
+      });
+    }
 
     let isSubmitting = false;
     let lastUserQuestion = '';
@@ -613,6 +1035,15 @@
 
     // Estado del diálogo (abrir, minimizar, cerrar)
     function openChat() {
+      // Si estamos en la Calculadora de Matemática II, refrescar contexto dinámico y chips
+      if (typeof window !== 'undefined' && window.location && window.location.pathname.includes('/calculadora/matematica')) {
+        const freshCtx = detectContext();
+        currentContext.topic = freshCtx.topic;
+        currentContext.chips = freshCtx.chips;
+        const ctxHeaderEl = chatWindow.querySelector('#nexo-header-context');
+        if (ctxHeaderEl) ctxHeaderEl.textContent = '📍 ' + freshCtx.topic;
+        renderChips();
+      }
       previousFocusedElement = document.activeElement;
       chatWindow.classList.add('nexo-open');
       chatWindow.classList.remove('nexo-minimized');
@@ -770,15 +1201,26 @@
       // Añadir contexto implícito calculando dinámicamente el tamaño final para respetar los 2500 caracteres (D4)
       const contextualMessage = buildContextualMessage(text, currentContext);
 
+      // Contexto académico estructurado (de solo lectura) si está habilitado
+      let academicContext = null;
+      if (isContextEnabled()) {
+        academicContext = extractAcademicContext();
+      }
+
+      const requestPayload = {
+        message: contextualMessage,
+        history: historyPayload,
+        clientId: getOrCreateClientId()
+      };
+      if (academicContext) {
+        requestPayload.context = academicContext;
+      }
+
       try {
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: contextualMessage,
-            history: historyPayload,
-            clientId: getOrCreateClientId()
-          }),
+          body: JSON.stringify(requestPayload),
           signal: controller.signal
         });
 
@@ -919,8 +1361,14 @@
         openChat,
         closeChat,
         clearChat: () => clearBtn.click(),
-        getActiveAbortController: () => activeAbortController
+        getActiveAbortController: () => activeAbortController,
+        extractAcademicContext,
+        extractMatematicaContext,
+        isContextEnabled,
+        setContextEnabled
       };
+      window.extractAcademicContext = extractAcademicContext;
+      window.extractMatematicaContext = extractMatematicaContext;
     }
   }
 
@@ -930,7 +1378,11 @@
       detectContext,
       getHistoryPayload,
       loadHistory,
-      saveHistory
+      saveHistory,
+      extractAcademicContext,
+      extractMatematicaContext,
+      isContextEnabled,
+      setContextEnabled
     };
   }
 
