@@ -25,6 +25,29 @@
   animation: nexo-gentle-hover 4s ease-in-out infinite;
   transition: transform 0.25s ease, filter 0.25s ease, opacity 0.2s ease;
   -webkit-tap-highlight-color: transparent;
+  isolation: isolate;
+}
+
+.nexo-float-btn::before,
+.nexo-float-btn::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none !important;
+  z-index: -1;
+  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+}
+
+.nexo-float-btn::before {
+  inset: -6px;
+  opacity: 0.35;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(56, 189, 248, 0.18) 55%, transparent 72%);
+  animation: nexo-idle-breathe 4s ease-in-out infinite;
+}
+
+.nexo-float-btn::after {
+  inset: -8px;
+  opacity: 0;
 }
 
 .nexo-float-btn img {
@@ -216,6 +239,8 @@ html[data-theme="dark"] .nexo-chat-window,
   object-fit: contain;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(104, 124, 246, 0.35));
+  transform-origin: center center;
+  transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .nexo-header-info {
@@ -915,5 +940,568 @@ html[data-theme="dark"] .chat-table th,
   }
   body.math-keyboard-open .nexo-float-btn {
     bottom: 250px;
+  }
+}
+
+
+/* ==========================================================================
+   ESTADOS VISUALES ANIMADOS DE NEXO (EVOLUCIÓN TUTOR VIRTUAL)
+   Controlables mediante data-nexo-state en el elemento raíz, body o botón.
+   Estados: IDLE (defecto), LISTENING, ANALYZING, EXPLAINING, SUCCESS, ERROR.
+   ========================================================================== */
+
+/* 1. IDLE (En reposo - por defecto) */
+:root[data-nexo-state="idle"] .nexo-float-btn,
+body[data-nexo-state="idle"] .nexo-float-btn,
+.nexo-float-btn[data-nexo-state="idle"],
+.nexo-float-btn:not([data-nexo-state]):not(.nexo-state-listening):not(.nexo-state-analyzing):not(.nexo-state-explaining):not(.nexo-state-success):not(.nexo-state-error) {
+  animation: nexo-gentle-hover 4s ease-in-out infinite;
+}
+
+:root[data-nexo-state="idle"] .nexo-float-btn::before,
+body[data-nexo-state="idle"] .nexo-float-btn::before,
+.nexo-float-btn[data-nexo-state="idle"]::before,
+.nexo-float-btn:not([data-nexo-state]):not(.nexo-state-listening):not(.nexo-state-analyzing):not(.nexo-state-explaining):not(.nexo-state-success):not(.nexo-state-error)::before {
+  opacity: 0.35;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(56, 189, 248, 0.18) 55%, transparent 72%);
+  animation: nexo-idle-breathe 4s ease-in-out infinite;
+}
+
+:root[data-nexo-state="idle"] .nexo-float-btn img,
+body[data-nexo-state="idle"] .nexo-float-btn img,
+.nexo-float-btn[data-nexo-state="idle"] img,
+.nexo-float-btn:not([data-nexo-state]):not(.nexo-state-listening):not(.nexo-state-analyzing):not(.nexo-state-explaining):not(.nexo-state-success):not(.nexo-state-error) img {
+  filter: drop-shadow(0 6px 14px rgba(99, 102, 241, 0.45)) drop-shadow(0 2px 6px rgba(45, 212, 191, 0.3));
+}
+
+:root[data-nexo-state="idle"] .nexo-online-dot,
+body[data-nexo-state="idle"] .nexo-online-dot,
+.nexo-chat-window[data-nexo-state="idle"] .nexo-online-dot {
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+
+/* 2. LISTENING (Atención activa) */
+:root[data-nexo-state="listening"] .nexo-float-btn,
+body[data-nexo-state="listening"] .nexo-float-btn,
+.nexo-float-btn[data-nexo-state="listening"],
+.nexo-float-btn.nexo-state-listening {
+  animation: nexo-listening-hover 2.4s ease-in-out infinite;
+}
+
+:root[data-nexo-state="listening"] .nexo-float-btn::before,
+body[data-nexo-state="listening"] .nexo-float-btn::before,
+.nexo-float-btn[data-nexo-state="listening"]::before,
+.nexo-float-btn.nexo-state-listening::before {
+  opacity: 0.65;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.55) 0%, rgba(45, 212, 191, 0.28) 60%, transparent 75%);
+  animation: nexo-listening-pulse 1.8s ease-in-out infinite;
+}
+
+:root[data-nexo-state="listening"] .nexo-float-btn img,
+body[data-nexo-state="listening"] .nexo-float-btn img,
+.nexo-float-btn[data-nexo-state="listening"] img,
+.nexo-float-btn.nexo-state-listening img {
+  filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.75)) drop-shadow(0 4px 10px rgba(99, 102, 241, 0.45));
+}
+
+:root[data-nexo-state="listening"] .nexo-header-avatar,
+body[data-nexo-state="listening"] .nexo-header-avatar,
+.nexo-chat-window[data-nexo-state="listening"] .nexo-header-avatar,
+.nexo-chat-window.nexo-state-listening .nexo-header-avatar,
+.nexo-header-avatar[data-nexo-state="listening"] {
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.65));
+  animation: nexo-header-listening 2.4s ease-in-out infinite;
+}
+
+:root[data-nexo-state="listening"] .nexo-online-dot,
+body[data-nexo-state="listening"] .nexo-online-dot,
+.nexo-chat-window[data-nexo-state="listening"] .nexo-online-dot,
+.nexo-chat-window.nexo-state-listening .nexo-online-dot {
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.8), 0 0 0 2px rgba(56, 189, 248, 0.35);
+  animation: nexo-dot-pulse-listening 1.5s ease-in-out infinite;
+}
+
+/* 3. ANALYZING (Procesando consulta o cálculo) */
+:root[data-nexo-state="analyzing"] .nexo-float-btn,
+body[data-nexo-state="analyzing"] .nexo-float-btn,
+.nexo-float-btn[data-nexo-state="analyzing"],
+.nexo-float-btn.nexo-state-analyzing {
+  animation: nexo-analyzing-hover 0.9s ease-in-out infinite;
+}
+
+:root[data-nexo-state="analyzing"] .nexo-float-btn::before,
+body[data-nexo-state="analyzing"] .nexo-float-btn::before,
+.nexo-float-btn[data-nexo-state="analyzing"]::before,
+.nexo-float-btn.nexo-state-analyzing::before {
+  opacity: 0.6;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.55) 0%, rgba(99, 102, 241, 0.3) 60%, transparent 75%);
+  animation: nexo-analyzing-pulse 1s ease-in-out infinite;
+}
+
+:root[data-nexo-state="analyzing"] .nexo-float-btn::after,
+body[data-nexo-state="analyzing"] .nexo-float-btn::after,
+.nexo-float-btn[data-nexo-state="analyzing"]::after,
+.nexo-float-btn.nexo-state-analyzing::after {
+  opacity: 1;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #38bdf8;
+  border-right-color: #818cf8;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.75), inset 0 0 8px rgba(129, 140, 248, 0.45);
+  animation: nexo-orbit-spin 1.2s linear infinite;
+}
+
+:root[data-nexo-state="analyzing"] .nexo-float-btn img,
+body[data-nexo-state="analyzing"] .nexo-float-btn img,
+.nexo-float-btn[data-nexo-state="analyzing"] img,
+.nexo-float-btn.nexo-state-analyzing img {
+  filter: drop-shadow(0 0 18px rgba(129, 140, 248, 0.85)) drop-shadow(0 0 8px rgba(56, 189, 248, 0.65));
+}
+
+:root[data-nexo-state="analyzing"] .nexo-header-avatar,
+body[data-nexo-state="analyzing"] .nexo-header-avatar,
+.nexo-chat-window[data-nexo-state="analyzing"] .nexo-header-avatar,
+.nexo-chat-window.nexo-state-analyzing .nexo-header-avatar,
+.nexo-header-avatar[data-nexo-state="analyzing"] {
+  filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.8));
+  animation: nexo-header-analyzing 1s ease-in-out infinite;
+}
+
+:root[data-nexo-state="analyzing"] .nexo-online-dot,
+body[data-nexo-state="analyzing"] .nexo-online-dot,
+.nexo-chat-window[data-nexo-state="analyzing"] .nexo-online-dot,
+.nexo-chat-window.nexo-state-analyzing .nexo-online-dot {
+  background: #818cf8;
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.85), 0 0 0 2px rgba(129, 140, 248, 0.4);
+  animation: nexo-dot-analyzing 0.8s ease-in-out infinite;
+}
+
+/* 4. EXPLAINING (Explicación didáctica) */
+:root[data-nexo-state="explaining"] .nexo-float-btn,
+body[data-nexo-state="explaining"] .nexo-float-btn,
+.nexo-float-btn[data-nexo-state="explaining"],
+.nexo-float-btn.nexo-state-explaining {
+  animation: nexo-explaining-nod 2.2s ease-in-out infinite;
+}
+
+:root[data-nexo-state="explaining"] .nexo-float-btn::before,
+body[data-nexo-state="explaining"] .nexo-float-btn::before,
+.nexo-float-btn[data-nexo-state="explaining"]::before,
+.nexo-float-btn.nexo-state-explaining::before {
+  opacity: 0.55;
+  inset: -7px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(129, 140, 248, 0.25) 55%, transparent 75%);
+  animation: nexo-explaining-wave 2s ease-in-out infinite;
+}
+
+:root[data-nexo-state="explaining"] .nexo-float-btn img,
+body[data-nexo-state="explaining"] .nexo-float-btn img,
+.nexo-float-btn[data-nexo-state="explaining"] img,
+.nexo-float-btn.nexo-state-explaining img {
+  filter: drop-shadow(0 4px 14px rgba(99, 102, 241, 0.65)) drop-shadow(0 0 10px rgba(129, 140, 248, 0.55));
+}
+
+:root[data-nexo-state="explaining"] .nexo-header-avatar,
+body[data-nexo-state="explaining"] .nexo-header-avatar,
+.nexo-chat-window[data-nexo-state="explaining"] .nexo-header-avatar,
+.nexo-chat-window.nexo-state-explaining .nexo-header-avatar,
+.nexo-header-avatar[data-nexo-state="explaining"] {
+  filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.6));
+  animation: nexo-header-nod 2.2s ease-in-out infinite;
+}
+
+:root[data-nexo-state="explaining"] .nexo-online-dot,
+body[data-nexo-state="explaining"] .nexo-online-dot,
+.nexo-chat-window[data-nexo-state="explaining"] .nexo-online-dot,
+.nexo-chat-window.nexo-state-explaining .nexo-online-dot {
+  background: #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.8), 0 0 0 2px rgba(99, 102, 241, 0.35);
+  animation: nexo-dot-pulse-explaining 1.8s ease-in-out infinite;
+}
+
+/* 5. SUCCESS (Éxito académico / Cálculo verificado) */
+:root[data-nexo-state="success"] .nexo-float-btn,
+body[data-nexo-state="success"] .nexo-float-btn,
+.nexo-float-btn[data-nexo-state="success"],
+.nexo-float-btn.nexo-state-success {
+  animation: nexo-success-joy 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+:root[data-nexo-state="success"] .nexo-float-btn::before,
+body[data-nexo-state="success"] .nexo-float-btn::before,
+.nexo-float-btn[data-nexo-state="success"]::before,
+.nexo-float-btn.nexo-state-success::before {
+  opacity: 0.75;
+  inset: -10px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.65) 0%, rgba(45, 212, 191, 0.35) 60%, transparent 80%);
+  animation: nexo-success-ripple 1.8s ease-out;
+}
+
+:root[data-nexo-state="success"] .nexo-float-btn img,
+body[data-nexo-state="success"] .nexo-float-btn img,
+.nexo-float-btn[data-nexo-state="success"] img,
+.nexo-float-btn.nexo-state-success img {
+  filter: drop-shadow(0 0 22px rgba(16, 185, 129, 0.85)) drop-shadow(0 2px 10px rgba(45, 212, 191, 0.7));
+}
+
+:root[data-nexo-state="success"] .nexo-header-avatar,
+body[data-nexo-state="success"] .nexo-header-avatar,
+.nexo-chat-window[data-nexo-state="success"] .nexo-header-avatar,
+.nexo-chat-window.nexo-state-success .nexo-header-avatar,
+.nexo-header-avatar[data-nexo-state="success"] {
+  filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.75));
+  animation: nexo-header-joy 1.4s ease-out;
+}
+
+:root[data-nexo-state="success"] .nexo-online-dot,
+body[data-nexo-state="success"] .nexo-online-dot,
+.nexo-chat-window[data-nexo-state="success"] .nexo-online-dot,
+.nexo-chat-window.nexo-state-success .nexo-online-dot {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.95), 0 0 0 3px rgba(16, 185, 129, 0.4);
+}
+
+/* 6. ERROR (Dificultad o entrada incompatible con empatía) */
+:root[data-nexo-state="error"] .nexo-float-btn,
+body[data-nexo-state="error"] .nexo-float-btn,
+.nexo-float-btn[data-nexo-state="error"],
+.nexo-float-btn.nexo-state-error {
+  animation: nexo-error-wobble 1.6s ease-in-out;
+}
+
+:root[data-nexo-state="error"] .nexo-float-btn::before,
+body[data-nexo-state="error"] .nexo-float-btn::before,
+.nexo-float-btn[data-nexo-state="error"]::before,
+.nexo-float-btn.nexo-state-error::before {
+  opacity: 0.6;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.5) 0%, rgba(251, 191, 36, 0.25) 60%, transparent 75%);
+  animation: nexo-error-glow 1.6s ease-in-out infinite;
+}
+
+:root[data-nexo-state="error"] .nexo-float-btn img,
+body[data-nexo-state="error"] .nexo-float-btn img,
+.nexo-float-btn[data-nexo-state="error"] img,
+.nexo-float-btn.nexo-state-error img {
+  filter: drop-shadow(0 0 16px rgba(244, 63, 94, 0.7)) drop-shadow(0 2px 8px rgba(251, 191, 36, 0.45));
+}
+
+:root[data-nexo-state="error"] .nexo-header-avatar,
+body[data-nexo-state="error"] .nexo-header-avatar,
+.nexo-chat-window[data-nexo-state="error"] .nexo-header-avatar,
+.nexo-chat-window.nexo-state-error .nexo-header-avatar,
+.nexo-header-avatar[data-nexo-state="error"] {
+  filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.65));
+  animation: nexo-header-wobble 1.4s ease-in-out;
+}
+
+:root[data-nexo-state="error"] .nexo-online-dot,
+body[data-nexo-state="error"] .nexo-online-dot,
+.nexo-chat-window[data-nexo-state="error"] .nexo-online-dot,
+.nexo-chat-window.nexo-state-error .nexo-online-dot {
+  background: #f43f5e;
+  box-shadow: 0 0 8px rgba(244, 63, 94, 0.8), 0 0 0 2px rgba(244, 63, 94, 0.35);
+  animation: nexo-dot-pulse-error 1.4s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   KEYFRAMES DE ANIMACIÓN DE LOS ESTADOS
+   ========================================================================== */
+
+@keyframes nexo-idle-breathe {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.5;
+  }
+}
+
+@keyframes nexo-listening-hover {
+  0%, 100% {
+    transform: translateY(-2px) rotate(1.5deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(-6px) rotate(2.5deg) scale(1.04);
+  }
+}
+
+@keyframes nexo-listening-pulse {
+  0%, 100% {
+    transform: scale(0.98);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+}
+
+@keyframes nexo-analyzing-hover {
+  0%, 100% {
+    transform: translateY(-3px) scale(1.02);
+  }
+  50% {
+    transform: translateY(-9px) scale(1.04);
+  }
+}
+
+@keyframes nexo-analyzing-pulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.75;
+  }
+}
+
+@keyframes nexo-orbit-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes nexo-explaining-nod {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+  70% {
+    transform: translateY(-2px) rotate(1deg);
+  }
+}
+
+@keyframes nexo-explaining-wave {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.65;
+  }
+}
+
+@keyframes nexo-success-joy {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  25% {
+    transform: translateY(-10px) scale(1.1) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05) rotate(1.5deg);
+  }
+  75% {
+    transform: translateY(-7px) scale(1.02) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes nexo-success-ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes nexo-error-wobble {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-3px) rotate(-3deg) translateX(-2px);
+  }
+  40% {
+    transform: translateY(-1px) rotate(2.5deg) translateX(2px);
+  }
+  60% {
+    transform: translateY(-2px) rotate(-2deg) translateX(-1px);
+  }
+  80% {
+    transform: translateY(0px) rotate(1deg);
+  }
+}
+
+@keyframes nexo-error-glow {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+@keyframes nexo-dot-pulse-listening {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.6), 0 0 0 2px rgba(56, 189, 248, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.95), 0 0 0 4px rgba(56, 189, 248, 0.45);
+  }
+}
+
+@keyframes nexo-dot-analyzing {
+  0%, 100% {
+    transform: scale(0.85);
+    box-shadow: 0 0 6px rgba(129, 140, 248, 0.6);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 12px rgba(129, 140, 248, 1);
+  }
+}
+
+@keyframes nexo-dot-pulse-explaining {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 9px rgba(99, 102, 241, 0.9);
+  }
+}
+
+@keyframes nexo-dot-pulse-error {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(244, 63, 94, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.9);
+  }
+}
+
+/* Micro-animaciones sutiles del avatar en la cabecera */
+@keyframes nexo-header-listening {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(1.5deg);
+  }
+}
+
+@keyframes nexo-header-analyzing {
+  0%, 100% {
+    transform: scale(0.97);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes nexo-header-nod {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  35% {
+    transform: translateY(-2px) rotate(-1.5deg);
+  }
+  70% {
+    transform: translateY(-0.5px) rotate(1deg);
+  }
+}
+
+@keyframes nexo-header-joy {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  30% {
+    transform: scale(1.12) translateY(-3px) rotate(-2deg);
+  }
+  60% {
+    transform: scale(1.04) translateY(-1px) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes nexo-header-wobble {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-2.5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(2.5px) rotate(2deg);
+  }
+}
+
+/* ==========================================================================
+   ADAPTACIÓN PARA MODO CLARO (HIGH CONTRAST AURA)
+   ========================================================================== */
+html[data-theme="light"] .nexo-float-btn img {
+  filter: drop-shadow(0 6px 14px rgba(79, 70, 229, 0.35)) drop-shadow(0 2px 6px rgba(14, 165, 233, 0.25));
+}
+
+html[data-theme="light"] :root[data-nexo-state="listening"] .nexo-float-btn img,
+html[data-theme="light"] body[data-nexo-state="listening"] .nexo-float-btn img,
+html[data-theme="light"] .nexo-float-btn[data-nexo-state="listening"] img {
+  filter: drop-shadow(0 0 14px rgba(2, 132, 199, 0.65)) drop-shadow(0 4px 10px rgba(79, 70, 229, 0.35));
+}
+
+html[data-theme="light"] :root[data-nexo-state="analyzing"] .nexo-float-btn img,
+html[data-theme="light"] body[data-nexo-state="analyzing"] .nexo-float-btn img,
+html[data-theme="light"] .nexo-float-btn[data-nexo-state="analyzing"] img {
+  filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.75)) drop-shadow(0 0 6px rgba(14, 165, 233, 0.55));
+}
+
+html[data-theme="light"] :root[data-nexo-state="explaining"] .nexo-float-btn img,
+html[data-theme="light"] body[data-nexo-state="explaining"] .nexo-float-btn img,
+html[data-theme="light"] .nexo-float-btn[data-nexo-state="explaining"] img {
+  filter: drop-shadow(0 4px 14px rgba(79, 70, 229, 0.55)) drop-shadow(0 0 8px rgba(99, 102, 241, 0.45));
+}
+
+html[data-theme="light"] :root[data-nexo-state="success"] .nexo-float-btn img,
+html[data-theme="light"] body[data-nexo-state="success"] .nexo-float-btn img,
+html[data-theme="light"] .nexo-float-btn[data-nexo-state="success"] img {
+  filter: drop-shadow(0 0 18px rgba(5, 150, 105, 0.75)) drop-shadow(0 2px 8px rgba(13, 148, 136, 0.6));
+}
+
+html[data-theme="light"] :root[data-nexo-state="error"] .nexo-float-btn img,
+html[data-theme="light"] body[data-nexo-state="error"] .nexo-float-btn img,
+html[data-theme="light"] .nexo-float-btn[data-nexo-state="error"] img {
+  filter: drop-shadow(0 0 14px rgba(225, 29, 72, 0.65)) drop-shadow(0 2px 6px rgba(217, 119, 6, 0.35));
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD: PREFERS-REDUCED-MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .nexo-float-btn,
+  .nexo-float-btn::before,
+  .nexo-float-btn::after,
+  .nexo-header-avatar,
+  .nexo-online-dot {
+    animation: none !important;
+    transform: none !important;
+    transition: filter 0.2s ease, opacity 0.2s ease, background 0.2s ease !important;
   }
 }
