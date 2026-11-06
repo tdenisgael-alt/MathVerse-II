@@ -23,7 +23,8 @@
   --f-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --f-hand: 'Patrick Hand', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
   position: relative;
-  max-width: 980px;
+  width: 100%;
+  max-width: 1920px;
   margin: 20px auto 48px;
   padding: 26px 26px 32px 74px;
   box-sizing: border-box;
@@ -1133,5 +1134,37 @@ html[data-theme="dark"] #cin-app .cin-sec {
   #cin-app .cin-steps li:not(:last-child)::after {
     left: 11px;
     top: 28px;
+  }
+}
+
+/* ==========================================================================
+   ADAPTACIÓN A PANTALLA ANCHA Y DISEÑO FLUIDO MATHVERSE II
+   Aprovecha el ancho disponible y redimensiona fluidamente simulación y gráficas.
+   ========================================================================== */
+@media (min-width: 1200px) {
+  #cin-app {
+    padding: 30px 36px 38px 84px;
+    border-radius: 20px;
+    margin: 20px auto 52px;
+  }
+
+  #cin-app .cin-head {
+    margin-bottom: 22px;
+  }
+
+  #cin-app .cin-card {
+    padding: 24px 28px 26px;
+    border-radius: 16px;
+    margin-bottom: 22px;
+  }
+
+  #cin-app .cin-grid {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1366px) {
+  #cin-app {
+    padding: 34px 44px 42px 92px;
   }
 }

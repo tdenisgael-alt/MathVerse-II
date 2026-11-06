@@ -17,6 +17,21 @@
   const STORAGE_THEME_KEY = 'mathverse.study.theme.v1';
   const STORAGE_CLIENT_ID_KEY = 'mathverse.client.id.v1';
   const STORAGE_CONTEXT_ENABLED_KEY = 'mathverse.nexo.context.enabled';
+  const STORAGE_DOCK_KEY = 'mathverse.nexo.docked';
+
+  function isDockedPreferred() {
+    try {
+      const val = localStorage.getItem(STORAGE_DOCK_KEY);
+      if (val !== null) return val === 'true';
+    } catch (e) {}
+    return typeof window !== 'undefined' && window.innerWidth >= 1366;
+  }
+
+  function setDockedPreferred(docked) {
+    try {
+      localStorage.setItem(STORAGE_DOCK_KEY, docked ? 'true' : 'false');
+    } catch (e) {}
+  }
 
   function isContextEnabled() {
     try {
@@ -827,6 +842,7 @@
           <p class="nexo-header-context" id="nexo-header-context">📍 ${escapeHtml(currentContext.topic)}</p>
         </div>
         <div class="nexo-header-actions">
+          <button class="nexo-header-btn" id="nexo-btn-dock" type="button" aria-label="Acoplar panel lateral" title="Acoplar como panel lateral (Escritorio)">⫸</button>
           <button class="nexo-header-btn" id="nexo-btn-minimize" type="button" aria-label="Minimizar chat" title="Minimizar">_</button>
           <button class="nexo-header-btn" id="nexo-btn-theme" type="button" aria-label="Cambiar modo oscuro" title="Modo oscuro">☾</button>
           <button class="nexo-header-btn" id="nexo-btn-close" type="button" aria-label="Cerrar chat" title="Cerrar">×</button>
@@ -839,7 +855,7 @@
           <span class="nexo-toggle-dot" aria-hidden="true"></span>
           <span id="nexo-context-toggle-label">Contexto MII: ON</span>
         </button>` : `
-        <span class="nexo-context-badge">Módulo: \${escapeHtml(currentContext.category)}</span>`}
+        <span class="nexo-context-badge">Módulo: ${escapeHtml(currentContext.category)}</span>`}
         <button class="nexo-clear-btn" id="nexo-btn-clear" type="button" aria-label="Reiniciar conversación con NEXO" title="Reiniciar historial">Limpiar chat</button>
       </div>
 
@@ -893,6 +909,81 @@
     const themeBtn = chatWindow.querySelector('#nexo-btn-theme');
     const clearBtn = chatWindow.querySelector('#nexo-btn-clear');
     const contextToggleBtn = chatWindow.querySelector('#nexo-context-toggle');
+    const dockBtn = chatWindow.querySelector('#nexo-btn-dock');
+
+    let isUpdatingDock = false;
+    function updateDockState() {
+      if (isUpdatingDock) return;
+      isUpdatingDock = true;
+      try {
+        const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1366;
+        const isOpen = chatWindow.classList.contains('nexo-open');
+        const isMin = chatWindow.classList.contains('nexo-minimized');
+        const wantsDock = isDockedPreferred();
+        const shouldDock = isDesktop && isOpen && !isMin && wantsDock;
+
+        if (shouldDock) {
+          chatWindow.classList.add('nexo-docked');
+          document.body.classList.add('nexo-docked-active');
+          if (dockBtn) {
+            dockBtn.style.display = '';
+            dockBtn.classList.add('is-docked');
+            dockBtn.title = 'Desacoplar a ventana flotante';
+            dockBtn.setAttribute('aria-pressed', 'true');
+            dockBtn.textContent = '⧉';
+          }
+        } else {
+          chatWindow.classList.remove('nexo-docked');
+          document.body.classList.remove('nexo-docked-active');
+          if (dockBtn) {
+            dockBtn.classList.remove('is-docked');
+            dockBtn.title = isDesktop ? 'Acoplar como panel lateral (Escritorio)' : 'Acoplamiento lateral disponible desde 1366 px';
+            dockBtn.setAttribute('aria-pressed', 'false');
+            dockBtn.textContent = '⫸';
+            dockBtn.style.display = isDesktop ? '' : 'none';
+          }
+        }
+
+        // Redimensionar gráficos y canvas responsivos
+        if (typeof window !== 'undefined') {
+          const notifyResize = () => {
+            ['plot', 'intPlot', 'vecPlot'].forEach(id => {
+              const el = document.getElementById(id);
+              if (el && typeof Plotly !== 'undefined' && Plotly.Plots && typeof Plotly.Plots.resize === 'function') {
+                try { Plotly.Plots.resize(el); } catch (e) {}
+              }
+            });
+            try {
+              window.dispatchEvent(new Event('resize'));
+            } catch (e) {}
+          };
+          if (window.requestAnimationFrame) {
+            window.requestAnimationFrame(notifyResize);
+          } else {
+            setTimeout(notifyResize, 50);
+          }
+          setTimeout(notifyResize, 280);
+        }
+      } finally {
+        isUpdatingDock = false;
+      }
+    }
+
+    if (dockBtn) {
+      dockBtn.addEventListener('click', () => {
+        const nextState = !isDockedPreferred();
+        setDockedPreferred(nextState);
+        updateDockState();
+      });
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', () => {
+        if (!isUpdatingDock) {
+          updateDockState();
+        }
+      });
+    }
 
     function updateContextToggleUI(enabled) {
       if (!contextToggleBtn) return;
@@ -1049,6 +1140,7 @@
       chatWindow.classList.remove('nexo-minimized');
       chatWindow.removeAttribute('aria-hidden');
       floatBtn.setAttribute('aria-expanded', 'true');
+      updateDockState();
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
       inputElem.focus({ preventScroll: true });
       try {
@@ -1061,6 +1153,7 @@
       chatWindow.classList.remove('nexo-minimized');
       chatWindow.setAttribute('aria-hidden', 'true');
       floatBtn.setAttribute('aria-expanded', 'false');
+      updateDockState();
       try {
         localStorage.setItem(STORAGE_STATE_KEY, JSON.stringify({ isOpen: false, isMinimized: false }));
       } catch (e) {}
@@ -1078,6 +1171,7 @@
       const label = isMinimized ? 'Expandir chat' : 'Minimizar chat';
       minimizeBtn.setAttribute('title', label);
       minimizeBtn.setAttribute('aria-label', label);
+      updateDockState();
       if (isMinimized) {
         if (previousFocusedElement && typeof previousFocusedElement.focus === 'function' && document.body.contains(previousFocusedElement)) {
           previousFocusedElement.focus();
@@ -1365,7 +1459,10 @@
         extractAcademicContext,
         extractMatematicaContext,
         isContextEnabled,
-        setContextEnabled
+        setContextEnabled,
+        isDockedPreferred,
+        setDockedPreferred,
+        updateDockState
       };
       window.extractAcademicContext = extractAcademicContext;
       window.extractMatematicaContext = extractMatematicaContext;

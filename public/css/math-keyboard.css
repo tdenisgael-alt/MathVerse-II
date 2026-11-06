@@ -393,7 +393,7 @@ html[data-theme="light"] {
 }
 
 body[data-math-keyboard-mode="physics"] .math-keyboard-tabs {
-  display: none;
+  display: flex;
 }
 
 body[data-math-keyboard-mode="physics"] .math-keyboard-grid {
@@ -401,15 +401,253 @@ body[data-math-keyboard-mode="physics"] .math-keyboard-grid {
 }
 
 body[data-math-keyboard-mode="physics"] .math-keyboard-indicator {
-  max-width: min(300px, calc(100vw - 138px));
+  max-width: min(280px, calc(100vw - 180px));
 }
 
-body[data-math-keyboard-mode="physics"] .math-key.tramos-only {
+/* Toast de Retroalimentación de Copia / Acción */
+.math-keyboard-toast {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: #1e1b4b;
+  color: #38bdf8;
+  border: 1px solid #4338ca;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+  white-space: nowrap;
+}
+
+.math-keyboard-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+html[data-theme="light"] .math-keyboard-toast {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #86efac;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+}
+
+/* Panel Consultivo de Fórmulas */
+.math-keyboard-formulas-container {
   display: none;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
-body[data-math-keyboard-mode="physics"] .math-keyboard-drawer.physics-tramos .math-key.tramos-only {
+.math-keyboard-formulas-container.is-visible {
   display: flex;
+}
+
+.math-keyboard-form-filter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 2px 2px 6px 2px;
+  scrollbar-width: thin;
+}
+
+.math-keyboard-form-filter::-webkit-scrollbar {
+  height: 4px;
+}
+
+.math-keyboard-form-filter::-webkit-scrollbar-thumb {
+  background: var(--mk-border);
+  border-radius: 4px;
+}
+
+.math-keyboard-filter-pill {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--mk-border);
+  background: var(--mk-key-bg);
+  color: var(--mk-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.math-keyboard-filter-pill:hover {
+  background: var(--mk-key-hover);
+  color: var(--mk-text);
+  border-color: #6366f1;
+}
+
+.math-keyboard-filter-pill.is-active {
+  background: var(--mk-accent-bg);
+  color: #ffffff;
+  border-color: var(--mk-accent-hover);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
+}
+
+.math-keyboard-formulas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+
+.math-keyboard-formulas-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.math-keyboard-formulas-list::-webkit-scrollbar-thumb {
+  background: var(--mk-border);
+  border-radius: 4px;
+}
+
+.math-keyboard-form-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--mk-border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+html[data-theme="light"] .math-keyboard-form-card {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.math-keyboard-form-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 4px;
+}
+
+html[data-theme="light"] .math-keyboard-form-card-head {
+  border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+.math-keyboard-form-mod-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.02em;
+}
+
+html[data-theme="light"] .math-keyboard-form-mod-name {
+  color: #0284c7;
+}
+
+.math-keyboard-form-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--mk-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+.math-keyboard-form-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.math-keyboard-form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="light"] .math-keyboard-form-row {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.math-keyboard-form-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.math-keyboard-form-row-title {
+  font-size: 10px;
+  color: var(--mk-muted);
+  font-weight: 500;
+}
+
+.math-keyboard-form-expr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+html[data-theme="light"] .math-keyboard-form-expr {
+  color: #0f172a;
+}
+
+.math-keyboard-form-row-desc {
+  font-size: 9.5px;
+  color: var(--mk-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.math-keyboard-form-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.math-keyboard-form-btn {
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--mk-border);
+  background: var(--mk-key-bg);
+  color: var(--mk-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.math-keyboard-form-btn:hover {
+  background: var(--mk-key-hover);
+  color: var(--mk-text);
+  border-color: #6366f1;
+}
+
+.math-keyboard-form-btn.insert-btn {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.math-keyboard-form-btn.insert-btn:hover {
+  background: #38bdf8;
+  color: #0f172a;
 }
 
 /* Reservar sólo la altura visible, sin interferir con la animación de NEXO. */
@@ -478,5 +716,41 @@ body.math-keyboard-open #nexo-chat-window {
   body.math-keyboard-open #nexo-chat-window {
     bottom: calc(var(--math-keyboard-height, 0px) + 84px);
     max-height: calc(100dvh - var(--math-keyboard-height, 0px) - 100px);
+  }
+
+  .math-keyboard-header {
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 6px 8px;
+  }
+
+  .math-keyboard-tabs {
+    order: 1;
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+
+  .math-keyboard-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .math-keyboard-indicator {
+    order: 2;
+    max-width: calc(100% - 100px);
+    font-size: 9.5px;
+  }
+
+  .math-keyboard-controls {
+    order: 3;
+    margin-left: auto;
+  }
+}
+
+/* Adaptación anti-colisión con panel lateral NEXO acoplado */
+@media (min-width: 1366px) {
+  body.nexo-docked-active .math-keyboard-drawer {
+    right: 430px;
+    max-width: min(760px, calc(100vw - 460px));
   }
 }

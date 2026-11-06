@@ -875,3 +875,45 @@ html[data-theme="dark"] .chat-table th,
 .nexo-chat-window[data-theme="dark"] .chat-table th {
   background: rgba(255, 255, 255, 0.08);
 }
+
+/* ==========================================================================
+   MODO PANEL LATERAL ACOPLADO (DOCK) EN ESCRITORIO
+   Permite que NEXO coexista con las calculadoras y visualizaciones 3D sin taparlas.
+   ========================================================================== */
+@media (min-width: 1366px) {
+  body.nexo-docked-active {
+    padding-right: 430px;
+    transition: padding-right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nexo-chat-window.nexo-docked {
+    top: 72px;
+    bottom: 14px;
+    right: 14px;
+    width: 410px;
+    max-width: 410px;
+    height: calc(100vh - 86px) !important;
+    max-height: calc(100vh - 86px) !important;
+    border-radius: 20px;
+    box-shadow: -10px 14px 40px rgba(0, 0, 0, 0.35);
+    z-index: 9999;
+  }
+
+  html[data-theme="light"] .nexo-chat-window.nexo-docked {
+    box-shadow: -10px 14px 40px rgba(15, 23, 42, 0.12);
+    border-color: #cbd5e1;
+  }
+}
+
+/* ==========================================================================
+   COEXISTENCIA ANTI-COLISIÓN CON TECLADO MATEMÁTICO VIRTUAL
+   ========================================================================== */
+@media (max-width: 1365px) {
+  body.math-keyboard-open .nexo-chat-window:not(.nexo-docked):not(.nexo-minimized) {
+    bottom: 250px;
+    max-height: calc(100vh - 270px);
+  }
+  body.math-keyboard-open .nexo-float-btn {
+    bottom: 250px;
+  }
+}
