@@ -40,9 +40,9 @@ function sendJson(res, statusCode, data) {
   res.end(JSON.stringify(data));
 }
 
-const { checkRateLimit } = require('./rate-limiter.js');
-const { selectGeminiRoute } = require('./model-router.js');
-const { recordGeminiUsage } = require('./usage-metrics.js');
+const { checkRateLimit } = require('../lib/rate-limiter.js');
+const { selectGeminiRoute } = require('../lib/model-router.js');
+const { recordGeminiUsage } = require('../lib/usage-metrics.js');
 
 /**
  * Extrae y normaliza la lista explícita de orígenes permitidos desde las variables de entorno.

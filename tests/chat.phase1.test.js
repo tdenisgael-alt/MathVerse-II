@@ -2,9 +2,9 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const handler = require('./chat.js');
-const { selectGeminiRoute, isSupportedConfig } = require('./model-router.js');
-const { recordGeminiUsage } = require('./usage-metrics.js');
+const handler = require('../api/chat.js');
+const { selectGeminiRoute, isSupportedConfig } = require('../lib/model-router.js');
+const { recordGeminiUsage } = require('../lib/usage-metrics.js');
 
 let requestNumber = 0;
 function request(body, options = {}) {
