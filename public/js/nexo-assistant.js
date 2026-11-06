@@ -19,6 +19,104 @@
   const STORAGE_CONTEXT_ENABLED_KEY = 'mathverse.nexo.context.enabled';
   const STORAGE_DOCK_KEY = 'mathverse.nexo.docked';
 
+  /**
+   * Máquina de estados visuales del asistente NEXO
+   * Estados: idle | listening | analyzing | explaining | success | error
+   */
+  const NEXO_STATES = Object.freeze({
+    IDLE: 'idle',
+    LISTENING: 'listening',
+    ANALYZING: 'analyzing',
+    EXPLAINING: 'explaining',
+    SUCCESS: 'success',
+    ERROR: 'error'
+  });
+
+  let currentNexoState = NEXO_STATES.IDLE;
+  let stateTimer = null;
+  let isPageInitializing = true;
+
+  if (typeof window !== 'undefined') {
+    if (document.readyState === 'complete') {
+      isPageInitializing = false;
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(() => { isPageInitializing = false; }, 50);
+      });
+      setTimeout(() => { isPageInitializing = false; }, 350);
+    }
+  }
+
+  function setNexoState(nextState, options = {}) {
+    const validStates = Object.values(NEXO_STATES);
+    if (!validStates.includes(nextState)) {
+      nextState = NEXO_STATES.IDLE;
+    }
+
+    // Regla de consistencia: Si una consulta está en curso (ANALYZING),
+    // ningún evento secundario (typing, focus, blur, cálculos en segundo plano) puede interrumpirla,
+    // excepto la resolución de la consulta (EXPLAINING o ERROR) o cancelación forzada.
+    if (currentNexoState === NEXO_STATES.ANALYZING && !options.force &&
+        nextState !== NEXO_STATES.EXPLAINING && nextState !== NEXO_STATES.ERROR && nextState !== NEXO_STATES.IDLE) {
+      return currentNexoState;
+    }
+
+    if (stateTimer) {
+      clearTimeout(stateTimer);
+      stateTimer = null;
+    }
+
+    currentNexoState = nextState;
+
+    if (typeof document !== 'undefined') {
+      try {
+        const root = document.documentElement;
+        if (root) root.setAttribute('data-nexo-state', nextState);
+
+        const floatBtn = document.getElementById('nexo-float-btn');
+        if (floatBtn) floatBtn.setAttribute('data-nexo-state', nextState);
+
+        const chatWindow = document.getElementById('nexo-chat-window');
+        if (chatWindow) chatWindow.setAttribute('data-nexo-state', nextState);
+
+        const headerAvatars = document.querySelectorAll('.nexo-header-avatar');
+        headerAvatars.forEach(el => el.setAttribute('data-nexo-state', nextState));
+      } catch (e) {}
+    }
+
+    if (typeof options.duration === 'number' && options.duration > 0) {
+      stateTimer = setTimeout(() => {
+        stateTimer = null;
+        if (currentNexoState === nextState) {
+          setNexoState(NEXO_STATES.IDLE);
+        }
+      }, options.duration);
+    }
+
+    return currentNexoState;
+  }
+
+  // Asegurar atributo data-nexo-state="idle" inicial en :root tan pronto cargue el script
+  if (typeof document !== 'undefined' && document.documentElement && !document.documentElement.getAttribute('data-nexo-state')) {
+    document.documentElement.setAttribute('data-nexo-state', NEXO_STATES.IDLE);
+  }
+
+  function getNexoState() {
+    return currentNexoState;
+  }
+
+  function triggerVerifiedCalculationSuccess() {
+    if (currentNexoState !== NEXO_STATES.ANALYZING) {
+      setNexoState(NEXO_STATES.SUCCESS, { duration: 2400 });
+    }
+  }
+
+  function triggerCalculationError() {
+    if (currentNexoState !== NEXO_STATES.ANALYZING) {
+      setNexoState(NEXO_STATES.ERROR, { duration: 3200 });
+    }
+  }
+
   function isDockedPreferred() {
     try {
       const val = localStorage.getItem(STORAGE_DOCK_KEY);
@@ -145,6 +243,17 @@
       if (f) { f.dataset.lastCalc = f.value.trim(); f.dataset.lastMode = m; }
       if (a) a.dataset.lastCalc = a.value.trim();
       if (b) b.dataset.lastCalc = b.value.trim();
+
+      const errBox = document.getElementById('errorBox');
+      const isErr = errBox && !errBox.classList.contains('hidden') && errBox.textContent.trim().length > 0;
+      const pasos = document.getElementById('pasos');
+      if (!isPageInitializing) {
+        if (!isErr && pasos && pasos.children.length > 0) {
+          triggerVerifiedCalculationSuccess();
+        } else if (isErr) {
+          triggerCalculationError();
+        }
+      }
     });
 
     hook('setMode', (mode) => {
@@ -162,6 +271,17 @@
       if (b) b.dataset.lastCalc = b.value.trim();
       if (c) c.dataset.lastCalc = c.value.trim();
       if (d) d.dataset.lastCalc = d.value.trim();
+
+      const errBox = document.getElementById('intErrorBox');
+      const isErr = errBox && !errBox.classList.contains('hidden') && errBox.textContent.trim().length > 0;
+      const pasos = document.getElementById('intPasos');
+      if (!isPageInitializing) {
+        if (!isErr && pasos && pasos.children.length > 0) {
+          triggerVerifiedCalculationSuccess();
+        } else if (isErr) {
+          triggerCalculationError();
+        }
+      }
     });
 
     hook('calcularAnalisisVectorial', () => {
@@ -177,6 +297,17 @@
       if (x0) x0.dataset.lastCalc = x0.value.trim();
       if (y0) y0.dataset.lastCalc = y0.value.trim();
       if (z0) z0.dataset.lastCalc = z0.value.trim();
+
+      const errBox = document.getElementById('vecErrorBox');
+      const isErr = errBox && !errBox.classList.contains('hidden') && errBox.textContent.trim().length > 0;
+      const pasos = document.getElementById('vecPasos');
+      if (!isPageInitializing) {
+        if (!isErr && pasos && pasos.children.length > 0) {
+          triggerVerifiedCalculationSuccess();
+        } else if (isErr) {
+          triggerCalculationError();
+        }
+      }
     });
 
     // Inicializar snapshots para estado de carga inicial
@@ -501,7 +632,9 @@
         if (card) {
           fisicaLastFocusedCard = card;
           card._nexoLastFocused = Date.now();
-          snapshotFisicaCard(card);
+          setTimeout(() => {
+            snapshotFisicaCard(card);
+          }, 0);
         }
       }
 
@@ -552,6 +685,13 @@
         hasRes,
         timestamp: Date.now()
       });
+      if (!isPageInitializing) {
+        if (hasRes && !errEl) {
+          triggerVerifiedCalculationSuccess();
+        } else if (errEl) {
+          triggerCalculationError();
+        }
+      }
     } else {
       const inputs = {};
       card.querySelectorAll('input, textarea').forEach((inp, idx) => {
@@ -571,6 +711,13 @@
         hasRes,
         timestamp: Date.now()
       });
+      if (!isPageInitializing) {
+        if (hasRes && !errEl) {
+          triggerVerifiedCalculationSuccess();
+        } else if (errEl) {
+          triggerCalculationError();
+        }
+      }
     }
   }
 
@@ -1312,6 +1459,7 @@
     floatBtn.setAttribute('aria-label', 'Abrir asistente NEXO, Profesor Virtual');
     floatBtn.setAttribute('aria-expanded', 'false');
     floatBtn.setAttribute('aria-controls', 'nexo-chat-window');
+    floatBtn.setAttribute('data-nexo-state', currentNexoState);
 
     const floatImg = document.createElement('img');
     floatImg.src = avatarUrl;
@@ -1333,10 +1481,11 @@
     chatWindow.setAttribute('aria-modal', 'true');
     chatWindow.setAttribute('aria-labelledby', 'nexo-chat-title');
     chatWindow.setAttribute('aria-hidden', 'true');
+    chatWindow.setAttribute('data-nexo-state', currentNexoState);
 
     chatWindow.innerHTML = `
       <header class="nexo-chat-header">
-        <img class="nexo-header-avatar" src="${avatarUrl}" alt="NEXO" width="36" height="36">
+        <img class="nexo-header-avatar" src="${avatarUrl}" alt="NEXO" width="36" height="36" data-nexo-state="${currentNexoState}">
         <div class="nexo-header-info">
           <h2 class="nexo-header-title" id="nexo-chat-title">
             <span>NEXO</span>
@@ -1689,6 +1838,9 @@
       } else if (floatBtn && typeof floatBtn.focus === 'function') {
         floatBtn.focus();
       }
+      if (currentNexoState === NEXO_STATES.LISTENING) {
+        setNexoState(NEXO_STATES.IDLE);
+      }
     }
 
     function toggleMinimize() {
@@ -1770,6 +1922,7 @@
       const welcome = `Conversación reiniciada. ¿Qué tema de **${currentContext.topic}** deseas estudiar ahora?`;
       appendMessage('assistant', welcome, false);
       errorElem.classList.remove('nexo-visible');
+      setNexoState(NEXO_STATES.IDLE, { force: true });
     });
 
     // Envío y comunicación con /api/chat
@@ -1801,6 +1954,7 @@
 
       lastUserQuestion = text;
       isSubmitting = true;
+      setNexoState(NEXO_STATES.ANALYZING, { force: true });
       if (inputElem) {
         inputElem.value = '';
         inputElem.disabled = true;
@@ -1892,6 +2046,9 @@
 
         // Operación exitosa: limpiar estado de reintento
         lastUserQuestion = '';
+
+        // Transición a EXPLAINING: NEXO expone didácticamente la explicación
+        setNexoState(NEXO_STATES.EXPLAINING, { duration: 5500, force: true });
       } catch (err) {
         clearTimeout(timeoutId);
         // Si fue una cancelación voluntaria iniciada por el usuario (ej. limpiar conversación), salir en silencio
@@ -1923,6 +2080,7 @@
       errorText.textContent = msg;
       errorElem.classList.add('nexo-visible');
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      setNexoState(NEXO_STATES.ERROR, { duration: 4500, force: true });
     }
 
     retryBtn.addEventListener('click', () => {
@@ -1935,6 +2093,31 @@
       e.preventDefault();
       submitQuestion(inputElem.value, false);
     });
+
+    // Conexión del estado LISTENING al enfoque y escritura del estudiante
+    if (inputElem) {
+      inputElem.addEventListener('focus', () => {
+        if (currentNexoState === NEXO_STATES.IDLE) {
+          setNexoState(NEXO_STATES.LISTENING);
+        }
+      });
+
+      inputElem.addEventListener('input', () => {
+        if (currentNexoState !== NEXO_STATES.ANALYZING) {
+          setNexoState(NEXO_STATES.LISTENING);
+        }
+      });
+
+      inputElem.addEventListener('blur', () => {
+        if (currentNexoState === NEXO_STATES.LISTENING) {
+          if (!inputElem.value.trim()) {
+            setNexoState(NEXO_STATES.IDLE);
+          } else {
+            setNexoState(NEXO_STATES.IDLE, { duration: 1200 });
+          }
+        }
+      });
+    }
 
     // Restaurar estado si estaba abierto previamente
     try {
@@ -1967,9 +2150,22 @@
       });
     }
 
+    // Inicializar estado IDLE en los componentes del asistente
+    setNexoState(NEXO_STATES.IDLE);
+
+    // Activar hooks de cálculo en motores de Matemática II y Física
+    syncCalculatorTracking();
+    syncFisicaTracking();
+
     // Exponer API para pruebas automatizadas y extensiones
     if (typeof window !== 'undefined') {
       window.MathVerseNexo = {
+        NEXO_STATES,
+        getNexoState,
+        setNexoState,
+        triggerVerifiedCalculationSuccess,
+        syncCalculatorTracking,
+        syncFisicaTracking,
         buildContextualMessage,
         detectContext,
         getHistoryPayload,
@@ -2001,6 +2197,10 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
+      NEXO_STATES,
+      getNexoState,
+      setNexoState,
+      triggerVerifiedCalculationSuccess,
       buildContextualMessage,
       detectContext,
       getHistoryPayload,
@@ -2017,10 +2217,28 @@
 
   if (typeof document === 'undefined') return;
 
+  const onReady = () => {
+    initAssistant();
+    syncCalculatorTracking();
+    syncFisicaTracking();
+  };
+
   // Ejecutar cuando el DOM esté listo
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAssistant);
+    document.addEventListener('DOMContentLoaded', onReady);
   } else {
-    initAssistant();
+    onReady();
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+      syncCalculatorTracking();
+      syncFisicaTracking();
+    });
+
+    document.addEventListener('click', () => {
+      syncCalculatorTracking();
+      syncFisicaTracking();
+    }, true);
   }
 })();
