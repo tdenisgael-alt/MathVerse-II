@@ -47,6 +47,15 @@
     } catch (e) {}
   }
 
+  function getContextMode() {
+    if (typeof window === 'undefined' || !window.location) return null;
+    const p = (window.location.pathname || '').toLowerCase();
+    if (p.includes('/calculadora/matematica')) return 'matematica';
+    if (p.includes('/calculadora/fisica')) return 'fisica';
+    if (p.includes('/estudio')) return 'estudio';
+    return null;
+  }
+
 
   function getOrCreateClientId() {
     try {
@@ -459,6 +468,493 @@
     return null;
   }
 
+
+  /**
+   * =========================================================================
+   * EXTRACTOR CONTEXTUAL DE FÍSICA (CINEMÁTICA) Y SEGUIMIENTO DE ESTADOS
+   * =========================================================================
+   */
+  const fisicaTrackingStore = new WeakMap();
+  let fisicaLastFocusedCard = null;
+  let fisicaTrackingInitialized = false;
+
+  function syncFisicaTracking() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    const app = document.getElementById('cin-app');
+    if (!app || fisicaTrackingInitialized) return;
+    fisicaTrackingInitialized = true;
+
+    // Rastrear la tarjeta enfocada
+    app.addEventListener('focusin', (e) => {
+      const card = e.target.closest('.cin-card');
+      if (card) {
+        fisicaLastFocusedCard = card;
+        card._nexoLastFocused = Date.now();
+      }
+    }, true);
+
+    // Rastrear ejecuciones al pulsar .cin-go en fase de burbuja (tras ejecución de run/solveText)
+    app.addEventListener('click', (e) => {
+      const goBtn = e.target.closest('.cin-go');
+      if (goBtn) {
+        const card = goBtn.closest('.cin-card');
+        if (card) {
+          fisicaLastFocusedCard = card;
+          card._nexoLastFocused = Date.now();
+          snapshotFisicaCard(card);
+        }
+      }
+
+      const resetBtn = e.target.closest('.cin-reset');
+      if (resetBtn) {
+        const card = resetBtn.closest('.cin-card');
+        if (card) {
+          fisicaTrackingStore.delete(card);
+        } else if (resetBtn.id === 'cin-reset-all') {
+          app.querySelectorAll('.cin-card').forEach(c => fisicaTrackingStore.delete(c));
+          fisicaLastFocusedCard = null;
+        }
+      }
+    });
+
+    app.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const card = e.target.closest('.cin-card');
+        if (card) {
+          fisicaLastFocusedCard = card;
+          card._nexoLastFocused = Date.now();
+          setTimeout(() => {
+            snapshotFisicaCard(card);
+          }, 0);
+        }
+      }
+    }, true);
+  }
+
+  function snapshotFisicaCard(card) {
+    if (!card) return;
+    const isProblem = card.classList.contains('cin-prob');
+    const gEl = document.getElementById('cin-g');
+    const gVal = gEl ? gEl.value.trim() : '9,8';
+
+    if (isProblem) {
+      const ta = card.querySelector('textarea.cin-ta');
+      const text = ta ? ta.value.trim() : '';
+      const out = card.querySelector('.cin-out');
+      const errEl = out ? out.querySelector('.cin-err') : null;
+      const hasRes = !!(out && (out.querySelector('.cin-know') || out.querySelector('.cin-res')));
+      fisicaTrackingStore.set(card, {
+        isProblem: true,
+        text,
+        g: gVal,
+        hasErr: !!errEl,
+        errorMsg: errEl ? errEl.textContent.trim() : '',
+        hasRes,
+        timestamp: Date.now()
+      });
+    } else {
+      const inputs = {};
+      card.querySelectorAll('input, textarea').forEach((inp, idx) => {
+        const lbl = inp.closest('label');
+        const key = lbl ? (lbl.childNodes[0]?.textContent || '').trim().replace(/\s+/g, ' ') : ('campo_' + idx);
+        inputs[key || ('campo_' + idx)] = inp.value.trim();
+      });
+      const out = card.querySelector('.cin-out');
+      const errEl = out ? out.querySelector('.cin-err') : null;
+      const hasRes = !!(out && out.querySelector('.cin-res'));
+      fisicaTrackingStore.set(card, {
+        isProblem: false,
+        inputs,
+        g: gVal,
+        hasErr: !!errEl,
+        errorMsg: errEl ? errEl.textContent.trim() : '',
+        hasRes,
+        timestamp: Date.now()
+      });
+    }
+  }
+
+  function fisicaInputsEqual(a, b) {
+    if (!a || !b) return false;
+    const ka = Object.keys(a);
+    const kb = Object.keys(b);
+    if (ka.length !== kb.length) return false;
+    for (const k of ka) {
+      if (a[k] !== b[k]) return false;
+    }
+    return true;
+  }
+
+  function fisicaStepsContainInputs(steps, results, inputs) {
+    if (!steps && !results) return true;
+    const combined = ((steps || '') + ' ' + (results || '')).toLowerCase();
+    for (const [k, v] of Object.entries(inputs)) {
+      if (!v || v === '(vacío / incógnita)') continue;
+      if (v.includes('\n') || v.includes(';') || (v.includes(',') && v.split(',').length > 2)) {
+        const tokens = v.split(/[\n;]+/).map(s => s.trim()).filter(Boolean);
+        for (const token of tokens) {
+          const parts = token.split(/[,]+/).map(p => p.trim()).filter(Boolean);
+          for (const p of parts) {
+            if (p && !combined.includes(p.toLowerCase())) return false;
+          }
+        }
+        continue;
+      }
+      const cleanVal = v.replace(',', '.');
+      const commaVal = v.replace('.', ',');
+      if (!combined.includes(cleanVal) && !combined.includes(commaVal)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Extrae el contexto estructurado en tiempo real de la Calculadora de Física (Cinemática).
+   * Compatible con los 8 módulos numéricos y el analizador en lenguaje natural.
+   */
+  function extractFisicaContext() {
+    if (typeof document === 'undefined') return null;
+    const app = document.getElementById('cin-app');
+    if (!app) return null;
+
+    syncFisicaTracking();
+
+    const getCleanText = (el, maxLen = 500) => {
+      if (!el) return '';
+      const txt = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+      return maxLen ? txt.slice(0, maxLen) : txt;
+    };
+
+    // 1. Pestaña activa
+    const tabs = Array.from(app.querySelectorAll('.cin-tabs button'));
+    const activeTabIdx = tabs.findIndex(b => b.classList.contains('on'));
+    const tabName = activeTabIdx >= 0 ? tabs[activeTabIdx].textContent.trim() : 'Cinemática';
+
+    const secs = Array.from(app.querySelectorAll('.cin-sec'));
+    const activeSec = secs[activeTabIdx] || secs[0];
+    if (!activeSec) return null;
+
+    const gEl = document.getElementById('cin-g');
+    const gVal = gEl ? gEl.value.trim() : '9,8';
+
+    // 2. Determinar tarjeta activa
+    let activeCard = null;
+    if (activeTabIdx === 0) {
+      activeCard = activeSec.querySelector('.cin-card.cin-prob');
+    } else {
+      const cards = Array.from(activeSec.querySelectorAll('.cin-card'));
+      // Prioridad 1: Tarjeta con foco
+      if (document.activeElement) {
+        const focusedCard = document.activeElement.closest('.cin-card');
+        if (focusedCard && cards.includes(focusedCard)) activeCard = focusedCard;
+      }
+      // Prioridad 2: Última tarjeta enfocada en esta sección
+      if (!activeCard && fisicaLastFocusedCard && cards.includes(fisicaLastFocusedCard)) {
+        activeCard = fisicaLastFocusedCard;
+      }
+      // Prioridad 3: Tarjeta con salida calculada o error
+      if (!activeCard) {
+        activeCard = cards.find(c => {
+          const out = c.querySelector('.cin-out');
+          return out && (out.querySelector('.cin-res') || out.querySelector('.cin-err'));
+        });
+      }
+      // Prioridad 4: Primera tarjeta de la sección
+      if (!activeCard) activeCard = cards[0];
+    }
+
+    if (!activeCard) return null;
+
+    const isProblem = activeCard.classList.contains('cin-prob');
+    const out = activeCard.querySelector('.cin-out');
+    const errEl = out ? out.querySelector('.cin-err') : null;
+    const resEl = out ? out.querySelector('.cin-res') : null;
+    const knowEl = out ? out.querySelector('.cin-know') : null;
+    const procEl = out ? out.querySelector('.cin-proc') : null;
+
+    const errText = getCleanText(errEl, 250);
+    const resText = getCleanText(resEl, 500);
+    const knowText = getCleanText(knowEl, 400);
+    const stepsText = getCleanText(procEl, 800);
+
+    let status = 'CALCULATED';
+    let statusNote = '';
+    const inputs = {};
+    inputs.gravedad = gVal + ' m/s²';
+
+    if (isProblem) {
+      const ta = activeCard.querySelector('textarea.cin-ta');
+      const text = ta ? ta.value.trim() : '';
+      inputs.enunciado = text;
+
+      const snapshot = fisicaTrackingStore.get(activeCard);
+
+      if (!text && (!out || !out.children.length)) {
+        status = 'EMPTY';
+        statusNote = 'No se ha redactado ningún problema en el campo de texto.';
+      } else if (errEl) {
+        status = 'ERROR';
+        statusNote = errText || 'Error al interpretar el enunciado del problema.';
+      } else if (!out || !out.children.length) {
+        status = 'STALE';
+        statusNote = 'Enunciado ingresado pero aún no se ha pulsado Resolver problema.';
+      } else if (snapshot) {
+        if (snapshot.text !== text) {
+          status = 'STALE';
+          statusNote = 'El enunciado fue editado pero aún no se ha vuelto a resolver.';
+        } else if (snapshot.g !== gVal) {
+          status = 'STALE';
+          statusNote = 'El valor de la gravedad fue modificado tras el último cálculo.';
+        } else if (snapshot.hasErr) {
+          status = 'ERROR';
+          statusNote = snapshot.errorMsg || errText;
+        } else {
+          status = 'CALCULATED';
+        }
+      } else {
+        if (!text) {
+          status = 'STALE';
+          statusNote = 'El enunciado fue borrado tras el cálculo.';
+        } else {
+          status = 'CALCULATED';
+          snapshotFisicaCard(activeCard);
+        }
+      }
+
+      let plotDesc = 'Sin simulación gráfica activa.';
+      if (out && out.querySelector('.cin-scv')) {
+        plotDesc = 'Simulación animada 2D del problema resuelto en ejecución.';
+      } else if (out && out.querySelector('.cin-gcv')) {
+        plotDesc = 'Gráfica interactiva de curvas cinemáticas en pantalla.';
+      }
+
+      return {
+        page: 'Calculadora de Física',
+        unitNumber: null,
+        module: 'Cinemática · Analizador de Problemas',
+        tool: 'Escribir problema en lenguaje natural',
+        status,
+        statusNote,
+        inputs,
+        results: (knowText ? (knowText + ' ') : '') + resText,
+        stepsSummary: stepsText,
+        plotDescription: plotDesc
+      };
+    }
+
+    // Módulos numéricos de Cinemática
+    const cardTitleEl = activeCard.querySelector('h3');
+    const toolTitle = cardTitleEl ? cardTitleEl.textContent.trim() : tabName;
+
+    const currentInputs = {};
+    let allInputsEmpty = true;
+    let anyInputFilled = false;
+
+    activeCard.querySelectorAll('label').forEach((lbl, idx) => {
+      const inp = lbl.querySelector('input, textarea');
+      if (!inp) return;
+      const labelText = (lbl.childNodes[0]?.textContent || '').trim().replace(/\s+/g, ' ');
+      const key = labelText || inp.placeholder || ('campo_' + idx);
+      const val = inp.value.trim();
+      currentInputs[key] = val;
+      inputs[key] = val || '(vacío / incógnita)';
+      if (val) {
+        allInputsEmpty = false;
+        anyInputFilled = true;
+      }
+    });
+
+    const snapshot = fisicaTrackingStore.get(activeCard);
+
+    if (allInputsEmpty && (!out || !out.children.length)) {
+      status = 'EMPTY';
+      statusNote = 'Campos de entrada vacíos. Ingrese los datos del problema.';
+    } else if (errEl) {
+      if (snapshot && !fisicaInputsEqual(snapshot.inputs, currentInputs)) {
+        status = 'STALE';
+        statusNote = 'Los campos fueron modificados tras el error; pulse Calcular para reevaluar.';
+      } else {
+        status = 'ERROR';
+        statusNote = errText || 'Error en los datos ingresados para el cálculo.';
+      }
+    } else if (!resEl) {
+      if (anyInputFilled) {
+        status = 'STALE';
+        statusNote = 'Datos ingresados en los campos pero aún no se ha pulsado Calcular.';
+      } else {
+        status = 'EMPTY';
+        statusNote = 'Campos vacíos sin cálculo ejecutado.';
+      }
+    } else if (snapshot) {
+      if (!fisicaInputsEqual(snapshot.inputs, currentInputs)) {
+        status = 'STALE';
+        statusNote = 'Los valores en los campos fueron modificados pero aún no se ha pulsado Calcular.';
+      } else if (snapshot.g !== gVal) {
+        status = 'STALE';
+        statusNote = 'El valor de la gravedad fue modificado tras el último cálculo.';
+      } else {
+        status = 'CALCULATED';
+      }
+    } else {
+      const stepsMatch = fisicaStepsContainInputs(stepsText, resText, currentInputs);
+      if (!stepsMatch) {
+        status = 'STALE';
+        statusNote = 'Los valores en los campos no coinciden con el último cálculo en pantalla.';
+      } else {
+        status = 'CALCULATED';
+        snapshotFisicaCard(activeCard);
+      }
+    }
+
+    let plotDesc = 'Sin visualización gráfica abierta.';
+    const simBox = activeCard.querySelector('.cin-sim');
+    const graphBox = activeCard.querySelector('.cin-graph');
+    if (simBox && !simBox.hasAttribute('hidden')) {
+      plotDesc = 'Simulación animada interactiva 2D con visualización de vectores de velocidad.';
+    } else if (graphBox && !graphBox.hasAttribute('hidden')) {
+      plotDesc = 'Gráfica interactiva 2D de posición, velocidad o trayectoria activa.';
+    } else if (activeCard.querySelector('.cin-shows') || activeCard.querySelector('.cin-showg')) {
+      plotDesc = 'Gráfica y simulación disponibles para desplegar.';
+    }
+
+    return {
+      page: 'Calculadora de Física',
+      unitNumber: null,
+      module: 'Cinemática · ' + tabName,
+      tool: toolTitle,
+      status,
+      statusNote,
+      inputs,
+      results: resText,
+      stepsSummary: stepsText,
+      plotDescription: plotDesc
+    };
+  }
+
+  /**
+   * =========================================================================
+   * EXTRACTOR CONTEXTUAL DE ESTUDIO (LECCIONES FORMATIVAS)
+   * =========================================================================
+   */
+  function extractEstudioContext() {
+    if (typeof document === 'undefined') return null;
+
+    const path = (typeof window !== 'undefined' && window.location ? window.location.pathname : '').toLowerCase();
+    const getCleanText = (el, maxLen = 500) => {
+      if (!el) return '';
+      const txt = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+      return maxLen ? txt.slice(0, maxLen) : txt;
+    };
+
+    let unitNumber = null;
+    if (path.includes('/unidad-1')) unitNumber = 1;
+    else if (path.includes('/unidad-2')) unitNumber = 2;
+    else if (path.includes('/unidad-3')) unitNumber = 3;
+
+    const titleEl = document.querySelector('.lesson-page-title, #lesson-title, h1');
+    const lessonTitle = getCleanText(titleEl, 120) || 'Portal de Estudio';
+
+    const kickerEl = document.querySelector('.lesson-unit-kicker, .lesson-sample-label, .eyebrow');
+    const kickerText = getCleanText(kickerEl, 80);
+
+    const crumbsEl = document.querySelector('.study-crumbs');
+    const crumbsText = getCleanText(crumbsEl, 150);
+
+    let moduleName = 'Estudio Guiado';
+    if (crumbsText) {
+      moduleName = crumbsText;
+    } else if (kickerText) {
+      moduleName = kickerText;
+    } else if (path.includes('/fisica')) {
+      moduleName = 'Física · Cinemática Teórica';
+    } else if (unitNumber) {
+      moduleName = 'Matemática II · Unidad ' + unitNumber;
+    }
+
+    // Detectar sección/apartado visible en el viewport
+    const headings = Array.from(document.querySelectorAll(
+      'h2.lesson-section-title, .lesson-content h2, #lesson-content h2, .lesson-content h3, #lesson-content h3, .study-main h2'
+    ));
+
+    let activeHeading = headings[0] || null;
+    for (const h of headings) {
+      const rect = h.getBoundingClientRect();
+      if (rect.top <= 240) {
+        activeHeading = h;
+      }
+    }
+
+    const currentSectionTitle = activeHeading ? getCleanText(activeHeading, 100) : 'Fundamentos y Conceptos';
+
+    let keyDefinition = '';
+    let keyFormula = '';
+
+    if (activeHeading) {
+      let sibling = activeHeading.nextElementSibling;
+      let count = 0;
+      while (sibling && count < 6) {
+        if (sibling.tagName === 'H2') break;
+        if (sibling.classList && sibling.classList.contains('lesson-definition')) {
+          const defTitle = sibling.querySelector('.lesson-definition-title');
+          keyDefinition = getCleanText(defTitle || sibling, 180);
+          break;
+        }
+        sibling = sibling.nextElementSibling;
+        count++;
+      }
+    }
+
+    if (!keyDefinition) {
+      const defEl = document.querySelector('.lesson-definition-title, .lesson-definition');
+      if (defEl) keyDefinition = getCleanText(defEl, 180);
+    }
+
+    const mathEl = (activeHeading?.parentElement || document).querySelector('.math-display, .math-text, .katex');
+    if (mathEl) {
+      keyFormula = getCleanText(mathEl, 120);
+    }
+
+    let contentSnippet = '';
+    if (activeHeading) {
+      let pSibling = activeHeading.nextElementSibling;
+      const paragraphs = [];
+      while (pSibling && paragraphs.length < 2) {
+        if (pSibling.tagName === 'H2') break;
+        if (pSibling.tagName === 'P' && !pSibling.classList.contains('eyebrow')) {
+          const pt = getCleanText(pSibling, 250);
+          if (pt) paragraphs.push(pt);
+        }
+        pSibling = pSibling.nextElementSibling;
+      }
+      contentSnippet = paragraphs.join(' ').slice(0, 350);
+    }
+
+    if (!contentSnippet) {
+      const leadEl = document.querySelector('.lesson-lead, .lesson-content p');
+      contentSnippet = getCleanText(leadEl, 300);
+    }
+
+    const inputs = {
+      apartadoVisible: currentSectionTitle
+    };
+    if (keyDefinition) inputs.definicionClave = keyDefinition;
+    if (keyFormula) inputs.formulaRelevante = keyFormula;
+
+    return {
+      page: 'Portal de Estudio MathVerse II',
+      unitNumber,
+      module: moduleName,
+      tool: lessonTitle,
+      status: 'READING',
+      statusNote: 'Lectura activa de: "' + currentSectionTitle + '"',
+      inputs,
+      results: contentSnippet ? ('Apartado activo: ' + currentSectionTitle + '.\nResumen conceptual:\n  ' + contentSnippet) : ('Apartado activo: ' + currentSectionTitle),
+      stepsSummary: keyFormula ? ('Fórmulas y conceptos vinculados: ' + keyFormula) : '',
+      plotDescription: 'Material de lectura y teoría formativa'
+    };
+  }
+
   /**
    * Extracción general de contexto académico de la página actual
    */
@@ -467,6 +963,12 @@
     const path = (window.location && window.location.pathname) ? window.location.pathname.toLowerCase() : '';
     if (path.includes('/calculadora/matematica')) {
       return extractMatematicaContext();
+    }
+    if (path.includes('/calculadora/fisica')) {
+      return extractFisicaContext();
+    }
+    if (path.includes('/estudio')) {
+      return extractEstudioContext();
     }
     return null;
   }
@@ -799,7 +1301,8 @@
    * Construcción del DOM del Asistente NEXO
    */
   function createWidgetDom() {
-    const isMatematicaCalc = (typeof window !== 'undefined' && window.location && window.location.pathname.includes('/calculadora/matematica'));
+    const contextMode = getContextMode();
+    const hasContextSupport = contextMode !== null;
 
     // 1. Botón flotante
     const floatBtn = document.createElement('button');
@@ -850,10 +1353,10 @@
       </header>
 
       <div class="nexo-chat-toolbar">
-        ${isMatematicaCalc ? `
-        <button class="nexo-context-toggle-btn is-active" id="nexo-context-toggle" type="button" aria-label="Alternar contexto académico de calculadora" aria-pressed="true" title="Contexto académico activo. NEXO lee los datos de tu calculadora para orientarte. Clic para desactivar.">
+        ${hasContextSupport ? `
+        <button class="nexo-context-toggle-btn is-active" id="nexo-context-toggle" type="button" aria-label="Alternar contexto académico" aria-pressed="true" title="Contexto académico activo. Clic para desactivar.">
           <span class="nexo-toggle-dot" aria-hidden="true"></span>
-          <span id="nexo-context-toggle-label">Contexto MII: ON</span>
+          <span id="nexo-context-toggle-label">Contexto: ON</span>
         </button>` : `
         <span class="nexo-context-badge">Módulo: ${escapeHtml(currentContext.category)}</span>`}
         <button class="nexo-clear-btn" id="nexo-btn-clear" type="button" aria-label="Reiniciar conversación con NEXO" title="Reiniciar historial">Limpiar chat</button>
@@ -987,19 +1490,37 @@
 
     function updateContextToggleUI(enabled) {
       if (!contextToggleBtn) return;
+      const mode = getContextMode();
+      const labels = {
+        matematica: 'Contexto MII: ON',
+        fisica: 'Contexto Física: ON',
+        estudio: 'Contexto Estudio: ON'
+      };
+      const titles = {
+        matematica: 'Contexto académico activo. NEXO lee los datos de tu calculadora para orientarte. Clic para desactivar.',
+        fisica: 'Contexto académico activo. NEXO lee los parámetros y cálculos de cinemática para orientarte. Clic para desactivar.',
+        estudio: 'Contexto académico activo. NEXO lee el apartado y conceptos de la lección para orientarte. Clic para desactivar.'
+      };
+
       if (enabled) {
         contextToggleBtn.classList.add('is-active');
         contextToggleBtn.classList.remove('is-muted');
         contextToggleBtn.setAttribute('aria-pressed', 'true');
-        contextToggleBtn.setAttribute('title', 'Contexto académico activo. NEXO lee los datos de tu calculadora para orientarte. Clic para desactivar.');
+        contextToggleBtn.setAttribute('title', titles[mode] || 'Contexto académico activo. Clic para desactivar.');
         const lbl = contextToggleBtn.querySelector('#nexo-context-toggle-label');
-        if (lbl) lbl.textContent = 'Contexto MII: ON';
-        if (inputElem) inputElem.placeholder = 'Hazle una consulta a NEXO sobre tu ejercicio…';
+        if (lbl) lbl.textContent = labels[mode] || 'Contexto: ON';
+        if (inputElem) {
+          if (mode === 'estudio') {
+            inputElem.placeholder = 'Hazle una consulta a NEXO sobre este tema…';
+          } else {
+            inputElem.placeholder = 'Hazle una consulta a NEXO sobre tu ejercicio…';
+          }
+        }
       } else {
         contextToggleBtn.classList.remove('is-active');
         contextToggleBtn.classList.add('is-muted');
         contextToggleBtn.setAttribute('aria-pressed', 'false');
-        contextToggleBtn.setAttribute('title', 'Contexto académico desactivado. NEXO responderá consultas generales sin leer la calculadora. Clic para activar.');
+        contextToggleBtn.setAttribute('title', 'Contexto académico desactivado. NEXO responderá consultas generales sin leer la página. Clic para activar.');
         const lbl = contextToggleBtn.querySelector('#nexo-context-toggle-label');
         if (lbl) lbl.textContent = 'Contexto: OFF';
         if (inputElem) inputElem.placeholder = 'Hazle una consulta a NEXO…';
@@ -1046,6 +1567,7 @@
     themeBtn.addEventListener('click', () => {
       if (typeof window !== 'undefined' && window.MathVerseTheme && typeof window.MathVerseTheme.toggle === 'function') {
         window.MathVerseTheme.toggle();
+        syncTheme();
       } else {
         const current = chatWindow.getAttribute('data-theme') || 'light';
         const next = current === 'dark' ? 'light' : 'dark';
@@ -1126,14 +1648,18 @@
 
     // Estado del diálogo (abrir, minimizar, cerrar)
     function openChat() {
-      // Si estamos en la Calculadora de Matemática II, refrescar contexto dinámico y chips
-      if (typeof window !== 'undefined' && window.location && window.location.pathname.includes('/calculadora/matematica')) {
-        const freshCtx = detectContext();
-        currentContext.topic = freshCtx.topic;
-        currentContext.chips = freshCtx.chips;
-        const ctxHeaderEl = chatWindow.querySelector('#nexo-header-context');
-        if (ctxHeaderEl) ctxHeaderEl.textContent = '📍 ' + freshCtx.topic;
-        renderChips();
+      // Si estamos en Matemática II, Física o Estudio, refrescar contexto dinámico, chips y toggle
+      if (typeof window !== 'undefined' && window.location) {
+        const p = (window.location.pathname || '').toLowerCase();
+        if (p.includes('/calculadora/matematica') || p.includes('/calculadora/fisica') || p.includes('/estudio')) {
+          const freshCtx = detectContext();
+          currentContext.topic = freshCtx.topic;
+          currentContext.chips = freshCtx.chips;
+          const ctxHeaderEl = chatWindow.querySelector('#nexo-header-context');
+          if (ctxHeaderEl) ctxHeaderEl.textContent = '📍 ' + freshCtx.topic;
+          renderChips();
+          updateContextToggleUI(isContextEnabled());
+        }
       }
       previousFocusedElement = document.activeElement;
       chatWindow.classList.add('nexo-open');
@@ -1458,6 +1984,8 @@
         getActiveAbortController: () => activeAbortController,
         extractAcademicContext,
         extractMatematicaContext,
+        extractFisicaContext,
+        extractEstudioContext,
         isContextEnabled,
         setContextEnabled,
         isDockedPreferred,
@@ -1466,6 +1994,8 @@
       };
       window.extractAcademicContext = extractAcademicContext;
       window.extractMatematicaContext = extractMatematicaContext;
+      window.extractFisicaContext = extractFisicaContext;
+      window.extractEstudioContext = extractEstudioContext;
     }
   }
 
@@ -1478,6 +2008,8 @@
       saveHistory,
       extractAcademicContext,
       extractMatematicaContext,
+      extractFisicaContext,
+      extractEstudioContext,
       isContextEnabled,
       setContextEnabled
     };
